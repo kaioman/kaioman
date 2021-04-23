@@ -41,6 +41,4 @@
 
 - 【便利ツール】Markdownテーブルを作成するツール
   
-    </br>
-
     [NotePM:https://notepm.jp/markdown-table-tool](https://notepm.jp/markdown-table-tool)
