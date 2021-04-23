@@ -4,7 +4,11 @@
 
 - [CentOs](/centos.md)
 
+- [VsCode](/vscode.md)
+
 - [Python](/python.md)
+
+- [Git](/git.md)
 
 - [Django](/django.md)
 
