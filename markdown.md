@@ -42,3 +42,11 @@
 - 【便利ツール】Markdownテーブルを作成するツール
   
     [NotePM:https://notepm.jp/markdown-table-tool](https://notepm.jp/markdown-table-tool)
+
+## 文書間リンク
+
+```markdown
+[xxxx](/xxxx.md)
+```
+
+()内は相対ファイルパスで記述
