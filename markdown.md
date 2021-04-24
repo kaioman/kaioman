@@ -13,7 +13,7 @@
 
     (例)centosにてvimでcrontabを開くコマンド
 
-    ```centos
+    ```sh
     vim /etc/crontab
     ```
 
@@ -21,7 +21,7 @@
 
 - Markdownテーブルの基本記法。以下は表題ありの３行３列テーブルの例
 
-```markdown
+```md
 | 列名１     | 列名２     | 列名３     | 
 | ---------- | ---------- | ---------- | 
 | １行１列目 | １行２列目 | １行３列目 | 
@@ -45,8 +45,14 @@
 
 ## 文書間リンク
 
-```markdown
+```md
 [xxxx](/xxxx.md)
 ```
 
-()内は相対ファイルパスで記述
+**()内は相対ファイルパスで記述
+
+## シンタックスハイライト一覧
+
+- シンタックスハイライトの一覧掲載
+
+    [List of supported languages and lexers](https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers)
