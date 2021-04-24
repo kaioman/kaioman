@@ -1,4 +1,4 @@
-# memo
+# vscode
 
 - VSCodeインストール方法
   - 日本語化

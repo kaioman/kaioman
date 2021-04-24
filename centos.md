@@ -1,4 +1,4 @@
-# memo
+# centOS7
 
 - インストール
 
@@ -16,7 +16,9 @@
 
 - 定期実行(CronTab)
 
-- ターミナル(TeraTerm)
+- ターミナル
+  
+  [TeraTerm](https://1drv.ms/u/s!AtZZJevIaEATkxVBUel3Nn1-wStN?e=CIfTLm)
 
 - USBメモリアクセス
   
