@@ -66,3 +66,51 @@ sudo systemctl status httpd.service
     ```
 
     djangoのバージョンが表示されればOK
+
+- 6.ユーザーのサブグループにrootを追加する
+
+    /var/www/cgi-binフォルダに対する書込権限付与の為、以下のコマンドでサブグループにrootを追加する
+
+    ```sh
+    usermod -aG root [ユーザー名]
+    ```
+
+    確認
+
+    ```sh
+    id kaioman
+    uid=1000([ユーザー名]) gid=1000([グループ名]) groups=1000[グループ名]),0(root),1001([グループ名])
+    ```
+
+- 7./var/www/cgi-binフォルダのパーミッションを755→775に変更する
+
+    ```sh
+    sudo su -
+    cd /var/www
+    chmod 775 cgi-bin
+    ```
+
+    確認
+
+    ```sh
+    ls -l
+    drwxrwxr-x 2 root root 4096  4月 24 16:16 cgi-bin
+    ```
+
+- 8.仮想環境のdjango-adminでプロジェクトを作成(動作テスト用)
+
+    仮想環境アクティベート
+
+    '''sh
+    su - kaioman
+    cd [仮想環境のディレクトリ]
+    . bin/activate
+    '''
+
+    djangoプロジェクト作成
+
+    ```sh
+    django-admin startproject [プロジェクト名]
+    ```
+
+    これで/var/wwww/cgi-binにプロジェクトが作成される
