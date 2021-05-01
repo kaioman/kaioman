@@ -109,4 +109,3 @@ sudo systemctl status httpd.service
   ```
 
   これで/var/wwww/cgi-binにプロジェクトが作成される
-

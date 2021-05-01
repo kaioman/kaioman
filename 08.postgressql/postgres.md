@@ -35,6 +35,7 @@
     ```sql
     CREATE SCHEMA [スキーマ名] AUTHORIZATION [データベース名];
     ```
+
 * テーブル作成
 * テーブル複製
 
@@ -50,9 +51,8 @@
 sudo su - postgres
 ```
 
-2.pg\_dumpで任意の場所にバックアップファイルを出力
+2.pg_dumpで任意の場所にバックアップファイルを出力
 
 ```bash
 pg_dump -U postgres -Fc [データベース名] -f [出力先]
 ```
-

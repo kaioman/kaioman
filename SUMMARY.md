@@ -19,4 +19,3 @@
   * [django](07.django/django.md)
 * [08.PostgresSQL](08.postgressql/README.md)
   * [postgresSQL](08.postgressql/postgres.md)
-

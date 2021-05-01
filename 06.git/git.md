@@ -22,12 +22,11 @@
 
 2. ログイン後、左端にあるIntegretionsからgithubとの連携を有効にする
 
-   ![integretions](../.gitbook/assets/github_to_gitbook_01.png)
+   ![integretions](/.gitbook/assets/github_to_gitbook_01.png)
 
 3. githubとgitbookの認証連携の承認画面が表示されるので承認する\(画像取り忘れた...\)
 4. リンクするリポジトリはmasterを指定
 
-   ![linkRepo](../.gitbook/assets/github_to_gitbook_02.png)
+   ![linkRepo](/.gitbook/assets/github_to_gitbook_02.png)
 
 5. Go Liveをクリックしてgithubのリポジトリの内容が表示されることを確認する
-

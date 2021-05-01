@@ -30,13 +30,13 @@
 4. 「list partition」でパーテーションを確認して選択している番号が正しいことを確認
 5. 「clean」で初期化する
 
-   ![clean](https://github.com/kaioman/knowledge/tree/543f0c748b3700af921da0135ef97c8e4b0f2188/img/cdcard-clean.png)
+   ![clean](/02.raspberryPi/img/cdcard-clean.png)
 
 ### 1.SDカードをフォーマットする
 
 1. [SD/SDHC/SHXC用SDメモリカードフォーマッター5.0](https://1drv.ms/u/s!AtZZJevIaEATgvwe7Z7nzBiXVOm58w?e=nedXd8)を使用
 
-   ![SdCard-Format](https://github.com/kaioman/knowledge/tree/543f0c748b3700af921da0135ef97c8e4b0f2188/img/SdCardFormatter_01.png)
+   ![SdCard-Format](/02.raspberryPi/img/SdCardFormatter_01.png)
 
    ※基本は上書きフォーマットで実行
 
@@ -46,5 +46,7 @@
 
 1. [CensOSのイメージファイル](https://buildlogs.centos.org/centos/7/isos/armhfp/CentOS-Userland-7-armv7hl-Minimal-1611-test-RaspberryPi3.img.xz)をダウンロードして7zipなどで展開する
 2. Win32DiskImagerを使用して、imgファイルをSDカードに書き込む
+
+   ![Win32DiskImager](/02.raspberryPi/img/Win32DiskImager_01.png)
 
 ### 3.起動後のネットワーク設定

@@ -8,4 +8,3 @@
 * [Git](06.git/git.md)
 * [Django](07.django/django.md)
 * [PostgresSQL](08.postgressql/postgres.md)
-
