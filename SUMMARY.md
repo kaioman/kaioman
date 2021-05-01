@@ -5,7 +5,7 @@
 * [01.Markdown](01.markdown/README.md)
   * [Markdownの記述](01.markdown/markdown.md)
 * [02.RaspberryPi](02.raspberrypi/README.md)
-  * [RaspberryPi](02.raspberrypi/raspberrypi.md)
+  * [RaspberryPi](02.raspberrypi/raspberryPi.md)
 * [03.CentOs](03.centos/README.md)
   * [centOS7](03.centos/centos.md)
   * [Linuxコマンド](03.centos/linuxcommand.md)
