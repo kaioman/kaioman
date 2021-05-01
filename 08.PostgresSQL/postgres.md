@@ -49,4 +49,18 @@
   ```sql
   CREATE TABLE [新テーブル] AS SELECT * FROM [既存テーブル];
   ```
+
+- データベースバックアップ
+
+1.postgresユーザーにスイッチ
+
+```sh
+sudo su - postgres
+```
+
+2.pg_dumpで任意の場所にバックアップファイルを出力
+
+```sh
+pg_dump -U postgres -Fc [データベース名] -f [出力先]
+```
   
