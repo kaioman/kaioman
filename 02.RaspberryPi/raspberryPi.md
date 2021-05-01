@@ -64,4 +64,6 @@
 
 2. Win32DiskImagerを使用して、imgファイルをSDカードに書き込む
 
+    ![Win32DiskImager](img/Win32DiskImager_01.png)
+
 ### 3.起動後のネットワーク設定
