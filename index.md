@@ -1,6 +1,6 @@
 # 目次
 
-* [Markdown記法]/(01.markdown/markdown.md)
+* [Markdown記法](/01.markdown/markdown.md)
 * [RaspberryPi](/02.raspberryPi/raspberrypi3plus.md)
 * [CentOs](/03.centos/centos.md)
 * [VsCode](/04.vscode/vscode.md)
