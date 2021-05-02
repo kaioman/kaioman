@@ -49,4 +49,75 @@
 
    ![Win32DiskImager](/02.raspberryPi/img/Win32DiskImager_01.png)
 
-### 3.起動後のネットワーク設定
+### 3.起動直後
+
+1. 初期ログイン
+
+   centos-rpi3 login:root
+   Password:centos
+
+2. キーボード設定
+
+   109日本語レイアウトのキーボード設定
+
+   ```sh
+   localectl set-keymap jp106
+   localectl set-keymap jp-OADG109A
+   localectl set-locale LANG=ja_JP.utf8
+   ```
+
+   localectlで確認(以下のような表示がされていれば完了)
+
+   ```sh
+   localctl
+
+   System Locale: LANG=ja_JP.utf8
+       VC Keymap: jp-OADG109A
+      X11 Layout: jp
+       X11 Model: jp106
+     X11 Options: terminate:ctrl_alt_bksp
+   ```
+
+### 4.起動後のネットワーク設定
+
+1. ネットワーク設定ファイルの変更
+
+   以下のファイルをviで開く
+
+   ```sh
+   vi /etc/sysconfig/network-scripts/ifcfg-eth0
+   ```
+
+2. ifcfg-eth0に以下の内容を追記する
+
+   ```sh
+   TYPE="Ethernet"
+   BOOTPROTO="static"
+   NM_CONTROLLED="yes"
+   DEFROUTE="yes"
+   NAME="eth0"
+   UUID="294c5f77-b5f2-42f8-ab6a-784dd6cffeea"
+   ONBOOT="yes"
+   (↓以降を追記)
+   IPADDR="192.168.3.21"
+   NETMASK="255.255.255.0"
+   GATEWAY="192.168.3.1"
+   DNS1="192.168.3.1"
+   DNS2="8.8.8.8"
+   ```
+
+   [esc] → wq!で保存
+
+3. ネットワーク再起動
+
+   ```sh
+   nmcli connection down eth0; nmcli connection up eth0
+   ```
+
+      pingで導通確認を行う。速度が安定しない場合はこの時点でrebootすること。
+      ここまでくれば、あとはクライアント側からTeraTermで接続するのでラズパイ本体からディスプレイの出力は無くして良い。
+
+パーテーション拡張
+wifi接続設定
+vimインストール
+ユーザーkaioman作成
