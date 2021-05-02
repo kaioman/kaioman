@@ -30,13 +30,13 @@
 4. 「list partition」でパーテーションを確認して選択している番号が正しいことを確認
 5. 「clean」で初期化する
 
-   ![clean](/02.raspberryPi/img/cdcard-clean.png)
+   ![clean](img/cdcard-clean.png)
 
 ### 1.SDカードをフォーマットする
 
 1. [SD/SDHC/SHXC用SDメモリカードフォーマッター5.0](https://1drv.ms/u/s!AtZZJevIaEATgvwe7Z7nzBiXVOm58w?e=nedXd8)を使用
 
-   ![SdCard-Format](/02.raspberryPi/img/SdCardFormatter_01.png)
+   ![SdCard-Format](img/SdCardFormatter_01.png)
 
    ※基本は上書きフォーマットで実行する
 
