@@ -47,7 +47,7 @@
 1. [CensOSのイメージファイル](https://buildlogs.centos.org/centos/7/isos/armhfp/CentOS-Userland-7-armv7hl-Minimal-1611-test-RaspberryPi3.img.xz)をダウンロードして7zipなどで展開する
 2. Win32DiskImagerを使用して、imgファイルをSDカードに書き込む
 
-   ![Win32DiskImager](/02.raspberryPi/img/Win32DiskImager_01.png)
+   ![Win32DiskImager](img/Win32DiskImager_01.png)
 
 ### 3.起動直後
 
