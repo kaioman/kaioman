@@ -38,7 +38,7 @@
 
    ![SdCard-Format](/02.raspberryPi/img/SdCardFormatter_01.png)
 
-   ※基本は上書きフォーマットで実行
+   ※基本は上書きフォーマットで実行する
 
    [クイックフォーマットと上書きフォーマットの違い](https://www.sdcard.org/ja/downloads-2/formatter-2/faq/#faq13)
 
