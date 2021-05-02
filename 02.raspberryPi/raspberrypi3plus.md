@@ -58,35 +58,41 @@
 
 2. キーボード設定
 
-   109日本語レイアウトのキーボード設定
+   1. 109日本語レイアウトのキーボード設定
+
+      ```sh
+      localectl set-keymap jp106
+      localectl set-keymap jp-OADG109A
+      localectl set-locale LANG=ja_JP.utf8
+      ```
+
+   2. localectlで確認(以下のような表示がされていれば完了)
+
+      ```sh
+      localctl
+
+      System Locale: LANG=ja_JP.utf8
+         VC Keymap: jp-OADG109A
+         X11 Layout: jp
+         X11 Model: jp106
+      X11 Options: terminate:ctrl_alt_bksp
+      ```
+
+3. タイムゾーン設定
 
    ```sh
-   localectl set-keymap jp106
-   localectl set-keymap jp-OADG109A
-   localectl set-locale LANG=ja_JP.utf8
-   ```
-
-   localectlで確認(以下のような表示がされていれば完了)
-
-   ```sh
-   localctl
-
-   System Locale: LANG=ja_JP.utf8
-       VC Keymap: jp-OADG109A
-      X11 Layout: jp
-       X11 Model: jp106
-     X11 Options: terminate:ctrl_alt_bksp
+   timedatectl set-timezone Asia/Tokyo
    ```
 
 ### 4.起動後のネットワーク設定
 
 1. ネットワーク設定ファイルの変更
 
-   以下のファイルをviで開く
+   1. 以下のファイルをviで開く
 
-   ```sh
-   vi /etc/sysconfig/network-scripts/ifcfg-eth0
-   ```
+      ```sh
+      vi /etc/sysconfig/network-scripts/ifcfg-eth0
+      ```
 
 2. ifcfg-eth0に以下の内容を追記する
 
@@ -117,7 +123,113 @@
       pingで導通確認を行う。速度が安定しない場合はこの時点でrebootすること。
       ここまでくれば、あとはクライアント側からTeraTermで接続するのでラズパイ本体からディスプレイの出力は無くして良い。
 
-パーテーション拡張
+4. Rootパーテーションのサイズ拡張
+
+   1. 現在の状態を確認(1.1Gしか確保できていない)
+
+      ```sh
+      df -h
+
+      ファイルシス   サイズ  使用  残り 使用% マウント位置
+      /dev/root        2.0G  762M  1.1G   42% /
+      devtmpfs         459M     0  459M    0% /dev
+      tmpfs            463M     0  463M    0% /dev/shm
+      tmpfs            463M   12M  451M    3% /run
+      tmpfs            463M     0  463M    0% /sys/fs/cgroup
+      /dev/mmcblk0p1   500M   43M  457M    9% /boot
+      tmpfs             93M     0   93M    0% /run/user/0
+      ```
+
+   2. 拡張前にシェルのLANG設定を変更する
+
+      ```sh
+      export LANG="en_US.UTF-8"
+      ```
+
+   3. 変更したら以下のコマンドを実行
+
+      ```sh
+      /usr/local/bin/rootfs-expand
+      ```
+
+   4. 実行後の確認
+
+      ```sh
+      df -h
+      Filesystem      Size  Used Avail Use% Mounted on
+      /dev/root        27G  767M   25G   3% /
+      devtmpfs        459M     0  459M   0% /dev
+      tmpfs           463M     0  463M   0% /dev/shm
+      tmpfs           463M   12M  451M   3% /run
+      tmpfs           463M     0  463M   0% /sys/fs/cgroup
+      /dev/mmcblk0p1  500M   43M  457M   9% /boot
+      tmpfs            93M     0   93M   0% /run/user/0
+      ```
+
+   5. LANG設定を元に戻す
+
+      ```sh
+      export LANG="ja_JP.UTF-8"
+      ```
+
+   6. 念のためrebootして確認
+
+      ```sh
+      reboot
+      ```
+
+5. yumを使用可能にする
+
+   1. /etc/yum.repo.d/CentOS-armhfp-kernel.repoを編集する
+
+      ```sh
+      cd /etc/yum.repos.d/
+      vi CentOS-armhfp-kernel.repo
+      ```
+
+      以下の通り変更する(baseurl=の箇所)
+
+      ```sh
+      [centos-kernel]
+      name=CentOS Kernels for armhfp
+      #baseurl=http://mirror.centos.org/altarch/7/kernel/$basearch/kernel-$kvariant
+      baseurl=http://mirror.centos.org/altarch/7/kernel/$basearch/kernel-rpi2/
+      enabled=1
+      gpgcheck=1
+      gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+            file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-Arm32
+      ```
+
+   2. /etc/yum.repo.d/kernel.repoを編集する
+
+      ```sh
+      cd /etc/yum.repos.d/
+      vi kernel.repo
+      ```
+
+      以下の通り変更する(baseurl=の箇所)
+
+      ```sh
+      [kernel]
+      name=kernel repo for RaspberryPi 2 and 3
+      #baseurl=http://mirror.centos.org/altarch/7/kernel/armhfp/kernel-rpi2/repodata/
+      baseurl=http://mirror.centos.org/altarch/7/kernel/$basearch/kernel-rpi2
+      gpgcheck=1
+      enabled=1
+      gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+            file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-Arm32
+      ```
+
+6. yum updateの実行
+
+   ```sh
+   yum update -y
+   ```
+
+   ※かなり時間がかかるので注意
+
 wifi接続設定
 vimインストール
 ユーザーkaioman作成
+monitarix
+ftp
