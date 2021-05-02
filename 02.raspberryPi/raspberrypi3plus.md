@@ -30,7 +30,7 @@
 4. 「list partition」でパーテーションを確認して選択している番号が正しいことを確認
 5. 「clean」で初期化する
 
-   ![clean](img/SdCardFormatter_01.png)
+   ![clean](img/cdcard-clean.png)
 
 ### 1.SDカードをフォーマットする
 
