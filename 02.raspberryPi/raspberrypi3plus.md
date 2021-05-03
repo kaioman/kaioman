@@ -32,7 +32,7 @@
 
    ![clean](img/cdcard-clean.png)
 
-### 1.SDカードをフォーマットする
+### 2.SDカードをフォーマットする
 
 1. [SD/SDHC/SHXC用SDメモリカードフォーマッター5.0](https://1drv.ms/u/s!AtZZJevIaEATgvwe7Z7nzBiXVOm58w?e=nedXd8)を使用
 
@@ -42,14 +42,14 @@
 
    [クイックフォーマットと上書きフォーマットの違い](https://www.sdcard.org/ja/downloads-2/formatter-2/faq/#faq13)
 
-### 2.SDカードへCentOSのimgファイルを書き込む
+### 3.SDカードへCentOSのimgファイルを書き込む
 
 1. [CensOSのイメージファイル](https://buildlogs.centos.org/centos/7/isos/armhfp/CentOS-Userland-7-armv7hl-Minimal-1611-test-RaspberryPi3.img.xz)をダウンロードして7zipなどで展開する
 2. Win32DiskImagerを使用して、imgファイルをSDカードに書き込む
 
    ![Win32DiskImager](img/Win32DiskImager_01.png)
 
-### 3.起動直後
+### 4.起動直後
 
 1. 初期ログイン
 
@@ -84,7 +84,7 @@
    timedatectl set-timezone Asia/Tokyo
    ```
 
-### 4.起動後のネットワーク設定
+### 5.起動後のネットワーク設定
 
 1. ネットワーク設定ファイルの変更
 
@@ -123,7 +123,7 @@
       pingで導通確認を行う。速度が安定しない場合はこの時点でrebootすること。
       ここまでくれば、あとはクライアント側からTeraTermで接続するのでラズパイ本体からディスプレイの出力は無くして良い。
 
-4. Rootパーテーションのサイズ拡張
+### 6.Rootパーテーションのサイズ拡張
 
    1. 現在の状態を確認(1.1Gしか確保できていない)
 
@@ -178,7 +178,7 @@
       reboot
       ```
 
-5. yumを使用可能にする
+### 7.yumを使用可能にする
 
    1. /etc/yum.repo.d/CentOS-armhfp-kernel.repoを編集する
 
@@ -220,7 +220,7 @@
             file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-Arm32
       ```
 
-6. yum updateの実行
+### 8.yum updateの実行
 
    ```sh
    yum update -y
@@ -228,8 +228,89 @@
 
    ※かなり時間がかかるので注意
 
-wifi接続設定
+### 9.ホスト名変更
+
+   ```sh
+   hostnamectl set-hostname stockman.srv.world
+   ```
+
+### 10.epelをリポジトリに追加
+
+   1. リポジトリの優先順位を設定するプラグインをインストール
+
+      ```sh
+      yum -y install yum-plugin-priorities
+      ```
+
+   2. 標準リポジトリを最優先にする
+
+      ```sh
+      sed -i -e "s/\]$/\]\npriority=1/g" /etc/yum.repos.d/CentOS-Base.repo
+      ```
+
+   3. epelをリポジトリに追加
+
+      ```sh
+      cat > /etc/yum.repos.d/epel.repo << EOF
+
+      [epel]
+      name=Epel rebuild for armhfp
+      baseurl=https://armv7.dev.centos.org/repodir/epel-pass-1/
+      enabled=1
+      gpgcheck=0
+      EOF
+      ```
+
+### 11.パッケージインストール
+
+1. make, gcc, gcc-c++
+
+   ソースコンパイルを行う
+
+   ```sh
+   yum install make gcc gcc-c++
+   ```
+
+2. bash-completion
+
+   Tabキー補完を強化する
+
+   ```sh
+   yum install bash-completion
+   ```
+
+### 12.wifi接続設定
+
+1. ファームウェアをダウンロードする
+
+   ```sh
+   yum -y install git
+   git clone https://github.com/RPi-Distro/firmware-nonfree.git
+   mv /lib/firmware/brcm{,.org}
+   cp -R firmware-nonfree/brcm /lib/firmware/brcm
+   ```
+
+2. rpi-updateを実行する
+
+   ```sh
+   curl -L --output /usr/bin/rpi-update https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update
+   chmod +x /usr/bin/rpi-update
+   rpi-update
+   reboot
+   ```
+
+   再起動後の確認
+
+   ```sh
+   DEVICE         TYPE      STATE     CONNECTION
+   eth0           ethernet  接続済み  eth0
+   wlan0          wifi      切断済み  --
+   p2p-dev-wlan0  wifi-p2p  切断済み  --
+   lo             loopback  管理無し  --
+   ```
+
 vimインストール
-ユーザーkaioman作成
 monitarix
 ftp
+
+ユーザーkaioman作成
