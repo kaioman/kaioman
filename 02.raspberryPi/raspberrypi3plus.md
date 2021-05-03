@@ -91,7 +91,7 @@
    1. 以下のファイルをviで開く
 
       ```sh
-      vi /etc/sysconfig/network-scripts/ifcfg-eth0
+      $vi /etc/sysconfig/network-scripts/ifcfg-eth0
       ```
 
 2. ifcfg-eth0に以下の内容を追記する
@@ -117,7 +117,7 @@
 3. ネットワーク再起動
 
    ```sh
-   nmcli connection down eth0; nmcli connection up eth0
+   $nmcli connection down eth0; nmcli connection up eth0
    ```
 
       pingで導通確認を行う。速度が安定しない場合はこの時点でrebootすること。
@@ -128,7 +128,7 @@
    1. 現在の状態を確認(1.1Gしか確保できていない)
 
       ```sh
-      df -h
+      $df -h
 
       ファイルシス   サイズ  使用  残り 使用% マウント位置
       /dev/root        2.0G  762M  1.1G   42% /
@@ -143,19 +143,20 @@
    2. 拡張前にシェルのLANG設定を変更する
 
       ```sh
-      export LANG="en_US.UTF-8"
+      $export LANG="en_US.UTF-8"
       ```
 
    3. 変更したら以下のコマンドを実行
 
       ```sh
-      /usr/local/bin/rootfs-expand
+      $/usr/local/bin/rootfs-expand
       ```
 
    4. 実行後の確認
 
       ```sh
-      df -h
+      $df -h
+
       Filesystem      Size  Used Avail Use% Mounted on
       /dev/root        27G  767M   25G   3% /
       devtmpfs        459M     0  459M   0% /dev
@@ -169,13 +170,13 @@
    5. LANG設定を元に戻す
 
       ```sh
-      export LANG="ja_JP.UTF-8"
+      $export LANG="ja_JP.UTF-8"
       ```
 
    6. 念のためrebootして確認
 
       ```sh
-      reboot
+      $reboot
       ```
 
 ### 7.yumを使用可能にする
@@ -183,8 +184,8 @@
    1. /etc/yum.repo.d/CentOS-armhfp-kernel.repoを編集する
 
       ```sh
-      cd /etc/yum.repos.d/
-      vi CentOS-armhfp-kernel.repo
+      $cd /etc/yum.repos.d/
+      $vi CentOS-armhfp-kernel.repo
       ```
 
       以下の通り変更する(baseurl=の箇所)
@@ -203,8 +204,8 @@
    2. /etc/yum.repo.d/kernel.repoを編集する
 
       ```sh
-      cd /etc/yum.repos.d/
-      vi kernel.repo
+      $cd /etc/yum.repos.d/
+      $vi kernel.repo
       ```
 
       以下の通り変更する(baseurl=の箇所)
@@ -223,7 +224,7 @@
 ### 8.yum updateの実行
 
    ```sh
-   yum update -y
+   $yum update -y
    ```
 
    ※かなり時間がかかるので注意
@@ -231,7 +232,7 @@
 ### 9.ホスト名変更
 
    ```sh
-   hostnamectl set-hostname stockman.srv.world
+   $hostnamectl set-hostname stockman.srv.world
    ```
 
 ### 10.epelをリポジトリに追加
@@ -239,19 +240,19 @@
    1. リポジトリの優先順位を設定するプラグインをインストール
 
       ```sh
-      yum -y install yum-plugin-priorities
+      $yum -y install yum-plugin-priorities
       ```
 
    2. 標準リポジトリを最優先にする
 
       ```sh
-      sed -i -e "s/\]$/\]\npriority=1/g" /etc/yum.repos.d/CentOS-Base.repo
+      $sed -i -e "s/\]$/\]\npriority=1/g" /etc/yum.repos.d/CentOS-Base.repo
       ```
 
    3. epelをリポジトリに追加
 
       ```sh
-      cat > /etc/yum.repos.d/epel.repo << EOF
+      $cat > /etc/yum.repos.d/epel.repo << EOF
 
       [epel]
       name=Epel rebuild for armhfp
@@ -268,7 +269,7 @@
    ソースコンパイルを行う
 
    ```sh
-   yum install make gcc gcc-c++
+   $yum install make gcc gcc-c++
    ```
 
 2. bash-completion
@@ -276,7 +277,7 @@
    Tabキー補完を強化する
 
    ```sh
-   yum install bash-completion
+   $yum install bash-completion
    ```
 
 ### 12.wifi接続設定
@@ -284,29 +285,120 @@
 1. ファームウェアをダウンロードする
 
    ```sh
-   yum -y install git
-   git clone https://github.com/RPi-Distro/firmware-nonfree.git
-   mv /lib/firmware/brcm{,.org}
-   cp -R firmware-nonfree/brcm /lib/firmware/brcm
+   $yum -y install git
+   $git clone https://github.com/RPi-Distro/firmware-nonfree.git
+   $mv /lib/firmware/brcm{,.org}
+   $cp -R firmware-nonfree/brcm /lib/firmware/brcm
    ```
 
 2. rpi-updateを実行する
 
    ```sh
-   curl -L --output /usr/bin/rpi-update https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update
-   chmod +x /usr/bin/rpi-update
-   rpi-update
-   reboot
+   $curl -L --output /usr/bin/rpi-update https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update
+   $chmod +x /usr/bin/rpi-update
+   $rpi-update
+   $reboot
    ```
+
+   ToDo:vcgencmdに対してコマンドが見つからないエラーが発生するがファームウェアのアップデートは正常に行われている？
 
    再起動後の確認
 
    ```sh
+   $nmcli d
+
    DEVICE         TYPE      STATE     CONNECTION
    eth0           ethernet  接続済み  eth0
    wlan0          wifi      切断済み  --
    p2p-dev-wlan0  wifi-p2p  切断済み  --
    lo             loopback  管理無し  --
+   ```
+
+3. wlan0に割り当てられたIPを確認
+
+   ``` sh
+   $nmcli d show wlan0
+
+   GENERAL.DEVICE:                         wlan0
+   GENERAL.TYPE:                           wifi
+   GENERAL.HWADDR:                         B8:27:EB:2D:D7:8D
+   GENERAL.MTU:                            1500
+   GENERAL.STATE:                          100 (接続済み)
+   GENERAL.CONNECTION:                     E00EE4C99F81-2G
+   GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveCo
+   IP4.ADDRESS[1]:                         192.168.3.18/24
+   IP4.GATEWAY:                            192.168.3.1
+   IP4.ROUTE[1]:                           dst = 0.0.0.0/0, nh = 192.168.3.1, mt =
+   IP4.ROUTE[2]:                           dst = 192.168.3.0/24, nh = 0.0.0.0, mt =
+   IP4.DNS[1]:                             192.168.3.1
+   IP6.ADDRESS[1]:                         2400:2651:ec0:9600:a781:3b74:e35f:c212/6
+   IP6.ADDRESS[2]:                         fe80::ac2:b544:fc55:fac9/64
+   IP6.GATEWAY:                            fe80::e20e:e4ff:fec9:9f80
+   IP6.ROUTE[1]:                           dst = 2400:2651:ec0:9600::/64, nh = ::,
+   IP6.ROUTE[2]:                           dst = ::/0, nh = fe80::e20e:e4ff:fec9:9f
+   IP6.ROUTE[3]:                           dst = fe80::/64, nh = ::, mt = 600
+   IP6.DNS[1]:                             2400:2651:ec0:9600:1111:1111:1111:1111
+   ```
+
+4. wlan0を固定IPアドレスにする
+
+   ``` sh
+   $vi /etc/sysconfig/network-scripts/ifcfg-E00EE4C99F81-2G
+   ```
+
+   設定ファイルを編集
+
+   ```sh
+   ESSID=E00EE4C99F81-2G
+   MODE=Managed
+   KEY_MGMT=WPA-PSK
+   SECURITYMODE=open
+   MAC_ADDRESS_RANDOMIZATION=default
+   TYPE=Wireless
+   PROXY_METHOD=none
+   BROWSER_ONLY=none
+   BOOTPROTO=dhcp
+   DEFROUTE=yes
+   IPV4_FAILURE_FATAL=no
+   IPV6INIT=yes
+   IPV6_AUTOCONF=yes
+   IPV6_DEFROUTE=yes
+   IPV6_FAILURE_FATAL=no
+   IPV6_ADDR_GEN_MODE=stable-privacy
+   NAME=E00EE4C99F81-2G
+   UUID=e2b4e2ff-a099-462a-b909-0624bc20bff6
+   ONBOOT=yes
+
+   ↓
+
+   (変更)
+   BOOTPROTO=static
+
+   (追加)
+   HWADDR=B8:27:EB:2D:D7:8D
+   IPADDR=192.168.3.22
+   NETMASK=255.255.255.0
+   GATEWAY=192.168.3.1
+   DNS1=192.168.3.1
+   DNS2=8.8.8.8
+   ```
+
+5. network.serviceの起動でエラーになる件の解消
+
+   /etc/sysconfig/networkの空ファイルを作成する
+
+   ```sh
+   $cat /etc/sysconfig/network
+   cat: /etc/sysconfig/network: そのようなファイルやディレクトリはありません
+   $touch /etc/sysconfig/network
+   $systemctl restart network
+   $systemctl status network
+
+   ● network.service - LSB: Bring up/down networking
+   Loaded: loaded (/etc/rc.d/init.d/network; bad; vendor preset: disabled)
+   Active: active (exited) since 月 2021-05-03 15:49:34 JST; 2s ago
+     Docs: man:systemd-sysv-generator(8)
+     Process: 965 ExecStart=/etc/rc.d/init.d/network start (code=exited, status=0/SUCCESS)
    ```
 
 vimインストール
