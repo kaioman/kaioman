@@ -282,127 +282,184 @@
 
 ### 12.wifi接続設定
 
-1. ファームウェアをダウンロードする
+   1. ファームウェアをダウンロードする
 
-   ```sh
-   $yum -y install git
-   $git clone https://github.com/RPi-Distro/firmware-nonfree.git
-   $mv /lib/firmware/brcm{,.org}
-   $cp -R firmware-nonfree/brcm /lib/firmware/brcm
-   ```
+      ```sh
+      $yum -y install git
+      $git clone https://github.com/RPi-Distro/firmware-nonfree.git
+      $mv /lib/firmware/brcm{,.org}
+      $cp -R firmware-nonfree/brcm /lib/firmware/brcm
+      ```
 
-2. rpi-updateを実行する
+   2. rpi-updateを実行する
 
-   ```sh
-   $curl -L --output /usr/bin/rpi-update https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update
-   $chmod +x /usr/bin/rpi-update
-   $rpi-update
-   $reboot
-   ```
+      ```sh
+      $curl -L --output /usr/bin/rpi-update https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update
+      $chmod +x /usr/bin/rpi-update
+      $rpi-update
+      $reboot
+      ```
 
-   ToDo:vcgencmdに対してコマンドが見つからないエラーが発生するがファームウェアのアップデートは正常に行われている？
+      ToDo:vcgencmdに対してコマンドが見つからないエラーが発生するがファームウェアのアップデートは正常に行われている？
 
-   再起動後の確認
+      再起動後の確認
 
-   ```sh
-   $nmcli d
+      ```sh
+      $nmcli d
 
-   DEVICE         TYPE      STATE     CONNECTION
-   eth0           ethernet  接続済み  eth0
-   wlan0          wifi      切断済み  --
-   p2p-dev-wlan0  wifi-p2p  切断済み  --
-   lo             loopback  管理無し  --
-   ```
+      DEVICE         TYPE      STATE     CONNECTION
+      eth0           ethernet  接続済み  eth0
+      wlan0          wifi      切断済み  --
+      p2p-dev-wlan0  wifi-p2p  切断済み  --
+      lo             loopback  管理無し  --
+      ```
 
-3. wlan0に割り当てられたIPを確認
+   3. wlan0の接続パスワード設定
 
-   ``` sh
-   $nmcli d show wlan0
+      1. アクセスポイント確認
 
-   GENERAL.DEVICE:                         wlan0
-   GENERAL.TYPE:                           wifi
-   GENERAL.HWADDR:                         B8:27:EB:2D:D7:8D
-   GENERAL.MTU:                            1500
-   GENERAL.STATE:                          100 (接続済み)
-   GENERAL.CONNECTION:                     E00EE4C99F81-2G
-   GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveCo
-   IP4.ADDRESS[1]:                         192.168.3.18/24
-   IP4.GATEWAY:                            192.168.3.1
-   IP4.ROUTE[1]:                           dst = 0.0.0.0/0, nh = 192.168.3.1, mt =
-   IP4.ROUTE[2]:                           dst = 192.168.3.0/24, nh = 0.0.0.0, mt =
-   IP4.DNS[1]:                             192.168.3.1
-   IP6.ADDRESS[1]:                         2400:2651:ec0:9600:a781:3b74:e35f:c212/6
-   IP6.ADDRESS[2]:                         fe80::ac2:b544:fc55:fac9/64
-   IP6.GATEWAY:                            fe80::e20e:e4ff:fec9:9f80
-   IP6.ROUTE[1]:                           dst = 2400:2651:ec0:9600::/64, nh = ::,
-   IP6.ROUTE[2]:                           dst = ::/0, nh = fe80::e20e:e4ff:fec9:9f
-   IP6.ROUTE[3]:                           dst = fe80::/64, nh = ::, mt = 600
-   IP6.DNS[1]:                             2400:2651:ec0:9600:1111:1111:1111:1111
-   ```
+         ```sh
+         $nmcli d wifi
+         ```
 
-4. wlan0を固定IPアドレスにする
+      2. 接続パスワード設定
 
-   ``` sh
-   $vi /etc/sysconfig/network-scripts/ifcfg-E00EE4C99F81-2G
-   ```
+         ```sh
+         $nmcli d wifi connect <ssid> password <key>
+         ```
 
-   設定ファイルを編集
+   4. wlan0に割り当てられたIPを確認
 
-   ```sh
-   ESSID=E00EE4C99F81-2G
-   MODE=Managed
-   KEY_MGMT=WPA-PSK
-   SECURITYMODE=open
-   MAC_ADDRESS_RANDOMIZATION=default
-   TYPE=Wireless
-   PROXY_METHOD=none
-   BROWSER_ONLY=none
-   BOOTPROTO=dhcp
-   DEFROUTE=yes
-   IPV4_FAILURE_FATAL=no
-   IPV6INIT=yes
-   IPV6_AUTOCONF=yes
-   IPV6_DEFROUTE=yes
-   IPV6_FAILURE_FATAL=no
-   IPV6_ADDR_GEN_MODE=stable-privacy
-   NAME=E00EE4C99F81-2G
-   UUID=e2b4e2ff-a099-462a-b909-0624bc20bff6
-   ONBOOT=yes
+      ``` sh
+      $nmcli d show wlan0
 
-   ↓
+      GENERAL.DEVICE:                         wlan0
+      GENERAL.TYPE:                           wifi
+      GENERAL.HWADDR:                         B8:27:EB:2D:D7:8D
+      GENERAL.MTU:                            1500
+      GENERAL.STATE:                          100 (接続済み)
+      GENERAL.CONNECTION:                     E00EE4C99F81-2G
+      GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveCo
+      IP4.ADDRESS[1]:                         192.168.3.18/24
+      IP4.GATEWAY:                            192.168.3.1
+      IP4.ROUTE[1]:                           dst = 0.0.0.0/0, nh = 192.168.3.1, mt =
+      IP4.ROUTE[2]:                           dst = 192.168.3.0/24, nh = 0.0.0.0, mt =
+      IP4.DNS[1]:                             192.168.3.1
+      IP6.ADDRESS[1]:                         2400:2651:ec0:9600:a781:3b74:e35f:c212/6
+      IP6.ADDRESS[2]:                         fe80::ac2:b544:fc55:fac9/64
+      IP6.GATEWAY:                            fe80::e20e:e4ff:fec9:9f80
+      IP6.ROUTE[1]:                           dst = 2400:2651:ec0:9600::/64, nh = ::,
+      IP6.ROUTE[2]:                           dst = ::/0, nh = fe80::e20e:e4ff:fec9:9f
+      IP6.ROUTE[3]:                           dst = fe80::/64, nh = ::, mt = 600
+      IP6.DNS[1]:                             2400:2651:ec0:9600:1111:1111:1111:1111
+      ```
 
-   (変更)
-   BOOTPROTO=static
+   5. wlan0を固定IPアドレスにする
 
-   (追加)
-   HWADDR=B8:27:EB:2D:D7:8D
-   IPADDR=192.168.3.22
-   NETMASK=255.255.255.0
-   GATEWAY=192.168.3.1
-   DNS1=192.168.3.1
-   DNS2=8.8.8.8
-   ```
+      ``` sh
+      $vi /etc/sysconfig/network-scripts/ifcfg-E00EE4C99F81-2G
+      ```
 
-5. network.serviceの起動でエラーになる件の解消
+      設定ファイルを編集
 
-   /etc/sysconfig/networkの空ファイルを作成する
+      ```sh
+      ESSID=E00EE4C99F81-2G
+      MODE=Managed
+      KEY_MGMT=WPA-PSK
+      SECURITYMODE=open
+      MAC_ADDRESS_RANDOMIZATION=default
+      TYPE=Wireless
+      PROXY_METHOD=none
+      BROWSER_ONLY=none
+      BOOTPROTO=dhcp
+      DEFROUTE=yes
+      IPV4_FAILURE_FATAL=no
+      IPV6INIT=yes
+      IPV6_AUTOCONF=yes
+      IPV6_DEFROUTE=yes
+      IPV6_FAILURE_FATAL=no
+      IPV6_ADDR_GEN_MODE=stable-privacy
+      NAME=E00EE4C99F81-2G
+      UUID=e2b4e2ff-a099-462a-b909-0624bc20bff6
+      ONBOOT=yes
 
-   ```sh
-   $cat /etc/sysconfig/network
-   cat: /etc/sysconfig/network: そのようなファイルやディレクトリはありません
-   $touch /etc/sysconfig/network
-   $systemctl restart network
-   $systemctl status network
+      ↓
 
-   ● network.service - LSB: Bring up/down networking
-   Loaded: loaded (/etc/rc.d/init.d/network; bad; vendor preset: disabled)
-   Active: active (exited) since 月 2021-05-03 15:49:34 JST; 2s ago
-     Docs: man:systemd-sysv-generator(8)
-     Process: 965 ExecStart=/etc/rc.d/init.d/network start (code=exited, status=0/SUCCESS)
-   ```
+      (変更)
+      BOOTPROTO=static
+
+      (追加)
+      HWADDR=B8:27:EB:2D:D7:8D
+      IPADDR=192.168.3.22
+      NETMASK=255.255.255.0
+      GATEWAY=192.168.3.1
+      DNS1=192.168.3.1
+      DNS2=8.8.8.8
+      ```
+
+   6. network.serviceの起動でエラーになる件の解消
+
+      /etc/sysconfig/networkの空ファイルを作成する
+
+      ```sh
+      $cat /etc/sysconfig/network
+      cat: /etc/sysconfig/network: そのようなファイルやディレクトリはありません
+      $touch /etc/sysconfig/network
+      $systemctl restart network
+      $systemctl status network
+
+      ● network.service - LSB: Bring up/down networking
+      Loaded: loaded (/etc/rc.d/init.d/network; bad; vendor preset: disabled)
+      Active: active (exited) since 月 2021-05-03 15:49:34 JST; 2s ago
+        Docs: man:systemd-sysv-generator(8)
+        Process: 965 ExecStart=/etc/rc.d/init.d/network start (code=exited, status=0/SUCCESS)
+      ```
+
+   7. 一般ユーザー作成
+
+      1. ユーザーアカウント作成
+
+         ```sh
+         $useradd <username>
+         $passwd <username>
+         ```
+
+      2. rootにスイッチ可能なユーザーに追加
+
+         ```sh
+         $usermod -G wheel <username>
+         $vim /etc/pam.d/su
+
+         auth            sufficient      pam_rootok.so
+         # Uncomment the following line to implicitly trust users in the "wheel" group.
+         #auth           sufficient      pam_wheel.so trust use_uid
+         # Uncomment the following line to require a user to be in the "wheel" group.
+         auth            required        pam_wheel.so use_uid
+         auth            substack        system-auth
+         auth            include         postlogin
+         account         sufficient      pam_succeed_if.so uid = 0 use_uid quiet
+         account         include         system-auth
+         password        include         system-auth
+         session         include         system-auth
+         session         include         postlogin
+         session         optional        pam_xauth.so
+
+         ※#auth           required        pam_wheel.so use_uidをコメント解除
+         ```
+
+      3. root権限を移譲する
+
+         ```sh
+         $visudo
+         ```
+
+         最終行に以下を追記
+
+         ```sh
+         <username>  ALL=(ALL)   ALL
+         ```
 
 vimインストール
 monitarix
 ftp
-
-ユーザーkaioman作成
+httd
