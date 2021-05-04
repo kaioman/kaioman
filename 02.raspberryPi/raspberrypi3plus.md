@@ -459,7 +459,120 @@
          <username>  ALL=(ALL)   ALL
          ```
 
-vimインストール
+### 13.Vimインストール
+
+   1. Vimインストール
+
+      ```sh
+      $yum -y install -y vim-enhanced
+      ```
+
+   2. コマンドエイリアスを適用
+
+      ```sh
+      $vi /etc/profile
+
+      # 最終行にエイリアス追記
+      alias vi='vim'
+
+      $source /etc/profile #変更を繁栄
+      ```
+
+   3. Vimの設定
+
+      ```sh
+      $vi /etc/vimrc
+      ```
+
+      ```Vim Script
+      " vim の独自拡張機能を使う(viとの互換性をとらない)
+      set nocompatible
+      
+      " 行番号表示
+      set number
+      
+      " ターミナルのタイトルをセットする
+      set title
+      
+      " 自動インデントを有効にする
+      set autoindent
+      
+      " 構文ごとに色分け表示する
+      syntax on
+      
+      " [ syntax on ]の場合のコメント文の色を変更する
+      highlight Comment ctermfg=LightCyan
+      
+      " ウィンドウ幅で行を折り返す
+      set wrap
+      ```
+
+### 14.httpdインストール
+
+   1. httpdインストール
+
+      ```sh
+      $yum -y install httpd
+      $rm -f /etc/httpd/conf.d/welcome.conf #ウェルカムページ削除
+      ```
+
+   2. httpdの設定
+
+      ```sh
+      $vi /etc/httpd/conf/httpd.conf
+      ```
+
+      ```Vim Script
+      # 86行目：管理者アドレス指定
+      ServerAdmin root@[フルコンピュータ名]
+      
+      # 95行目：コメント解除しサーバー名指定
+      ServerName www.[フルコンピュータ名]:80
+      
+      # 151行目：変更
+      AllowOverride All
+      
+      # 164行目：ディレクトリ名のみでアクセスできるファイル名を追記
+      DirectoryIndex index.html index.cgi index.php
+
+      # 最終行に追記
+      # サーバーの応答ヘッダ
+      ServerTokens Prod
+      ```
+
+      ```sh
+      $systemctl start httpd 
+      $systemctl enable httpd
+      ```
+
+   3. ファイアウォール設定
+
+      ```sh
+      $firewall-cmd --add-service=http --permanent
+      $firewall-cmd --reload
+      ```
+
+   4. htmlテストページを作成して動作確認
+
+      ```sh
+      $vi /var/www/html/index.html
+      ```
+
+      以下の内容を記述してファイル保存
+
+      ```html
+      <html>
+      <body>
+      <div style="width: 100%; font-size: 40px; font-weight: bold; text-align: center;">
+      Test Page
+      </div>
+      </body>
+      </html>
+      ```
+
+      以下のURLにアクセスして作成したhtmlファイルが表示されるかを確認する
+
+      http://[ホスト名]
+
 monitarix
 ftp
-httd
