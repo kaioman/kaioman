@@ -30,19 +30,19 @@
 
     USBメモリ接続後、以下のコマンドを実行。sdaかsdbでヒットするはず
 
-    ```bash
+    ```sh
     $dmesg | grep sda
     ```
 
 ### 2.マウント先となるディレクトリを作成
 
-    ```bash
+    ```sh
     $mkdir /mnt/flash
     ```
 
 ### 3.マウント
 
-    ```bash
+    ```sh
     $mount /dev/sda1 /mnt/flash
     ```
 
@@ -52,13 +52,13 @@
 
     マウントできたか以下のコマンドで確認 成功していれば/dev/sda1 on /mnt/flash type ext4 \(rw,relatime\)等の表示が出る
 
-    ```bash
+    ```sh
     $mount
     ```
 
     /dev/sda1が/mnt/flashにマウントされていることを確認したら以下のコマンドでディレクトリを移動して内容を確認する。
 
-    ```bash
+    ```sh
     $cd /mnt/flash
     $ls -a
     ```
@@ -67,14 +67,14 @@
 
     カレントディレクトリがマウント先の場合はcdしておく
 
-    ```bash
+    ```sh
     $cd
     $unmount /mnt/flash
     ```
 
     アンマウントできていることを確認する
 
-    ```bash
+    ```sh
     $mount
     ```
 
@@ -82,6 +82,14 @@
 
 ### 1.ソースファイルを展開したディレクトリに移動する
 
-  ```bash
-  $cd /etc/local/src
-  ```
+    ```sh
+    $cd /etc/local/src
+    ```
+
+### 2.移動したディレクトリにMakefileがあることを確認する
+
+### 3.アンインストール実行
+
+    ```sh
+    $make uninstall
+    ```
