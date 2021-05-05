@@ -484,7 +484,7 @@
       $vi /etc/vimrc
       ```
 
-      ```Vim Script
+      ```sh
       " vim の独自拡張機能を使う(viとの互換性をとらない)
       set nocompatible
       
@@ -522,7 +522,7 @@
       $vi /etc/httpd/conf/httpd.conf
       ```
 
-      ```Vim Script
+      ```sh
       # 86行目：管理者アドレス指定
       ServerAdmin root@[フルコンピュータ名]
       
@@ -586,7 +586,7 @@
 
    2. 設定ファイル変更
 
-      ```Vim Script
+      ```sh
       # 12行目：匿名ログイン禁止
       anonymous_enable=NO
 
@@ -627,7 +627,7 @@
       $vim /etc/vsftpd/chroot_list
       ```
 
-      ```Vim Script
+      ```sh
       [ユーザー名]
       ```
 
@@ -655,7 +655,7 @@
 
    2. 設定ファイル変更
 
-      ```Vim Script
+      ```sh
       # 6行目：好みのタイトルに変更
       title = [任意のタイトル]
       
