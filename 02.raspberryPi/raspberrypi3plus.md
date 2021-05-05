@@ -540,19 +540,21 @@
       ServerTokens Prod
       ```
 
+   3. サービス起動とサービス自動起動有効化
+
       ```sh
       $systemctl start httpd 
       $systemctl enable httpd
       ```
 
-   3. ファイアウォール設定
+   4. ファイアウォール設定
 
       ```sh
       $firewall-cmd --add-service=http --permanent
       $firewall-cmd --reload
       ```
 
-   4. htmlテストページを作成して動作確認
+   5. htmlテストページを作成して動作確認
 
       ```sh
       $vi /var/www/html/index.html
@@ -574,5 +576,127 @@
 
       http://[ホスト名]
 
-monitarix
-ftp
+### 15.vsftpdインストール
+
+   1. vsftpdインストール
+
+      ```sh
+      $yum -y install vsftpd
+      ```
+
+   2. 設定ファイル変更
+
+      ```Vim Script
+      # 12行目：匿名ログイン禁止
+      anonymous_enable=NO
+
+      # 82,83行目：コメント解除 ( アスキーモードでの転送を許可 )
+      ascii_upload_enable=YES
+      ascii_download_enable=YES
+      
+      # 100,101行目：コメント解除 ( chroot有効 )
+      chroot_local_user=YES
+      chroot_list_enable=YES
+      
+      # 103行目：コメント解除 ( chroot リストファイル指定 )
+      chroot_list_file=/etc/vsftpd/chroot_list
+      
+      # 109行目：コメント解除 ( ディレクトリごと一括での転送有効 )
+      ls_recurse_enable=YES
+      
+      # 114行目：変更 ( IPv4をリスンする )
+      listen=YES
+      
+      # 123行目：変更 ( もし不要なら IPv6 はリスンしない )
+      listen_ipv6=NO
+      
+      # 最終行へ追記
+      # ルートディレクトリ指定 (指定しない場合はホームディレクトリがルートディレクトリとなる)
+      local_root=public_html
+      
+      # ローカルタイムを使う
+      use_localtime=YES
+      
+      # seccomp filter をオフにする ( ログインに失敗する場合はオフにする )
+      seccomp_sandbox=NO
+      ```
+
+   3. chrootを適用しない(上層へのcdを許可する)ユーザーを追加する
+
+      ```sh
+      $vim /etc/vsftpd/chroot_list
+      ```
+
+      ```Vim Script
+      [ユーザー名]
+      ```
+
+   4. サービス起動とサービス自動起動有効化
+
+      ```sh
+      $systemctl start vsftpd
+      $systemctl enable vsftpd
+      ```
+
+   5. ファイアウォール設定
+
+      ```sh
+      $firewall-cmd --add-service=ftp --permanent
+      $firewall-cmd --reload
+      ```
+
+### 16.monitorixインストール
+
+   1. monitorixインストール
+
+      ```sh
+      $yum --enablerepo=epel -y install monitorix
+      ```
+
+   2. 設定ファイル変更
+
+      ```Vim Script
+      # 6行目：好みのタイトルに変更
+      title = [任意のタイトル]
+      
+      # 7行目：自ホスト名に変更
+      hostname = [ホスト名]
+
+      # 8行目：管理サイトの背景色
+      theme_color = black
+      
+      # 12行目：ネットワークの単位を bps にする (デフォルトは Bytes per/sec )
+      netstats_in_bps = y
+
+      # 26行目以下：以下のように追記
+      <httpd_builtin>
+         enabled = y
+         host =
+         port = 8080
+         user = nobody
+         group = nobody
+         log_file = /var/log/monitorix-httpd
+         # 管理画面へのアクセス権を設定 : デフォルト禁止で許可するIPアドレスを指定
+         hosts_deny = all
+         hosts_allow = 192.168.3.0/24 # 接続許可端末のネットワークアドレス
+      ```
+
+   3. サービス起動とサービス自動起動有効化
+
+      ```sh
+      $systemctl start monitorix
+      $systemctl enable monitorix
+      ```
+
+   4. ファイアウォール設定
+
+      ```sh
+      $firewall-cmd --add-port=8080/tcp --permanent
+      $firewall-cmd --reload
+      ```
+
+   5. ブラウザにて接続確認
+
+      以下のURLにアクセスしてmonitorixにアクセスできるか確認する
+
+      http://[ホスト名]:8080/monitorix
