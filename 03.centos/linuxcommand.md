@@ -93,7 +93,55 @@
   | o | その他\(other\) |
   | a | 上の3つすべて\(all\) |
 
-## 4.systemctl
+## 4.suの使用を制限する
+
+1. /etc/pam.d/su を編集する
+
+    ```sh
+    $vim /etc/pam.d/su
+    ```
+
+    #auth～の行をコメントアウト解除
+
+   * 変更前
+
+      ```sh
+      # Uncomment the following line to require a user to be in the "wheel" group.
+      #auth            required        pam_wheel.so use_uid
+      ```
+
+   * 変更後
+  
+      ```sh
+      # Uncomment the following line to require a user to be in the "wheel" group.
+      auth            required        pam_wheel.so use_uid
+      ```
+
+2. su許可ユーザーをwheelグループに追加する
+
+   1. /etc/groupを編集する
+
+      ```sh
+      $vim /etc/group
+      ```
+
+   2. su許可ユーザーをwheelグループに追加する
+
+      * 編集前
+
+        ```sh
+        wheel:x:10:
+        ```
+
+      * 編集後
+
+        ```sh
+        wheel:x:10:<su許可ユーザー>
+        ```
+
+        ※複数のユーザーを追加する場合は「,」で区切る
+
+## 5.systemctl
 
 * コマンド群
 
@@ -109,3 +157,31 @@
   |サービス自動起動設定確認|systemctl is-enabled ${Unit}|  
   |サービス一覧|systemctl list-unit-files --type=service ${Unit}|
   |設定ファイルの再読込|systemctl deamon-reload ${Unit}|
+
+## 6.yum
+
+1. パッケージをインストールする
+
+   * 基本形。インストール途中で確認が入った場合は指定する(y/n)
+
+     ```sh
+     $yum install <パッケージ名>
+     ```
+
+   * インストール途中で行われる確認をすべてyesとする場合
+
+     ```sh
+     $yum -y install <パッケージ名>
+     ```
+
+   * 複数のパッケージを一括でインストールする場合  
+
+     ```sh
+     $yum install <パッケージ名1> <パッケージ名2>
+     ```
+
+2. パッケージをアンインストールする
+
+    ```sh
+    $yum remove <パッケージ名>
+    ```
