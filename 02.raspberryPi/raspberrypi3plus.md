@@ -395,6 +395,7 @@
       GATEWAY=192.168.3.1
       DNS1=192.168.3.1
       DNS2=8.8.8.8
+      PREFIX=24
       ```
 
    6. network.serviceの起動でエラーになる件の解消
@@ -700,3 +701,11 @@
       以下のURLにアクセスしてmonitorixにアクセスできるか確認する
 
       http://[ホスト名]:8080/monitorix
+
+## バックアップ＆リストア
+
+### 1.バックアップ
+
+1. Win32Diskmanagerを起動してbootドライブを読み取りイメージファイルを作成する
+
+   ![Win32DiskImager](img/Win32DiskImager_02.png)
