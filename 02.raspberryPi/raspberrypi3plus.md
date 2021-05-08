@@ -280,6 +280,59 @@
    $yum install bash-completion
    ```
 
+3. NTPサーバーの設定(NTPd)
+
+   * NTPdインストール
+
+   ```sh
+   $yum -y install ntp
+   ```
+
+   * 設定
+
+   ```sh
+   $vim /etc/ntp.conf
+   ```
+
+   ```sh
+   # 18行目： 以下の行をコメントアウト解除
+   restrict 192.168.3.0 mask 255.255.255.0 nomodify notrap
+   # 同期をとるサーバーを変更
+   #server 0.centos.pool.ntp.org iburst
+   #server 1.centos.pool.ntp.org iburst
+   #server 2.centos.pool.ntp.org iburst
+   #server 3.centos.pool.ntp.org iburst
+   server ntp.nict.jp iburst
+   server ntp1.jst.mfeed.ad.jp iburst
+   server ntp2.jst.mfeed.ad.jp iburst
+   ```
+
+   * 起動と自動起動登録
+
+   ```sh
+   $systemctl start ntpd
+   $systemctl enable ntpd
+   ```
+
+   * ファイアーウォール設定
+
+   ```sh
+   $firewall-cmd --add-service=ntp --permanent
+   $firewall-cmd --reload
+   ```
+
+   * 動作確認
+
+   ```sh
+   $ntpq -p
+
+   remote           refid      st t when poll reach   delay   offset  jitter
+   ==============================================================================
+   *ntp-a3.nict.go. .NICT.           1 u    2   64    1   14.742    0.132   0.054
+   ntp1.jst.mfeed. 133.243.236.17   2 u    1   64    1   17.038    2.390   0.125
+   ntp2.jst.mfeed. 133.243.236.18   2 u    2   64    1   17.388    2.184   0.141
+   ```
+
 ### 12.wifi接続設定
 
    1. ファームウェアをダウンロードする
