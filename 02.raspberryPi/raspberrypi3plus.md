@@ -469,16 +469,186 @@
         Process: 965 ExecStart=/etc/rc.d/init.d/network start (code=exited, status=0/SUCCESS)
       ```
 
-   7. 一般ユーザー作成
+   7. eth0がlinkdownするとwlan0が使えなくなる件の解消
 
-      1. ユーザーアカウント作成
+      * かなりハマったので対処方法を残す
+
+        1. 遭遇した事象
+
+           上記1～6を実施するも、raspberrybiを再起動するとwifi単独で使用できなくなる
+           raspberrybi側ではwlan0に対してipアドレスも正常に付与されているが、クライアント側から
+           通信しようと試みてもpingタイムアウトとなる。
+
+        2. 試したこと
+
+           1. rbi-updateの再実行  
+              * ファームウェアのアップデートは行っていたと思っていたが実行したら最新のファームウェアに更新された
+           2. wlan0のipv6を無効化  
+              * raspberyybiを直接操作してた際に表示されていた"ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready"の対処。
+               無効化したが結局このメッセージは表示されるままで解決せず
+           3. 省電力モードのoff  
+              * raspberyybiを直接操作してた際に表示されていた"brcmfmac: brcmf_cfg80211_set_power_mgmt: power save enabled"の対処  
+               power management機能をoffにするも、power save disabledと表示が変わるだけで解決せず
+           4. クライアント側でarpのキャッシュ削除(arp -dの実行)  
+              * stack overflowにて、これで解決したという記事もあったが、特に効果なし  
+              [raspberry piでLANケーブルを抜くとwifiが使えない](https://ja.stackoverflow.com/questions/1946/raspberry-pi%E3%81%A7lan%E3%82%B1%E3%83%BC%E3%83%96%E3%83%AB%E3%82%92%E6%8A%9C%E3%81%8F%E3%81%A8wifi%E3%81%8C%E4%BD%BF%E3%81%88%E3%81%AA%E3%81%84)
+           5. wlan0のルーティング設定変更  
+              * [同一セグメントにて複数インターフェースがある時のNW設定](https://takumicloud.jp/blog/2015/11/30/nw/)  
+               このサイトにわかりやすくまとめられていたので参考にした(ルーティング設定の変更を参照)。
+               結果的にこの記事が解決に繋がった。
+
+        3. wifiのネットワーク再設定手順
+
+            * 以下の手順は本来必要無いが、色々試行錯誤している中で余計な設定が作成されてしまったので一からやり直す際の参考として記載する
+
+              1. wifiの接続を解除(実際にはnmtuiでおこなったがこれでも同じ)
+
+                 ```sh
+                 $nmcli d wifi disconnect <ssid>
+                 ```
+
+              2. /etc/sysconfig/network-scripts/の中に以下のファイルがいないことを確認する
+
+                 * network-scripts/ifcfg-[ProfileName]  
+                 * network-scripts/ifcfg-[ProfileName]  
+                 * network-scripts/ifcfg-[ProfileName]
+
+                 存在した場合は削除する。
+                 ProfileNameはデフォルトではSSIDと同じ名称のはず
+
+                 ```sh
+                 $rm -rf /etc/sysconfig/network-scripts/ifcfg-[ProfileName] 
+                 $rm -rf /etc/sysconfig/network-scripts/keys-[ProfileName] 
+                 $rm -rf /etc/sysconfig/network-scripts/route-[ProfileName]             
+                 ```
+
+              3. wifiに接続
+
+                 ```sh
+                 $nmcli d wifi connect <ssid> password <key>
+                 ```
+
+                 接続すると/etc/sysconfig/network-scripts/ifcfg-[ProfileName]が作成されるので内容を以下の通り変更する
+
+                 ```sh
+                 ESSID=E00EE4C99F81-2G
+                 MODE=Managed
+                 KEY_MGMT=WPA-PSK
+                 SECURITYMODE=open
+                 MAC_ADDRESS_RANDOMIZATION=default
+                 TYPE=Wireless
+                 PROXY_METHOD=none
+                 BROWSER_ONLY=no
+                 BOOTPROTO=none
+                 DEFROUTE=yes
+                 IPV4_FAILURE_FATAL=no
+                 IPV6INIT=no
+                 IPV6_AUTOCONF=yes
+                 IPV6_DEFROUTE=yes
+                 IPV6_FAILURE_FATAL=no
+                 IPV6_ADDR_GEN_MODE=stable-privacy
+                 NAME=E00EE4C99F81-2G
+                 UUID=b7b7621f-fc29-4d49-b2f7-086cf3ded511
+                 ONBOOT=yes
+                 IPADDR=192.168.3.22
+                 PREFIX=24
+                 GATEWAY=192.168.3.1
+                 DNS1=192.168.3.1
+                 DNS2=8.8.8.8
+                 ```
+
+              4. インターフェースの無効→有効の切り替え
+
+                 ```sh
+                 $ifdown <ProfileName>
+                 $ifup <ProfileName>
+                 ```
+
+              5. ネットワーク設定確認
+
+                 ```sh
+                 $nmcli d show wlan0
+                 ```
+
+                 ```sh
+                 GENERAL.DEVICE:                         wlan0
+                 GENERAL.TYPE:                           wifi
+                 GENERAL.HWADDR:                         B8:27:EB:2D:D7:8D
+                 GENERAL.MTU:                            1500
+                 GENERAL.STATE:                          100 (接続済み)
+                 GENERAL.CONNECTION:                     E00EE4C99F81-2G
+                 GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveCo
+                 IP4.ADDRESS[1]:                         192.168.3.22/24
+                 IP4.GATEWAY:                            192.168.3.1
+                 IP4.ROUTE[1]:                           dst = 192.168.3.0/24, nh = 0.0.0.0, mt =
+                 IP4.ROUTE[2]:                           dst = 192.168.3.0/24, nh = 0.0.0.0, mt =
+                 IP4.ROUTE[3]:                           dst = 0.0.0.0/0, nh = 192.168.3.1, mt =
+                 IP4.DNS[1]:                             192.168.3.1
+                 ```
+
+        4. ルーティング設定
+
+            * 以下の2つを作成する
+
+               1. rule table
+               2. routing table
+
+              * 基本手順として、まずはコマンドにて上記2テーブルを作成してルーティング設定を行い、wlan0への通信が行えたかをクライアント側から行い、通信が確立されたことを確認してからOS起動時の処理の中に実行したコマンドを記述する形とする。
+
+            1. rule table作成
+
+               eth0よりも前にマッチさせる必要がある為、mainよりも優先順位を上にしておくこと
+
+               ```sh
+               $ip rule add from 192.168.3.22 table 100 prio 200
+               
+               # 確認
+               $ip rule show
+
+               0:      from all lookup local
+               200:    from 192.168.3.22 lookup 100 #→追加されていることを確認
+               32766:  from all lookup main
+               32767:  from all lookup default
+               ```
+
+            2. routing table作成
+
+               ```sh
+               $ip route add 192.168.3.0/24 dev wlan0 src 192.168.3.22 table 100
+
+               # 確認
+               $ip route show table 100
+
+               192.168.3.0/24 dev wlan0 scope link src 192.168.3.22
+               ```
+
+            3. OS起動時に上記のコマンドを実行する設定
+
+               ```sh
+               # subroute.shを新規作成
+               $vim /usr/local/sbin/subroute.sh
+
+               # rc.local編集
+               $vim /etc/rc.local
+
+               sh /usr/local/sbin/subroute.sh #最終行に追記
+
+               # rc.localの権限変更
+               $chmod u+x /etc/rc.d/rc.local
+               ```
+
+               これでOS起動時にwifi関連のルーティングテーブルが追加される
+
+### 13.一般ユーザー作成
+
+   1. ユーザーアカウント作成
 
          ```sh
          $useradd <username>
          $passwd <username>
          ```
 
-      2. rootにスイッチ可能なユーザーに追加
+   2. rootにスイッチ可能なユーザーに追加
 
          ```sh
          $usermod -G wheel <username>
@@ -501,7 +671,7 @@
          ※#auth           required        pam_wheel.so use_uidをコメント解除
          ```
 
-      3. root権限を移譲する
+   3. root権限を移譲する
 
          ```sh
          $visudo
@@ -513,7 +683,7 @@
          <username>  ALL=(ALL)   ALL
          ```
 
-### 13.Vimインストール
+### 14.Vimインストール
 
    1. Vimインストール
 
@@ -561,7 +731,7 @@
       set wrap
       ```
 
-### 14.httpdインストール
+### 15.httpdインストール
 
    1. httpdインストール
 
@@ -630,7 +800,7 @@
 
       http://[ホスト名]
 
-### 15.vsftpdインストール
+### 16.vsftpdインストール
 
    1. vsftpdインストール
 
@@ -699,7 +869,7 @@
       $firewall-cmd --reload
       ```
 
-### 16.monitorixインストール
+### 17.monitorixインストール
 
    1. monitorixインストール
 
