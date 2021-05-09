@@ -267,3 +267,27 @@
     ```
 
     ※netstatはCentOS7以降は非推奨
+
+## 10. iwconfig
+
+1. インストール
+
+    ```sh
+    $yum -y install wireless-tools
+    ```
+
+2. PowerManagementの有効/無効切り替え
+
+    * 無効化
+
+      ```sh
+      $iwconfig wlan0 power off
+      ```
+
+    * 有効化
+  
+      ```sh
+      $iwconfig wlan0 power on
+      ```
+
+    ※ただし、再起動後に設定が元に戻るので恒久的に変更したい場合は/usr/local/sbin/<ファイル名>.shに仕込んでおく
