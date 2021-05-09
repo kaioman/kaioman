@@ -199,3 +199,71 @@
     ```sh
     $shutdown -r now
     ```
+
+## 8. NetworkManager
+
+* コマンド群
+
+  |操作|コマンド|
+  |-----|-----|
+  |ネットワーク機器リスト表示|nmcli d|
+  |wifiネットワークへ接続|nmcli radio wifi on|
+  |wifiネットワークから切断|nmcli radio wifi off|
+  |全てのネットワークを接続|nmcli networking on|
+  |全てのネットワークを切断|nmcli networking off|
+  |ネットワークデバイスを有効化|nmcli d connect <デバイス名>|
+  |ネットワークデバイスを無効化|nmcli d disconnect <デバイス名>|
+  |メモリ・ディスク上のプロファイル表示|nmcli c show|  
+  |デバイスの接続状況|nmcli d status|
+  |デバイスの詳細表示|nmcli d show <デバイス名>|
+  |接続可能な無線アクセスポイント表示|nmcli d wifi|
+  |接続状態(下のテーブル参照)|nmcli networking connectivity|
+
+  * 接続状態
+  
+    |状態|意味|
+    |-----|-----|
+    |none|the host is not connected to any network.|
+    |portal|the host is behind a captive portal and cannot reaach the full Internet.|
+    |limited|the host is connected to a network, but it has no access to the Internet.|
+    |full|the host is connected to a network and has full access to the Internet.|
+    |unknown|the connectivity status cannot be found out.|
+  
+## 9. ルーティング確認
+
+1. ip rule(rule table参照)
+
+    ```sh
+    $ip rule show
+
+    0:      from all lookup local
+    200:    from 192.168.3.22 lookup 100
+    32766:  from all lookup main
+    32767:  from all lookup default
+    ```
+
+2. ip route(routing table参照)
+
+    ```sh
+    $ip route show
+
+    default via 192.168.3.1 dev eth0 proto static metric 100 linkdown
+    default via 192.168.3.1 dev wlan0 proto static metric 600
+    192.168.3.0/24 dev eth0 proto kernel scope link src 192.168.3.121 metric 100 linkdown
+    192.168.3.0/24 dev wlan0 proto kernel scope link src 192.168.3.22 metric 600
+    ```
+
+3. ss(NICの状態確認)
+
+    ```sh
+    $ss -nr
+
+    Netid  State      Recv-Q Send-Q Local Address:Port               Peer Address:Port
+    u_str  ESTAB      0      0         * 8957                  * 0
+    u_str  ESTAB      0      0         * 9019                  * 0
+    u_str  ESTAB      0      0         * 9041                  * 0
+    u_str  ESTAB      0      0      /run/dbus/system_bus_socket 9042                  * 0
+    (省略)
+    ```
+
+    ※netstatはCentOS7以降は非推奨

@@ -637,6 +637,9 @@
                $chmod u+x /etc/rc.d/rc.local
                ```
 
+               * rc.localの権限を変更する理由
+                  [CentOS7でrc.localが実行されない問題](https://kantaro-cgi.com/blog/etc-server/cant_run_rclocal_centos7.html)
+
                これでOS起動時にwifi関連のルーティングテーブルが追加される
 
 ### 13.一般ユーザー作成
