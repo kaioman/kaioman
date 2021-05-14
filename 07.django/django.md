@@ -2,110 +2,125 @@
 
 ## 本番環境構築
 
-* 1.必要モジュールインストール
+### 1. 必要モジュールインストール
 
-```bash
-yum install httpd httpd-devel mod_wsgi
-```
+  1. インストール
 
-* 2.Apache用設定ファイル作成
+      ```bash
+      $yum install httpd httpd-devel mod_wsgi
+      ```
 
-↓以下、テスト用 /etc/httpd/conf.d/python.conf
+### 2. Apache用設定ファイル作成
 
-```text
-# mod_wsgiの読み込み
-LoadModule wsgi_module modules/mod_wsgi.so
+  1. 設定ファイル作成
 
-# /test というリクエストに対して、/var/www/cgi-bin/hello.py 返す。
-WSGIScriptAlias /test /var/www/cgi-bin/hello.py
-```
+      ↓以下、テスト用 /etc/httpd/conf.d/python.conf
 
-* 3.Apache停止→起動
+      ```sh
+      # mod_wsgiの読み込み
+      LoadModule wsgi_module modules/mod_wsgi.so
 
-```bash
-sudo systemctl stop httpd.service
-sudo systemctl start httpd.service
-```
+      # /test というリクエストに対して、/var/www/cgi-bin/hello.py 返す。
+      WSGIScriptAlias /test /var/www/cgi-bin/hello.py
+      ```
 
-再起動でも可
+### 3. Apache停止→起動
 
-```bash
-sudo systemctl restart httpd.service
-```
+  1. Apacheの停止・再起動
 
-* Apache動作確認
+      ```bash
+      $sudo systemctl stop httpd.service
+      $sudo systemctl start httpd.service
+      ```
 
-```bash
-sudo systemctl status httpd.service
-```
+      * 再起動でも可
 
-* ブラウザで以下のURLにアクセスし"Hello World!"が表示されることを確認する
+        ```bash
+        $sudo systemctl restart httpd.service
+        ```
 
-  [http://192.168.3.22/test](http://192.168.3.22/test)
+  2. Apache動作確認
 
-* 4.仮想環境をアクティベート
+      ```bash
+      $sudo systemctl status httpd.service
+      ```
 
-  ```bash
-    cd [仮想環境のディレクトリ]
-    . bin/activate
-  ```
+  3. ブラウザで以下のURLにアクセスし"Hello World!"が表示されることを確認する
 
-* 5.仮想環境にdjangoをインストールする
+      [http://192.168.3.22/test](http://192.168.3.22/test)
 
-  ```bash
-    pip install django==2.2.20
-  ```
+### 4. 仮想環境をアクティベート
 
-  djangoのバージョンはrequirements.txtに記載されているdjangoのバージョンを指定する
+  1. アクティベート
 
-  djangoのバージョン確認
+      ```bash
+      $cd <仮想環境のディレクトリ>
+      $. bin/activate
+      ```
 
-  ```bash
-    python -m django --version
-  ```
+### 5. 仮想環境にdjangoをインストールする
 
-  djangoのバージョンが表示されればOK
+  1. インストール
 
-* 6.ユーザーのサブグループにrootを追加する
+      ```bash
+      $pip install django==2.2.20
+      ```
 
-  /var/www/cgi-binフォルダに対する書込権限付与の為、以下のコマンドでサブグループにrootを追加する
+      djangoのバージョンはrequirements.txtに記載されているdjangoのバージョンを指定する
 
-  ```bash
-    usermod -aG root [ユーザー名]
-  ```
+  2. djangoのバージョン確認
 
-  確認
+      ```bash
+      $python -m django --version
+      ```
 
-  ```bash
-    id kaioman
-    uid=1000([ユーザー名]) gid=1000([グループ名]) groups=1000[グループ名]),0(root),1001([グループ名])
-  ```
+  3. djangoのバージョンが表示されればOK
 
-* 7./var/www/cgi-binフォルダのパーミッションを755→775に変更する
+### 6. ユーザーのサブグループにrootを追加する
 
-  ```bash
-    sudo su -
-    cd /var/www
-    chmod 775 cgi-bin
-  ```
+  1. /var/www/cgi-binフォルダに対する書込権限付与の為、以下のコマンドでサブグループにrootを追加する
 
-  確認
+      ```bash
+      $usermod -aG root <ユーザー名>
+      ```
 
-  ```bash
-    ls -l
-    drwxrwxr-x 2 root root 4096  4月 24 16:16 cgi-bin
-  ```
+  2. 確認
 
-* 8.仮想環境のdjango-adminでプロジェクトを作成\(動作テスト用\)
+      ```bash
+      $id kaioman
+      $uid=1000([ユーザー名]) gid=1000([グループ名]) groups=1000[グループ名]),0(root),1001([グループ名])
+      ```
 
-  仮想環境アクティベート
+### 7. /var/www/cgi-binフォルダのパーミッションを755→775に変更する
 
-  '''sh su - kaioman cd \[仮想環境のディレクトリ\] . bin/activate '''
+  1. パーミッション変更
+  
+      ```bash
+      $sudo su -
+      $cd /var/www
+      $chmod 775 cgi-bin
+      ```
 
-  djangoプロジェクト作成
+  2. 確認
 
-  ```bash
-    django-admin startproject [プロジェクト名]
-  ```
+      ```bash
+      $ls -l
+      drwxrwxr-x 2 root root 4096  4月 24 16:16 cgi-bin
+      ```
 
-  これで/var/wwww/cgi-binにプロジェクトが作成される
+### 8. 仮想環境のdjango-adminでプロジェクトを作成\(動作テスト用\)
+
+  1. 仮想環境アクティベート
+
+      ```sh
+      $su - kaioman 
+      $cd \[仮想環境のディレクトリ\] . bin/activate 
+      ```
+
+  2. djangoプロジェクト作成
+
+      ```sh
+      $django-admin startproject <プロジェクト名>
+      ```
+
+      これで/var/wwww/cgi-binにプロジェクトが作成される

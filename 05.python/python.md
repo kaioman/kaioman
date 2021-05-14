@@ -1,21 +1,37 @@
 # Python
 
-## pipについて
+## 1.インストール
 
-* 1.パッケージリストの確認
+1. Python3.6インストール
 
-  ```bash
-    pip list
+  ```sh
+  $yum -y install python3
   ```
 
-* 2.アップデートが必要なパッケージのリスト確認
+## 3.pip
 
-  ```bash
-    pip list -o
-  ```
+1. パッケージリストの確認
 
-* 3.pip自身のアップグレード
+    ```sh
+    $pip list
+    ```
 
-  ```bash
-    pip install -U pip
+2. アップデートが必要なパッケージのリスト確認
+
+    ```sh
+    $pip list -o
+    ```
+
+3. pip自身のアップグレード
+
+    ```sh
+    $pip install -U pip
+    ```
+
+## 4.仮想環境の作成
+
+1. venv
+
+  ```sh
+  $python3 -m venv <仮想環境名>
   ```

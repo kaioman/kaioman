@@ -186,7 +186,7 @@
     $yum remove <パッケージ名>
     ```
 
-## 7.シャットダウン・再移動
+## 7.シャットダウン・再起動
 
 1. シャットダウン
 
@@ -200,7 +200,7 @@
     $shutdown -r now
     ```
 
-## 8. NetworkManager
+## 8.NetworkManager
 
 * コマンド群
 
@@ -229,7 +229,7 @@
     |full|the host is connected to a network and has full access to the Internet.|
     |unknown|the connectivity status cannot be found out.|
   
-## 9. ipコマンド
+## 9.ipコマンド
 
 ### ip rule(rule table参照)
 
@@ -292,7 +292,7 @@
   (省略)
   ```
 
-## 10. iwconfig
+## 10.iwconfig
 
 1. インストール
 
