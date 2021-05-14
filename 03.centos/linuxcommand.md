@@ -229,44 +229,68 @@
     |full|the host is connected to a network and has full access to the Internet.|
     |unknown|the connectivity status cannot be found out.|
   
-## 9. ルーティング確認
+## 9. ipコマンド
 
-1. ip rule(rule table参照)
+### ip rule(rule table参照)
 
-    ```sh
-    $ip rule show
+1. show
 
-    0:      from all lookup local
-    200:    from 192.168.3.22 lookup 100
-    32766:  from all lookup main
-    32767:  from all lookup default
-    ```
+   * ルールの一覧を表示する
 
-2. ip route(routing table参照)
+     ```sh
+     $ip rule show
 
-    ```sh
-    $ip route show
+     0:      from all lookup local
+     32766:  from all lookup main
+     32767:  from all lookup default
+     ```
 
-    default via 192.168.3.1 dev eth0 proto static metric 100 linkdown
-    default via 192.168.3.1 dev wlan0 proto static metric 600
-    192.168.3.0/24 dev eth0 proto kernel scope link src 192.168.3.121 metric 100 linkdown
-    192.168.3.0/24 dev wlan0 proto kernel scope link src 192.168.3.22 metric 600
-    ```
+### ip route(routing table参照)
 
-3. ss(NICの状態確認)
+1. show
 
-    ```sh
-    $ss -nr
+   * ルーティングの一覧を表示する
 
-    Netid  State      Recv-Q Send-Q Local Address:Port               Peer Address:Port
-    u_str  ESTAB      0      0         * 8957                  * 0
-    u_str  ESTAB      0      0         * 9019                  * 0
-    u_str  ESTAB      0      0         * 9041                  * 0
-    u_str  ESTAB      0      0      /run/dbus/system_bus_socket 9042                  * 0
-    (省略)
-    ```
+      ```sh
+      $ip route show
 
-    ※netstatはCentOS7以降は非推奨
+      default via 192.168.3.1 dev eth0 proto static metric 100 linkdown
+      default via 192.168.3.1 dev wlan0 proto static metric 600
+      192.168.3.0/24 dev eth0 proto kernel scope link src 192.168.3.121 metric 100 linkdown
+      192.168.3.0/24 dev wlan0 proto kernel scope link src 192.168.3.22 metric 600
+      ```
+
+2. get
+
+   * 指定したIPアドレスの経路を調べる
+
+      ```sh
+      $ip route get <IPアドレス>
+      ```
+
+      (例) ゲートウェイまでの経路を調べる
+
+      ```sh
+      $ip route get 192.168.3.1
+      
+      192.168.3.1 dev wlan0 table subroute-wlan0 src 192.168.3.22 uid 1000
+      cache
+      ```
+
+### 3. ss(NICの状態確認)
+
+* netstatはCentOS7以降は非推奨
+
+  ```sh
+  $ss -nr
+
+  Netid  State      Recv-Q Send-Q Local Address:Port               Peer Address:Port
+  u_str  ESTAB      0      0         * 8957                  * 0
+  u_str  ESTAB      0      0         * 9019                  * 0
+  u_str  ESTAB      0      0         * 9041                  * 0
+  u_str  ESTAB      0      0      /run/dbus/system_bus_socket 9042                  * 0
+  (省略)
+  ```
 
 ## 10. iwconfig
 

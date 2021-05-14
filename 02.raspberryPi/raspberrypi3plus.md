@@ -588,41 +588,63 @@
 
         4. ルーティング設定
 
-            * 以下の2つを作成する
+            * 以下の3つを作成する
 
-               1. rule table
-               2. routing table
+               1. routing table
+               2. rule table
+               3. routing
 
-              * 基本手順として、まずはコマンドにて上記2テーブルを作成してルーティング設定を行い、wlan0への通信が行えたかをクライアント側から行い、通信が確立されたことを確認してからOS起動時の処理の中に実行したコマンドを記述する形とする。
+              * 基本手順として、まずはコマンドにてルーティングテーブルを作成して、作成したルーティングテーブルに対してルーティング設定を行い、wlan0への通信が行えたかをクライアント側から行い、通信が確立されたことを確認してからOS起動時の処理の中に実行したコマンドを記述する形とする。
 
-            1. rule table作成
+            1. routing table作成
+
+               ```sh
+               $vim /etc/iproute2/rt_tables
+
+               #
+               # reserved values
+               #
+               255     local
+               254     main
+               253     default
+               0       unspec
+               #
+               # local
+               #
+               #1      inr.ruhep
+               100     subroute-wlan0   ←追加
+               ```
+
+            2. rule table作成
 
                eth0よりも前にマッチさせる必要がある為、mainよりも優先順位を上にしておくこと
 
                ```sh
-               $ip rule add from 192.168.3.22 table 100 prio 200
+               $ip rule add from all table subroute-wlan0 prio 201
                
                # 確認
                $ip rule show
 
                0:      from all lookup local
-               200:    from 192.168.3.22 lookup 100 #→追加されていることを確認
+               201:    from all lookup subroute-wlan0 #→追加されていることを確認
                32766:  from all lookup main
                32767:  from all lookup default
                ```
 
-            2. routing table作成
+            3. routing作成
 
                ```sh
-               $ip route add 192.168.3.0/24 dev wlan0 src 192.168.3.22 table 100
+               $ip route add table subroute-wlan0 default via 192.168.3.1 dev wlan0 proto static metric 90
+               $ip route add table subroute-wlan0 192.168.3.0/24 dev wlan0 proto kernel scope link src 192.168.3.22 metric 90
 
                # 確認
-               $ip route show table 100
+               $ip route show table subroute-wlan0
 
-               192.168.3.0/24 dev wlan0 scope link src 192.168.3.22
+               default via 192.168.3.1 dev wlan0 proto static metric 90
+               192.168.3.0/24 dev wlan0 proto kernel scope link src 192.168.3.22 metric 90
                ```
 
-            3. OS起動時に上記のコマンドを実行する設定
+            4. OS起動時に上記のコマンドを実行する設定
 
                ```sh
                # subroute.shを新規作成
