@@ -8,30 +8,50 @@
   $yum -y install python3
   ```
 
-## 3.pip
+## 2.pip
 
-1. パッケージリストの確認
+- python3系インストール後はpipが使用できないのでpip3を使う
 
-    ```sh
-    $pip list
-    ```
-
-2. アップデートが必要なパッケージのリスト確認
+1. pip自身のアップグレード
 
     ```sh
-    $pip list -o
+    $pip3 install -U pip
     ```
 
-3. pip自身のアップグレード
+2. パッケージリストの確認
 
     ```sh
-    $pip install -U pip
+    $pip3 list
     ```
 
-## 4.仮想環境の作成
+3. アップデートが必要なパッケージのリスト確認
+
+    ```sh
+    $pip3 list -o
+    ```
+
+## 3.仮想環境の作成
 
 1. venv
 
-  ```sh
-  $python3 -m venv <仮想環境名>
-  ```
+    ```sh
+    $python3 -m venv <仮想環境名>
+    ```
+
+2. アクティベート
+
+    ```sh
+    $. <仮想環境パス>\bin\activate
+    ```
+
+3. 仮想環境下でpip最新化
+
+    ```sh
+    (env)$pip install --upgrade pip
+    ```
+
+4. ディアクティベート
+
+    ```sh
+    (env)$deactivate
+    ```

@@ -108,13 +108,14 @@
       drwxrwxr-x 2 root root 4096  4月 24 16:16 cgi-bin
       ```
 
-### 8. 仮想環境のdjango-adminでプロジェクトを作成\(動作テスト用\)
+### 8. 仮想環境のdjango-adminでプロジェクトを作成(動作テスト用)
 
   1. 仮想環境アクティベート
 
       ```sh
-      $su - kaioman 
-      $cd \[仮想環境のディレクトリ\] . bin/activate 
+      $su - <ユーザー名> 
+      $cd <仮想環境のディレクトリ> 
+      $. bin/activate 
       ```
 
   2. djangoプロジェクト作成
