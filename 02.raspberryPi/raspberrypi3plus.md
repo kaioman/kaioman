@@ -231,9 +231,21 @@
 
 ### 9.ホスト名変更
 
-   ```sh
-   $hostnamectl set-hostname stockman.srv.world
-   ```
+   1. ホスト名変更
+
+      ```sh
+      $hostnamectl set-hostname stockman.srv.world
+      ```
+
+   2. hostsにホストを追加
+
+      ```sh
+      $vim /etc/hosts
+
+      127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+      ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+      192.168.3.22    stockman.srv.world #←追加
+      ```
 
 ### 10.epelをリポジトリに追加
 
