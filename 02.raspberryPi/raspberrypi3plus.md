@@ -56,7 +56,16 @@
    centos-rpi3 login:root
    Password:centos
 
-2. キーボード設定
+2. rootパスワード変更
+
+   ```sh
+   $passwd
+
+   New password:<変更後のパスワード入力>
+   Retype new password:<変更後のパスワード入力>
+   ```
+
+3. キーボード設定
 
    1. 109日本語レイアウトのキーボード設定
 
@@ -78,7 +87,7 @@
       X11 Options: terminate:ctrl_alt_bksp
       ```
 
-3. タイムゾーン設定
+4. タイムゾーン設定
 
    ```sh
    timedatectl set-timezone Asia/Tokyo
@@ -961,6 +970,19 @@
       以下のURLにアクセスしてmonitorixにアクセスできるか確認する
 
       http://[ホスト名]:8080/monitorix
+
+### 18.sshでのrootログイン禁止
+
+   1. sshd_config設定変更
+
+      ```sh
+      $cd /etc/ssh
+      $vim /etc/ssh/sshd_config
+
+      #PermitRootLogin yes
+      ↓
+      PermitRottLogin no
+      ```
 
 ## バックアップ＆リストア
 
