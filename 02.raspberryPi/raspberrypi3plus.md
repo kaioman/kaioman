@@ -971,7 +971,9 @@
 
       http://[ホスト名]:8080/monitorix
 
-### 18.sshでのrootログイン禁止
+### 18.sshセキュリティ設定
+
+#### 1.rootログイン禁止
 
    1. sshd_config設定変更
 
@@ -982,6 +984,86 @@
       #PermitRootLogin yes
       ↓
       PermitRottLogin no
+      ```
+
+#### 2.待ち受けポート変更
+
+   1. lsofインストール
+
+      ```sh
+      $yum -y install lsof
+      ```
+
+   2. 変更後のポート番号が使用されていないか確認
+
+      ```sh
+      $lsof -i:<ポート番号>
+      ```
+
+      結果が何も表示されなければ未使用
+
+   3. sshd_config設定変更
+
+      ```sh
+      $vim /etc/ssh/sshd_config
+
+      #Port 22
+      ↓
+      Port <変更後のポート番号>
+      ```
+
+   4. sshd再起動
+
+      ```sh
+      $systemctl restart sshd
+      ```
+
+   5. firewalldからSSHを削除
+
+      ```sh
+      $firewall-cmd --permanent --remove-service=ssh
+      ```
+
+   6. firewallの設定にssh-<ポート番号>を追加
+
+      ```sh
+      #既存ssh.xmlをコピー
+      $cp /usr/lib/firewalld/services/ssh.xml /etc/firewalld/services/ssh-<ポート番号>.xml
+      #コピーしたssh-<ポート番号>.xmlファイル内のポート番号を変更
+      $vim /etc/firewalld/services/ssh-<ポート番号>.xml
+
+      #<port protocol="tcp" port="22"/>
+      ↓
+      <port protocol="tcp" port="<ポート番号>"/>
+
+      #firewalldに追加
+      $firewall-cmd --permanent --add-service=ssh-<ポート番号>
+      ```
+
+   7. firewalldをリロード
+
+      ```sh
+      $firewall-cmd --reload
+      ```
+
+   8. 変更後の状態確認  
+
+      ```sh
+      $firewall-cmd --reload
+
+      public (active)
+         target: default
+         icmp-block-inversion: no
+         interfaces: eth0 wlan0
+         sources:
+         services: dhcpv6-client ftp http ntp ssh-<ポート番号>  ←追加したポートがあればOK
+         ports: 8080/tcp
+         protocols:
+         masquerade: no
+         forward-ports:
+         source-ports:
+         icmp-blocks:
+         rich rules:
       ```
 
 ## バックアップ＆リストア
