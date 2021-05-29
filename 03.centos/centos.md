@@ -172,3 +172,7 @@
     $firewall-cmd --reload && \
     $firewall-cmd --list-rich-rules
     ```
+
+## ログイン履歴やログイン状況の確認
+
+[参考:【CentOS】ログイン履歴やログイン状況の確認方法](https://www.server-memo.net/tips/server-operation/login-history.html)
