@@ -30,7 +30,13 @@
     $cp <コピー元> <コピー先>
     ```
 
-## 3.パーミッション
+## 3.ファイル名変更
+
+  ```sh
+  $mv <変更前ファイル名> <変更後ファイル名>
+  ```
+
+## 4.パーミッション
 
 * アクセス件変更
 
@@ -93,7 +99,7 @@
   | o | その他\(other\) |
   | a | 上の3つすべて\(all\) |
 
-## 4.suの使用を制限する
+## 5.suの使用を制限する
 
 1. /etc/pam.d/su を編集する
 
@@ -141,7 +147,7 @@
 
         ※複数のユーザーを追加する場合は「,」で区切る
 
-## 5.systemctl
+## 6.systemctl
 
 * コマンド群
 
@@ -158,7 +164,7 @@
   |サービス一覧|systemctl list-unit-files --type=service ${Unit}|
   |設定ファイルの再読込|systemctl deamon-reload ${Unit}|
 
-## 6.yum
+## 7.yum
 
 1. パッケージをインストールする
 
@@ -186,7 +192,13 @@
     $yum remove <パッケージ名>
     ```
 
-## 7.シャットダウン・再起動
+3. パッケージを更新する
+
+    ```sh
+    $yum update
+    ```
+
+## 8.シャットダウン・再起動
 
 1. シャットダウン
 
@@ -200,7 +212,7 @@
     $shutdown -r now
     ```
 
-## 8.NetworkManager
+## 9.NetworkManager
 
 * コマンド群
 
@@ -229,7 +241,7 @@
     |full|the host is connected to a network and has full access to the Internet.|
     |unknown|the connectivity status cannot be found out.|
   
-## 9.ipコマンド
+## 10.ipコマンド
 
 ### ip rule(rule table参照)
 
@@ -292,7 +304,7 @@
   (省略)
   ```
 
-## 10.iwconfig
+## 11.iwconfig
 
 1. インストール
 
