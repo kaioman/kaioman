@@ -1066,6 +1066,101 @@
          rich rules:
       ```
 
+### 19.postgresインストール
+
+* [参考リンク:PostgreSQL 9.2 を CentOS 7 に yum インストールする手順](https://weblabo.oscasierra.net/postgresql92-centos7-install/)
+
+ 1. yumでpostgres(9.2.24)をインストール
+
+    ```sh
+    $yum -y install postgresql-server   
+
+    #バージョン確認
+    $postgres --version
+
+    postgres (PostgreSQL) 9.2.24
+    ```
+
+ 2. データベース初期化
+
+    ```sh
+    $postgresql-setup initdb
+
+    Initializing database ... OK
+    ```
+
+ 3. インストールファイル
+
+      | ファイル・ディレクトリ | 説明 |
+      |-----|-----|
+      |/var/lib/pgsql/|PostgreSQL の設定やデータ、バックアップファイルが保存されるディレクトリ|
+      |/var/lib/pgsql/data/postgresql.conf|PostgreSQLのメインとなる設定ファイル|
+      |/var/lib/pgsql/data/pg_hba.conf|PostgreSQLのユーザ認証についての設定ファイル|
+      |/bin/createdb|PostgreSQLのデータベースを作成するためのコマンド|
+      |/bin/psql|PostgreSQLを操作するためのクライアント|
+      |/bin/postgres|PostgreSQLサーバー|
+
+ 4. サービスの有効化
+
+      ```sh
+      $systemctl enable postgresql
+
+      Created symlink from /etc/systemd/system/multi-user.target.wants/postgresql.service to /usr/lib/systemd/system/postgresql.service.
+      ```
+
+ 5. 起動・停止・再起動
+
+      ```sh
+      # 起動
+      $systemctl start postgresql
+
+      # 停止
+      $systemctl stop postgresql
+
+      # 再起動
+      $systemctl restart postgresql
+      ```
+
+ 6. ユーザー作成
+
+* [参考リンク:ユーザーとパスワードの設定](http://db-study.com/archives/121)
+  
+    1. postgresのインストール時に postgres というOSユーザーが追加されるのでパスワードを設定
+
+         ```sh
+         $passwd postgres
+
+         新しいパスワード:<設定パスワード>
+         新しいパスワードを再入力してください:<設定パスワード>
+         ```
+
+    2. postgresの管理ユーザー(postgres)のパスワード設定
+
+         ```sh
+         $su - postgres # postgresユーザーにスイッチ
+         -bash-4.2$psql
+
+         psql (9.2.24)
+         "help" でヘルプを表示します.
+
+         postgres=#alter role postgres with password '<設定パスワード>';
+
+         ALTER ROLE
+
+         # 一旦出る
+         postgres=#\q 
+         -bash-4.2$exit
+
+         # postgresを再起動して設定を反映
+         $systemctl restart postgres
+         ```
+
+    3. 接続用ユーザーの作成
+    4. データベースの作成
+    5. スキーマの作成
+    6. 外部ホストからの接続設定
+    7. firewalldにpostgres追加
+
 ## バックアップ＆リストア
 
 ### 1.バックアップ
