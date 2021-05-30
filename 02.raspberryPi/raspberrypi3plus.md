@@ -51,12 +51,12 @@
 
 ### 4.起動直後
 
-1. 初期ログイン
+#### 1.初期ログイン
 
    centos-rpi3 login:root
    Password:centos
 
-2. rootパスワード変更
+#### 2.rootパスワード変更
 
    ```sh
    $passwd
@@ -65,7 +65,7 @@
    Retype new password:<変更後のパスワード入力>
    ```
 
-3. キーボード設定
+#### 3.キーボード設定
 
    1. 109日本語レイアウトのキーボード設定
 
@@ -87,7 +87,7 @@
       X11 Options: terminate:ctrl_alt_bksp
       ```
 
-4. タイムゾーン設定
+#### 4.タイムゾーン設定
 
    ```sh
    timedatectl set-timezone Asia/Tokyo
@@ -95,7 +95,7 @@
 
 ### 5.起動後のネットワーク設定
 
-1. ネットワーク設定ファイルの変更
+#### 1.ネットワーク設定ファイルの変更
 
    1. 以下のファイルをviで開く
 
@@ -103,7 +103,7 @@
       $vi /etc/sysconfig/network-scripts/ifcfg-eth0
       ```
 
-2. ifcfg-eth0に以下の内容を追記する
+#### 2.ifcfg-eth0に以下の内容を追記する
 
    ```sh
    TYPE="Ethernet"
@@ -123,112 +123,112 @@
 
    [esc] → wq!で保存
 
-3. ネットワーク再起動
+#### 3.ネットワーク再起動
 
    ```sh
    $nmcli connection down eth0; nmcli connection up eth0
    ```
 
-      pingで導通確認を行う。速度が安定しない場合はこの時点でrebootすること。
-      ここまでくれば、あとはクライアント側からTeraTermで接続するのでラズパイ本体からディスプレイの出力は無くして良い。
+   pingで導通確認を行う。速度が安定しない場合はこの時点でrebootすること。
+   ここまでくれば、あとはクライアント側からTeraTermで接続するのでラズパイ本体からディスプレイの出力は無くして良い。
 
 ### 6.Rootパーテーションのサイズ拡張
 
-   1. 現在の状態を確認(1.1Gしか確保できていない)
+#### 1.現在の状態を確認(1.1Gしか確保できていない)
 
-      ```sh
-      $df -h
+   ```sh
+   $df -h
 
-      ファイルシス   サイズ  使用  残り 使用% マウント位置
-      /dev/root        2.0G  762M  1.1G   42% /
-      devtmpfs         459M     0  459M    0% /dev
-      tmpfs            463M     0  463M    0% /dev/shm
-      tmpfs            463M   12M  451M    3% /run
-      tmpfs            463M     0  463M    0% /sys/fs/cgroup
-      /dev/mmcblk0p1   500M   43M  457M    9% /boot
-      tmpfs             93M     0   93M    0% /run/user/0
-      ```
+   ファイルシス   サイズ  使用  残り 使用% マウント位置
+   /dev/root        2.0G  762M  1.1G   42% /
+   devtmpfs         459M     0  459M    0% /dev
+   tmpfs            463M     0  463M    0% /dev/shm
+   tmpfs            463M   12M  451M    3% /run
+   tmpfs            463M     0  463M    0% /sys/fs/cgroup
+   /dev/mmcblk0p1   500M   43M  457M    9% /boot
+   tmpfs             93M     0   93M    0% /run/user/0
+   ```
 
-   2. 拡張前にシェルのLANG設定を変更する
+#### 2.拡張前にシェルのLANG設定を変更する
 
-      ```sh
-      $export LANG="en_US.UTF-8"
-      ```
+   ```sh
+   $export LANG="en_US.UTF-8"
+   ```
 
-   3. 変更したら以下のコマンドを実行
+#### 3.変更したら以下のコマンドを実行
 
-      ```sh
-      $/usr/local/bin/rootfs-expand
-      ```
+   ```sh
+   $/usr/local/bin/rootfs-expand
+   ```
 
-   4. 実行後の確認
+#### 4.実行後の確認
 
-      ```sh
-      $df -h
+   ```sh
+   $df -h
 
-      Filesystem      Size  Used Avail Use% Mounted on
-      /dev/root        27G  767M   25G   3% /
-      devtmpfs        459M     0  459M   0% /dev
-      tmpfs           463M     0  463M   0% /dev/shm
-      tmpfs           463M   12M  451M   3% /run
-      tmpfs           463M     0  463M   0% /sys/fs/cgroup
-      /dev/mmcblk0p1  500M   43M  457M   9% /boot
-      tmpfs            93M     0   93M   0% /run/user/0
-      ```
+   Filesystem      Size  Used Avail Use% Mounted on
+   /dev/root        27G  767M   25G   3% /
+   devtmpfs        459M     0  459M   0% /dev
+   tmpfs           463M     0  463M   0% /dev/shm
+   tmpfs           463M   12M  451M   3% /run
+   tmpfs           463M     0  463M   0% /sys/fs/cgroup
+   /dev/mmcblk0p1  500M   43M  457M   9% /boot
+   tmpfs            93M     0   93M   0% /run/user/0
+   ```
 
-   5. LANG設定を元に戻す
+#### 5.LANG設定を元に戻す
 
-      ```sh
-      $export LANG="ja_JP.UTF-8"
-      ```
+   ```sh
+   $export LANG="ja_JP.UTF-8"
+   ```
 
-   6. 念のためrebootして確認
+#### 6.念のためrebootして確認
 
-      ```sh
-      $reboot
-      ```
+   ```sh
+   $reboot
+   ```
 
 ### 7.yumを使用可能にする
 
-   1. /etc/yum.repo.d/CentOS-armhfp-kernel.repoを編集する
+#### 1. /etc/yum.repo.d/CentOS-armhfp-kernel.repoを編集する
 
-      ```sh
-      $cd /etc/yum.repos.d/
-      $vi CentOS-armhfp-kernel.repo
-      ```
+   ```sh
+   $cd /etc/yum.repos.d/
+   $vi CentOS-armhfp-kernel.repo
+   ```
 
-      以下の通り変更する(baseurl=の箇所)
+   以下の通り変更する(baseurl=の箇所)
 
-      ```sh
-      [centos-kernel]
-      name=CentOS Kernels for armhfp
-      #baseurl=http://mirror.centos.org/altarch/7/kernel/$basearch/kernel-$kvariant
-      baseurl=http://mirror.centos.org/altarch/7/kernel/$basearch/kernel-rpi2/
-      enabled=1
-      gpgcheck=1
-      gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
-            file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-Arm32
-      ```
+   ```sh
+   [centos-kernel]
+   name=CentOS Kernels for armhfp
+   #baseurl=http://mirror.centos.org/altarch/7/kernel/$basearch/kernel-$kvariant
+   baseurl=http://mirror.centos.org/altarch/7/kernel/$basearch/kernel-rpi2/
+   enabled=1
+   gpgcheck=1
+   gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+         file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-Arm32
+   ```
 
-   2. /etc/yum.repo.d/kernel.repoを編集する
+#### 2. /etc/yum.repo.d/kernel.repoを編集する
 
-      ```sh
-      $cd /etc/yum.repos.d/
-      $vi kernel.repo
-      ```
+   ```sh
+   $cd /etc/yum.repos.d/
+   $vi kernel.repo
+   ```
 
-      以下の通り変更する(baseurl=の箇所)
+   以下の通り変更する(baseurl=の箇所)
 
-      ```sh
-      [kernel]
-      name=kernel repo for RaspberryPi 2 and 3
-      #baseurl=http://mirror.centos.org/altarch/7/kernel/armhfp/kernel-rpi2/repodata/
-      baseurl=http://mirror.centos.org/altarch/7/kernel/$basearch/kernel-rpi2
-      gpgcheck=1
-      enabled=1
-      gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
-            file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-Arm32
-      ```
+   ```sh
+   [kernel]
+   name=kernel repo for RaspberryPi 2 and 3
+   #baseurl=http://mirror.centos.org/altarch/7/kernel/armhfp/kernel-rpi2/repodata/
+   baseurl=http://mirror.centos.org/altarch/7/kernel/$basearch/kernel-rpi2
+   gpgcheck=1
+   enabled=1
+   gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+         file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-Arm32
+   ```
 
 ### 8.yum updateの実行
 
@@ -240,52 +240,52 @@
 
 ### 9.ホスト名変更
 
-   1. ホスト名変更
+#### 1. ホスト名変更
 
-      ```sh
-      $hostnamectl set-hostname stockman.srv.world
-      ```
+   ```sh
+   $hostnamectl set-hostname stockman.srv.world
+   ```
 
-   2. hostsにホストを追加
+#### 2. hostsにホストを追加
 
-      ```sh
-      $vim /etc/hosts
+   ```sh
+   $vim /etc/hosts
 
-      127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-      ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-      192.168.3.22    stockman.srv.world #←追加
-      ```
+   127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+   ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+   192.168.3.22    stockman.srv.world #←追加
+   ```
 
 ### 10.epelをリポジトリに追加
 
-   1. リポジトリの優先順位を設定するプラグインをインストール
+#### 1.リポジトリの優先順位を設定するプラグインをインストール
 
-      ```sh
-      $yum -y install yum-plugin-priorities
-      ```
+   ```sh
+   $yum -y install yum-plugin-priorities
+   ```
 
-   2. 標準リポジトリを最優先にする
+#### 2.標準リポジトリを最優先にする
 
-      ```sh
-      $sed -i -e "s/\]$/\]\npriority=1/g" /etc/yum.repos.d/CentOS-Base.repo
-      ```
+   ```sh
+   $sed -i -e "s/\]$/\]\npriority=1/g" /etc/yum.repos.d/CentOS-Base.repo
+   ```
 
-   3. epelをリポジトリに追加
+#### 3.epelをリポジトリに追加
 
-      ```sh
-      $cat > /etc/yum.repos.d/epel.repo << EOF
+   ```sh
+   $cat > /etc/yum.repos.d/epel.repo << EOF
 
-      [epel]
-      name=Epel rebuild for armhfp
-      baseurl=https://armv7.dev.centos.org/repodir/epel-pass-1/
-      enabled=1
-      gpgcheck=0
-      EOF
-      ```
+   [epel]
+   name=Epel rebuild for armhfp
+   baseurl=https://armv7.dev.centos.org/repodir/epel-pass-1/
+   enabled=1
+   gpgcheck=0
+   EOF
+   ```
 
 ### 11.パッケージインストール
 
-1. make, gcc, gcc-c++
+#### 1.make, gcc, gcc-c++
 
    ソースコンパイルを行う
 
@@ -293,7 +293,7 @@
    $yum install make gcc gcc-c++
    ```
 
-2. bash-completion
+#### 2.bash-completion
 
    Tabキー補完を強化する
 
@@ -301,15 +301,15 @@
    $yum install bash-completion
    ```
 
-3. NTPサーバーの設定(NTPd)
+#### 3.NTPサーバーの設定(NTPd)
 
-   * NTPdインストール
+##### 1.NTPdインストール
 
    ```sh
    $yum -y install ntp
    ```
 
-   * 設定
+##### 2.設定
 
    ```sh
    $vim /etc/ntp.conf
@@ -328,21 +328,21 @@
    server ntp2.jst.mfeed.ad.jp iburst
    ```
 
-   * 起動と自動起動登録
+##### 3.起動と自動起動登録
 
    ```sh
    $systemctl start ntpd
    $systemctl enable ntpd
    ```
 
-   * ファイアーウォール設定
+##### 4.ファイアーウォール設定
 
    ```sh
    $firewall-cmd --add-service=ntp --permanent
    $firewall-cmd --reload
    ```
 
-   * 動作確認
+##### 5.動作確認
 
    ```sh
    $ntpq -p
@@ -687,164 +687,164 @@
 
 ### 13.一般ユーザー作成
 
-   1. ユーザーアカウント作成
+#### 1. ユーザーアカウント作成
 
-         ```sh
-         $useradd <username>
-         $passwd <username>
-         ```
+   ```sh
+   $useradd <username>
+   $passwd <username>
+   ```
 
-   2. rootにスイッチ可能なユーザーに追加
+#### 2. rootにスイッチ可能なユーザーに追加
 
-         ```sh
-         $usermod -G wheel <username>
-         $vim /etc/pam.d/su
+   ```sh
+   $usermod -G wheel <username>
+   $vim /etc/pam.d/su
 
-         auth            sufficient      pam_rootok.so
-         # Uncomment the following line to implicitly trust users in the "wheel" group.
-         #auth           sufficient      pam_wheel.so trust use_uid
-         # Uncomment the following line to require a user to be in the "wheel" group.
-         auth            required        pam_wheel.so use_uid
-         auth            substack        system-auth
-         auth            include         postlogin
-         account         sufficient      pam_succeed_if.so uid = 0 use_uid quiet
-         account         include         system-auth
-         password        include         system-auth
-         session         include         system-auth
-         session         include         postlogin
-         session         optional        pam_xauth.so
+   auth            sufficient      pam_rootok.so
+   # Uncomment the following line to implicitly trust users in the "wheel" group.
+   #auth           sufficient      pam_wheel.so trust use_uid
+   # Uncomment the following line to require a user to be in the "wheel" group.
+   auth            required        pam_wheel.so use_uid
+   auth            substack        system-auth
+   auth            include         postlogin
+   account         sufficient      pam_succeed_if.so uid = 0 use_uid quiet
+   account         include         system-auth
+   password        include         system-auth
+   session         include         system-auth
+   session         include         postlogin
+   session         optional        pam_xauth.so
 
-         ※#auth           required        pam_wheel.so use_uidをコメント解除
-         ```
+   ※#auth           required        pam_wheel.so use_uidをコメント解除
+   ```
 
-   3. root権限を移譲する
+#### 3. root権限を移譲する
 
-         ```sh
-         $visudo
-         ```
+   ```sh
+   $visudo
+   ```
 
-         最終行に以下を追記
+   最終行に以下を追記
 
-         ```sh
-         <username>  ALL=(ALL)   ALL
-         ```
+   ```sh
+   <username>  ALL=(ALL)   ALL
+   ```
 
 ### 14.Vimインストール
 
-   1. Vimインストール
+#### 1. Vimインストール
 
-      ```sh
-      $yum -y install -y vim-enhanced
-      ```
+   ```sh
+   $yum -y install -y vim-enhanced
+   ```
 
-   2. コマンドエイリアスを適用
+#### 2. コマンドエイリアスを適用
 
-      ```sh
-      $vi /etc/profile
+   ```sh
+   $vi /etc/profile
 
-      # 最終行にエイリアス追記
-      alias vi='vim'
+   # 最終行にエイリアス追記
+   alias vi='vim'
 
-      $source /etc/profile #変更を繁栄
-      ```
+   $source /etc/profile #変更を繁栄
+   ```
 
-   3. Vimの設定
+#### 3. Vimの設定
 
-      ```sh
-      $vi /etc/vimrc
-      ```
+   ```sh
+   $vi /etc/vimrc
+   ```
 
-      ```sh
-      " vim の独自拡張機能を使う(viとの互換性をとらない)
-      set nocompatible
-      
-      " 行番号表示
-      set number
-      
-      " ターミナルのタイトルをセットする
-      set title
-      
-      " 自動インデントを有効にする
-      set autoindent
-      
-      " 構文ごとに色分け表示する
-      syntax on
-      
-      " [ syntax on ]の場合のコメント文の色を変更する
-      highlight Comment ctermfg=LightCyan
-      
-      " ウィンドウ幅で行を折り返す
-      set wrap
-      ```
+   ```sh
+   " vim の独自拡張機能を使う(viとの互換性をとらない)
+   set nocompatible
+   
+   " 行番号表示
+   set number
+   
+   " ターミナルのタイトルをセットする
+   set title
+   
+   " 自動インデントを有効にする
+   set autoindent
+   
+   " 構文ごとに色分け表示する
+   syntax on
+   
+   " [ syntax on ]の場合のコメント文の色を変更する
+   highlight Comment ctermfg=LightCyan
+   
+   " ウィンドウ幅で行を折り返す
+   set wrap
+   ```
 
 ### 15.httpdインストール
 
-   1. httpdインストール
+#### 1. httpdインストール
 
-      ```sh
-      $yum -y install httpd
-      $rm -f /etc/httpd/conf.d/welcome.conf #ウェルカムページ削除
-      ```
+   ```sh
+   $yum -y install httpd
+   $rm -f /etc/httpd/conf.d/welcome.conf #ウェルカムページ削除
+   ```
 
-   2. httpdの設定
+#### 2. httpdの設定
 
-      ```sh
-      $vi /etc/httpd/conf/httpd.conf
-      ```
+   ```sh
+   $vi /etc/httpd/conf/httpd.conf
+   ```
 
-      ```sh
-      # 86行目：管理者アドレス指定
-      ServerAdmin root@[フルコンピュータ名]
-      
-      # 95行目：コメント解除しサーバー名指定
-      ServerName www.[フルコンピュータ名]:80
-      
-      # 151行目：変更
-      AllowOverride All
-      
-      # 164行目：ディレクトリ名のみでアクセスできるファイル名を追記
-      DirectoryIndex index.html index.cgi index.php
+   ```sh
+   # 86行目：管理者アドレス指定
+   ServerAdmin root@[フルコンピュータ名]
+   
+   # 95行目：コメント解除しサーバー名指定
+   ServerName www.[フルコンピュータ名]:80
+   
+   # 151行目：変更
+   AllowOverride All
+   
+   # 164行目：ディレクトリ名のみでアクセスできるファイル名を追記
+   DirectoryIndex index.html index.cgi index.php
 
-      # 最終行に追記
-      # サーバーの応答ヘッダ
-      ServerTokens Prod
-      ```
+   # 最終行に追記
+   # サーバーの応答ヘッダ
+   ServerTokens Prod
+   ```
 
-   3. サービス起動とサービス自動起動有効化
+#### 3. サービス起動とサービス自動起動有効化
 
-      ```sh
-      $systemctl start httpd 
-      $systemctl enable httpd
-      ```
+   ```sh
+   $systemctl start httpd 
+   $systemctl enable httpd
+   ```
 
-   4. ファイアウォール設定
+#### 4. ファイアウォール設定
 
-      ```sh
-      $firewall-cmd --add-service=http --permanent
-      $firewall-cmd --reload
-      ```
+   ```sh
+   $firewall-cmd --add-service=http --permanent
+   $firewall-cmd --reload
+   ```
 
-   5. htmlテストページを作成して動作確認
+#### 5. htmlテストページを作成して動作確認
 
-      ```sh
-      $vi /var/www/html/index.html
-      ```
+   ```sh
+   $vi /var/www/html/index.html
+   ```
 
-      以下の内容を記述してファイル保存
+   以下の内容を記述してファイル保存
 
-      ```html
-      <html>
-      <body>
-      <div style="width: 100%; font-size: 40px; font-weight: bold; text-align: center;">
-      Test Page
-      </div>
-      </body>
-      </html>
-      ```
+   ```html
+   <html>
+   <body>
+   <div style="width: 100%; font-size: 40px; font-weight: bold; text-align: center;">
+   Test Page
+   </div>
+   </body>
+   </html>
+   ```
 
-      以下のURLにアクセスして作成したhtmlファイルが表示されるかを確認する
+   以下のURLにアクセスして作成したhtmlファイルが表示されるかを確認する
 
-      http://[ホスト名]
+   http://[ホスト名]
 
 ### 16.vsftpdインストール
 
@@ -917,39 +917,39 @@
 
 ### 17.monitorixインストール
 
-   1. monitorixインストール
+#### 1. monitorixインストール
 
-      ```sh
-      $yum --enablerepo=epel -y install monitorix
-      ```
+   ```sh
+   $yum --enablerepo=epel -y install monitorix
+   ```
 
-   2. 設定ファイル変更
+#### 2. 設定ファイル変更
 
-      ```sh
-      # 6行目：好みのタイトルに変更
-      title = [任意のタイトル]
-      
-      # 7行目：自ホスト名に変更
-      hostname = [ホスト名]
+   ```sh
+   # 6行目：好みのタイトルに変更
+   title = [任意のタイトル]
+   
+   # 7行目：自ホスト名に変更
+   hostname = [ホスト名]
 
-      # 8行目：管理サイトの背景色
-      theme_color = black
-      
-      # 12行目：ネットワークの単位を bps にする (デフォルトは Bytes per/sec )
-      netstats_in_bps = y
+   # 8行目：管理サイトの背景色
+   theme_color = black
+   
+   # 12行目：ネットワークの単位を bps にする (デフォルトは Bytes per/sec )
+   netstats_in_bps = y
 
-      # 26行目以下：以下のように追記
-      <httpd_builtin>
-         enabled = y
-         host =
-         port = 8080
-         user = nobody
-         group = nobody
-         log_file = /var/log/monitorix-httpd
-         # 管理画面へのアクセス権を設定 : デフォルト禁止で許可するIPアドレスを指定
-         hosts_deny = all
-         hosts_allow = 192.168.3.0/24 # 接続許可端末のネットワークアドレス
-      ```
+   # 26行目以下：以下のように追記
+   <httpd_builtin>
+      enabled = y
+      host =
+      port = 8080
+      user = nobody
+      group = nobody
+      log_file = /var/log/monitorix-httpd
+      # 管理画面へのアクセス権を設定 : デフォルト禁止で許可するIPアドレスを指定
+      hosts_deny = all
+      hosts_allow = 192.168.3.0/24 # 接続許可端末のネットワークアドレス
+   ```
 
    3. サービス起動とサービス自動起動有効化
 
@@ -1068,98 +1068,158 @@
 
 ### 19.postgresインストール
 
-* [参考リンク:PostgreSQL 9.2 を CentOS 7 に yum インストールする手順](https://weblabo.oscasierra.net/postgresql92-centos7-install/)
+#### 1. yumでpostgres(9.2.24)をインストール
 
- 1. yumでpostgres(9.2.24)をインストール
+   ```sh
+   $yum -y install postgresql-server   
 
-    ```sh
-    $yum -y install postgresql-server   
+   #バージョン確認
+   $postgres --version
 
-    #バージョン確認
-    $postgres --version
+   postgres (PostgreSQL) 9.2.24
+   ```
 
-    postgres (PostgreSQL) 9.2.24
-    ```
+#### 2. データベース初期化
 
- 2. データベース初期化
+   ```sh
+   $postgresql-setup initdb
 
-    ```sh
-    $postgresql-setup initdb
+   Initializing database ... OK
+   ```
 
-    Initializing database ... OK
-    ```
+#### 3. インストールファイル
 
- 3. インストールファイル
+   | ファイル・ディレクトリ | 説明 |
+   |-----|-----|
+   |/var/lib/pgsql/|PostgreSQL の設定やデータ、バックアップファイルが保存されるディレクトリ|
+   |/var/lib/pgsql/data/postgresql.conf|PostgreSQLのメインとなる設定ファイル|
+   |/var/lib/pgsql/data/pg_hba.conf|PostgreSQLのユーザ認証についての設定ファイル|
+   |/bin/createdb|PostgreSQLのデータベースを作成するためのコマンド|
+   |/bin/psql|PostgreSQLを操作するためのクライアント|
+   |/bin/postgres|PostgreSQLサーバー|
 
-      | ファイル・ディレクトリ | 説明 |
-      |-----|-----|
-      |/var/lib/pgsql/|PostgreSQL の設定やデータ、バックアップファイルが保存されるディレクトリ|
-      |/var/lib/pgsql/data/postgresql.conf|PostgreSQLのメインとなる設定ファイル|
-      |/var/lib/pgsql/data/pg_hba.conf|PostgreSQLのユーザ認証についての設定ファイル|
-      |/bin/createdb|PostgreSQLのデータベースを作成するためのコマンド|
-      |/bin/psql|PostgreSQLを操作するためのクライアント|
-      |/bin/postgres|PostgreSQLサーバー|
+#### 4. サービスの有効化
 
- 4. サービスの有効化
+   ```sh
+   $systemctl enable postgresql
 
-      ```sh
-      $systemctl enable postgresql
+   Created symlink from /etc/systemd/system/multi-user.target.wants/postgresql.service to /usr/lib/systemd/system/postgresql.service.
+   ```
 
-      Created symlink from /etc/systemd/system/multi-user.target.wants/postgresql.service to /usr/lib/systemd/system/postgresql.service.
-      ```
+#### 5. 起動・停止・再起動
 
- 5. 起動・停止・再起動
+   ```sh
+   # 起動
+   $systemctl start postgresql
 
-      ```sh
-      # 起動
-      $systemctl start postgresql
+   # 停止
+   $systemctl stop postgresql
 
-      # 停止
-      $systemctl stop postgresql
+   # 再起動
+   $systemctl restart postgresql
+   ```
 
-      # 再起動
-      $systemctl restart postgresql
-      ```
-
- 6. ユーザー作成
-
-* [参考リンク:ユーザーとパスワードの設定](http://db-study.com/archives/121)
+#### 6. ユーザー作成
   
-    1. postgresのインストール時に postgres というOSユーザーが追加されるのでパスワードを設定
+   1. postgresのインストール時に postgres というOSユーザーが追加されるのでパスワードを設定
 
-         ```sh
-         $passwd postgres
+      ```sh
+      $passwd postgres
 
-         新しいパスワード:<設定パスワード>
-         新しいパスワードを再入力してください:<設定パスワード>
-         ```
+      新しいパスワード:<設定パスワード>
+      新しいパスワードを再入力してください:<設定パスワード>
+      ```
 
-    2. postgresの管理ユーザー(postgres)のパスワード設定
+   2. postgresの管理ユーザー(postgres)のパスワード設定
 
-         ```sh
-         $su - postgres # postgresユーザーにスイッチ
-         -bash-4.2$psql
+      ```sh
+      $su - postgres # postgresユーザーにスイッチ
+      -bash-4.2$psql
 
-         psql (9.2.24)
-         "help" でヘルプを表示します.
+      psql (9.2.24)
+      "help" でヘルプを表示します.
 
-         postgres=#alter role postgres with password '<設定パスワード>';
+      postgres=# ALTER ROLE postgres with password '<設定パスワード>';
 
-         ALTER ROLE
+      ALTER ROLE
 
-         # 一旦出る
-         postgres=#\q 
-         -bash-4.2$exit
+      # 一旦出る
+      postgres=#\q 
+      -bash-4.2$exit
 
-         # postgresを再起動して設定を反映
-         $systemctl restart postgres
-         ```
+      # postgresを再起動して設定を反映
+      $systemctl restart postgres
+      ```
 
-    3. 接続用ユーザーの作成
-    4. データベースの作成
-    5. スキーマの作成
-    6. 外部ホストからの接続設定
-    7. firewalldにpostgres追加
+#### 7. 接続用ユーザーの作成
+
+   ```sh
+   $su - postgres # postgresユーザーにスイッチ
+   -bash-4.2$psql
+   postgres=# CREATE ROLE <接続用ユーザー名> LOGIN;
+
+   CREATE ROLE
+
+   # パスワード設定
+   postgres=# ALTER ROLE <接続用ユーザー名> with password '<設定パスワード>';
+   ```
+
+#### 8. データベースの作成
+
+   ```sh
+   $su - postgres # postgresユーザーにスイッチ
+   -bash-4.2$psql
+   postgres=# CREATE DATABASE <データベース名> OWNER <接続用ユーザー>;
+
+   CREATE DATABASE
+   ```
+
+#### 9. スキーマの作成
+
+   ```sh
+   $su - postgres # postgresユーザーにスイッチ
+   -bash-4.2$psql
+   postgres=# \c <データベース名>
+
+   データベース "<データベース名>" にユーザ"postgres"として接続しました。
+
+   # スキーマ作成
+   stockanalyze=# CREATE SCHEMA <スキーマ名> AUTHORIZATION <接続用ユーザー>;
+
+   CREATE SCHEMA
+   ```
+
+#### 10. 外部ホストからの接続設定
+
+   ```sh
+   $vim /var/lib/pgsql/data/postgresql/conf
+
+   # 59行目付近
+   #listen_addresses = 'localhost'
+   ↓
+   listen_addresses = '*'
+
+   # 63行目付近
+   #port = 5432
+   ↓
+   port = 5432
+
+   # 変更後、postgresqlサービス再起動
+   $systemctl restart postgresql
+   ```
+
+#### 11. firewalldにpostgresql追加
+
+   ```sh
+   $firewall-cmd --add-service=postgresql --permanent
+   $firewall-cmd --reload
+   ```
+
+* 参考リンク
+  
+  * [PostgreSQL 9.2 を CentOS 7 に yum インストールする手順](https://weblabo.oscasierra.net/postgresql92-centos7-install/)
+
+  * [ユーザーとパスワードの設定](http://db-study.com/archives/121)
 
 ## バックアップ＆リストア
 
