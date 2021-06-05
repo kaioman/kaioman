@@ -1,29 +1,64 @@
 # vscode
 
-* VSCodeインストール方法
-  * 日本語化
-* 拡張機能
-  * SFTP
-  * Markdown All in One
-  * Markdown Checkbox
-  * Markdown Preview Enhanced
-  * Markdown Preview Github Styling
-  * Markdownlint
-  * Prettier - Code formatter
-  * Python
-  * Ptyhon Extension Pack
-  * Jupyter
-  * Japanese Language Pack fro Visual Studio Code
-  * Git History
-  * Django
-  * Jinja
-  * Visual Studio IntelliCode
-* VSCode設定
-  * github連携
-  * sftp.json
-  * lauch.json
-  * settings.json
-* ワークスペースについて
-  * ワークスペース追加方法
-* 仮想環境構築
-  * Venv
+## VSCodeインストール方法
+
+* 日本語化
+
+## 拡張機能
+
+* SFTP
+* Markdown All in One
+* Markdown Checkbox
+* Markdown Preview Enhanced
+* Markdown Preview Github Styling
+* Markdownlint
+* Prettier - Code formatter
+* Python
+* Ptyhon Extension Pack
+* Jupyter
+* Japanese Language Pack fro Visual Studio Code
+* Git History
+* Django
+* Jinja
+* Visual Studio IntelliCode
+
+## VSCode設定
+
+### github連携
+
+### sftp.json
+
+### launch.json
+
+### settings.json
+
+* pythonライブラリの場所指定(python.pythonPath)
+* 単体テストファイル設定(python.testing.unittestArgs)
+
+### 改行コード
+
+* シェルスクリプトファイルをVsCodeで編集してLinuxサーバーにアップする場合、改行コードCrLfだとshコマンドでシェルスクリプトファイルを実行時に"そのようなファイルやディレクトリはありません"と表示されることがある
+
+#### 1.拡張機能にcode-eol 2019(Line Endings)を追加
+
+##### インストールボタンをクリック
+
+![code-eol 2019](../05.python/img/code-eol.png)
+
+##### 改行コードが可視化される
+
+![eof-visible](../05.python/img/eof-visible.png)
+
+### ファイルアイコン変更
+
+#### 1.左下の歯車マークからファイルアイコンの変更をクリック
+
+![fileicon-change](../05.python/img/fileicon-change.png)
+
+#### 2.コマンドパレットから任意のファイルアイコンテーマを選択
+
+![fileicon-select](../05.python/img/fileicon-select.png)
+
+## ワークスペース
+
+### ワークスペース追加方法
