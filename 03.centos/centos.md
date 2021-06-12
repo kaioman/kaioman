@@ -10,11 +10,18 @@
 
 ## 追加パッケージ
 
-  1. Vim
+  1. vim
 
   2. etc
 
 ## バックアップ
+
+### DDバックアップ
+
+    ```sh
+    $dd if=/dev/<デバイス名> conv=sync,noerror bs=512 status=progress | gzip -c > /mnt/flash/<バックアップファイル名>
+    #(例) $dd if=/dev/sda1 conv=sync,noerror bs=512 status=progress | gzip -c > /mnt/flash/dd.img.gz
+    ```
 
 ## 定期実行(CronTab)
 
