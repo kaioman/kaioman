@@ -102,3 +102,18 @@
     ```sh
     $pip3 install pandas-datareader
     ```
+
+## 6.psycopg2インストール
+
+### 6-1.環境インストール
+
+    ```sh
+    # postgresql-develインストール
+    $yum install postgresql-devel
+    ```
+
+### 6-2.psycopg2インストール
+
+    ```sh
+    $pip3 install psycopg2
+    ```
