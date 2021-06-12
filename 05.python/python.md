@@ -30,6 +30,34 @@
     $pip3 list -o
     ```
 
+### 4.requiremets.txtによる一括インストール
+
+    ```sh
+    $pip3 install -r requirements.txt
+
+    # requirements.txt書き方(例)
+
+        beautifulsoup4==4.9.3
+        bs4==0.0.1
+        configparser==5.0.2
+        decorator==4.4.2
+        numpy==1.19.5
+        pandas==1.1.5
+        pandas-datareader==0.9.0
+        psycopg2==2.8.6
+        requests==2.25.1
+        six==1.15.0
+        SQLAlchemy==1.4.18
+        xlrd==2.0.1
+        xlwt==1.3.0
+    ```
+
+### 5.現在の環境の設定ファイル書き出し
+
+    ```sh
+    $pip3 freeze > requirements.txt
+    ```
+
 ## 3.仮想環境の作成
 
 ### 1.venv
