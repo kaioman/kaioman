@@ -62,13 +62,14 @@
 * ハマったのでメモ
 * pythonバージョンは3.6
 
-### 1.環境インストール
+### 4-1.環境インストール
 
     ```sh
+    # gcc-gfortran,blas-devel,lapack-devel,freetypeインストール
     $yum install -y gcc-gfortran blas-devel lapack-devel freetype libpng-devel
     ```
 
-### 2.python36-develインストール
+### 4-2.python36-develインストール
 
     ```sh
     # インストールするpython-develのバージョン調査
@@ -81,8 +82,23 @@
     $yum install -y python-devel
     ```
 
-### 3.numpyインストール
+### 4-3.numpyインストール
 
     ```sh
-    $yum install numpy
+    $pip3 install numpy
+    ```
+
+## 5.pandas-datareaderインストール
+
+### 5-1.環境インストール
+
+    ```sh
+    # libxml2-devel,libxslt-develインストール
+    $yum install libxml2-devel libxslt-devel
+    ```
+
+### 5-2.pandas-datareaderインストール
+
+    ```sh
+    $pip3 install pandas-datareader
     ```
