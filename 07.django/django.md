@@ -63,7 +63,7 @@
   1. インストール
 
       ```bash
-      $pip install django==2.2.20
+      (env)$pip install django==3.2.4
       ```
 
       djangoのバージョンはrequirements.txtに記載されているdjangoのバージョンを指定する
@@ -80,15 +80,21 @@
 
   1. /var/www/cgi-binフォルダに対する書込権限付与の為、以下のコマンドでサブグループにrootを追加する
 
-      ```bash
+      ```sh
       $usermod -aG root <ユーザー名>
+      ```
+
+      もしくはcgi-binのグループをwheelに変更する(ユーザーがwheelグループに所属している前提)
+
+      ```sh
+      $chgrp wheel cgi-bin
       ```
 
   2. 確認
 
       ```bash
-      $id kaioman
-      $uid=1000([ユーザー名]) gid=1000([グループ名]) groups=1000[グループ名]),0(root),1001([グループ名])
+      $id <ユーザー名>
+      $uid=1000(<ユーザー名>) gid=1000(<グループ名>) groups=1000<グループ名>),0(root),1001(<グループ名>)
       ```
 
 ### 7. /var/www/cgi-binフォルダのパーミッションを755→775に変更する
@@ -121,7 +127,8 @@
   2. djangoプロジェクト作成
 
       ```sh
-      $django-admin startproject <プロジェクト名>
+      (env)$cd /var/www/cgi-bin
+      (env)$django-admin startproject <プロジェクト名>
       ```
 
       これで/var/wwww/cgi-binにプロジェクトが作成される

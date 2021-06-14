@@ -38,31 +38,31 @@
 
 ## 4.パーミッション
 
-* アクセス件変更
+### 1.アクセス件変更
 
   ```sh
   $chmod <パーミッション> <ファイルorディレクトリ>
   ```
 
-* 所有者変更
+### 2.所有者変更
 
   ```sh
   $chown <[所有者]or[所有者:グループ]> <ファイルorディレクトリ>
   ```
 
-* グループ変更
+### 3.グループ変更
 
   ```sh
   $chgrp <グループ> <ファイルorディレクトリ>
   ```
 
-* パーミッション確認
+### 3.パーミッション確認
 
   ```sh
   $ls -l
   ```
 
-* パーミッションの書き方
+### 4.パーミッションの書き方
 
   ```bash
   drwxr-xr-x
@@ -99,57 +99,77 @@
   | o | その他\(other\) |
   | a | 上の3つすべて\(all\) |
 
-## 5.suの使用を制限する
+## 5.ユーザー
 
-1. /etc/pam.d/su を編集する
+### 1.ユーザーが所属しているグループを確認する
+
+  ```sh
+  $groups <ユーザー名>
+  ```
+
+### 2.ユーザーの所属グループを変更する
+
+  ```sh
+  $usermod -G <グループ名> <ユーザー名>
+  ```
+
+### 3.グループに所属しているユーザーの確認
+
+  ```sh
+  $getent group <ユーザー名>
+  ```
+
+## 6.suの使用を制限する
+
+### 1./etc/pam.d/su を編集する
+
+  ```sh
+  $vim /etc/pam.d/su
+  ```
+
+  #auth～の行をコメントアウト解除
+
+* 変更前
 
     ```sh
-    $vim /etc/pam.d/su
+    # Uncomment the following line to require a user to be in the "wheel" group.
+    #auth            required        pam_wheel.so use_uid
     ```
 
-    #auth～の行をコメントアウト解除
-
-   * 変更前
-
-      ```sh
-      # Uncomment the following line to require a user to be in the "wheel" group.
-      #auth            required        pam_wheel.so use_uid
-      ```
-
-   * 変更後
+* 変更後
   
-      ```sh
-      # Uncomment the following line to require a user to be in the "wheel" group.
-      auth            required        pam_wheel.so use_uid
-      ```
+    ```sh
+    # Uncomment the following line to require a user to be in the "wheel" group.
+    auth            required        pam_wheel.so use_uid
+    ```
 
-2. su許可ユーザーをwheelグループに追加する
+### 2.su許可ユーザーをwheelグループに追加する
 
-   1. /etc/groupを編集する
+#### 1./etc/groupを編集する
 
-      ```sh
-      $vim /etc/group
-      ```
+  ```sh
+  $vim /etc/group
+  ```
 
-   2. su許可ユーザーをwheelグループに追加する
+#### 2./etc/groupのwheelグループにsu許可ユーザーを追加する
 
-      * 編集前
+* 編集前
 
-        ```sh
-        wheel:x:10:
-        ```
+    ```sh
+    wheel:x:10:
+    ```
 
-      * 編集後
+* 編集後
 
-        ```sh
-        wheel:x:10:<su許可ユーザー>
-        ```
+    ```sh
+    wheel:x:10:<su許可ユーザー>
+    ```
 
-        ※複数のユーザーを追加する場合は「,」で区切る
+    ※複数のユーザーを追加する場合は「,」で区切る
 
-## 6.systemctl
+## 7.systemctl
 
-* コマンド群
+### 1.コマンド群
 
   |操作|コマンド|
   |-----|-----|
@@ -164,41 +184,41 @@
   |サービス一覧|systemctl list-unit-files --type=service ${Unit}|
   |設定ファイルの再読込|systemctl deamon-reload ${Unit}|
 
-## 7.yum
+## 8.yum
 
-1. パッケージをインストールする
+### 1.パッケージをインストールする
 
-   * 基本形。インストール途中で確認が入った場合は指定する(y/n)
+* 基本形。インストール途中で確認が入った場合は指定する(y/n)
 
-     ```sh
-     $yum install <パッケージ名>
-     ```
+  ```sh
+  $yum install <パッケージ名>
+  ```
 
-   * インストール途中で行われる確認をすべてyesとする場合
+* インストール途中で行われる確認をすべてyesとする場合
 
-     ```sh
-     $yum -y install <パッケージ名>
-     ```
+  ```sh
+  $yum -y install <パッケージ名>
+  ```
 
-   * 複数のパッケージを一括でインストールする場合  
+* 複数のパッケージを一括でインストールする場合  
 
-     ```sh
-     $yum install <パッケージ名1> <パッケージ名2>
-     ```
+  ```sh
+  $yum install <パッケージ名1> <パッケージ名2>
+  ```
 
-2. パッケージをアンインストールする
+### 2.パッケージをアンインストールする
 
-    ```sh
-    $yum remove <パッケージ名>
-    ```
+  ```sh
+  $yum remove <パッケージ名>
+  ```
 
-3. パッケージを更新する
+### 3.パッケージを更新する
 
-    ```sh
-    $yum update
-    ```
+  ```sh
+  $yum update
+  ```
 
-## 8.シャットダウン・再起動
+## 9.シャットダウン・再起動
 
 1. シャットダウン
 
@@ -212,7 +232,7 @@
     $shutdown -r now
     ```
 
-## 9.NetworkManager
+## 10.NetworkManager
 
 * コマンド群
 
@@ -241,7 +261,7 @@
     |full|the host is connected to a network and has full access to the Internet.|
     |unknown|the connectivity status cannot be found out.|
   
-## 10.ipコマンド
+## 11.ipコマンド
 
 ### ip rule(rule table参照)
 
@@ -304,7 +324,7 @@
   (省略)
   ```
 
-## 11.iwconfig
+## 12.iwconfig
 
 1. インストール
 
