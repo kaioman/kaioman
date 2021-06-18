@@ -106,9 +106,9 @@
 
   ```bash
   $python -m django --version
+  # djangoのバージョンが表示されればOK
+  3.2.4
   ```
-
-#### 3. djangoのバージョンが表示されればOK
 
 ### 6. ユーザーのサブグループにrootを追加する
 
