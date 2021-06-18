@@ -4,131 +4,165 @@
 
 ### 1. 必要モジュールインストール
 
-  1. インストール
+#### 1. httpd, httpd-develインストール
 
-      ```bash
-      $yum install httpd httpd-devel mod_wsgi
-      ```
+  ```bash
+  $yum install httpd httpd-devel mod_wsgi
+  ```
+
+#### 2. mod_wsgiインストール
+
+  ```bash
+  (env)$pip install mod_wsgi
+  ```
 
 ### 2. Apache用設定ファイル作成
 
-  1. 設定ファイル作成
+#### 1. mod_wsgi*.soの場所を検索
 
-      ↓以下、テスト用 /etc/httpd/conf.d/python.conf
+  ```bash
+  $find <仮想環境パス>/ -name 'mod_wsgi*.so'
+  # mod_wsgi*.soの場所が表示される
+  <仮想環境パス>/lib/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-arm-linux-gnueabi.so
+  ```
 
-      ```sh
-      # mod_wsgiの読み込み
-      LoadModule wsgi_module modules/mod_wsgi.so
+#### 2. 設定ファイル作成
 
-      # /test というリクエストに対して、/var/www/cgi-bin/hello.py 返す。
-      WSGIScriptAlias /test /var/www/cgi-bin/hello.py
-      ```
+  ↓以下、テスト用 /etc/httpd/conf.d/python.conf
+
+  ```sh
+  # mod_wsgiの読み込み
+  LoadModule wsgi_module <mod_wsgi*.soの場所>
+
+  # /test というリクエストに対して、/var/www/cgi-bin/hello.py 返す。
+  WSGIScriptAlias /test /var/www/cgi-bin/hello.py
+  ```
+  
+  hello.pyの内容
+
+  ```sh
+  def application(environ, start_response):
+      status = '200 OK'
+      output = 'Hello World!'
+      output = bytes(output, 'utf-8')
+
+      response_headers = [('Content-type', 'text/html'),
+                          ('Content-Length', str(len(output)))]
+      start_response(status, response_headers)
+      return [output]
+  ```
 
 ### 3. Apache停止→起動
 
-  1. Apacheの停止・再起動
+#### 1. Apacheの停止・再起動
 
-      ```bash
-      $sudo systemctl stop httpd.service
-      $sudo systemctl start httpd.service
-      ```
+  ```bash
+  $sudo systemctl stop httpd.service
+  $sudo systemctl start httpd.service
+  ```
 
-      * 再起動でも可
+  再起動でも可
 
-        ```bash
-        $sudo systemctl restart httpd.service
-        ```
+  ```bash
+  $sudo systemctl restart httpd.service
+  ```
 
-  2. Apache動作確認
+#### 2. Apache動作確認
 
-      ```bash
-      $sudo systemctl status httpd.service
-      ```
+  ```bash
+  $sudo systemctl status httpd.service
+  ```
 
-  3. ブラウザで以下のURLにアクセスし"Hello World!"が表示されることを確認する
+#### 3. ブラウザで以下のURLにアクセスし"Hello World!"が表示されることを確認する
 
-      [http://192.168.3.22/test](http://192.168.3.22/test)
+  [http://192.168.3.22/test](http://192.168.3.22/test)
+
+  もしくは以下のコマンドで確認
+  
+  ```sh
+  $curl localhost/test
+  ```
 
 ### 4. 仮想環境をアクティベート
 
-  1. アクティベート
+#### 1. アクティベート
 
-      ```bash
-      $cd <仮想環境のディレクトリ>
-      $. bin/activate
-      ```
+  ```bash
+  $cd <仮想環境のディレクトリ>
+  $. bin/activate
+  ```
 
 ### 5. 仮想環境にdjangoをインストールする
 
-  1. インストール
+#### 1. インストール
 
-      ```bash
-      (env)$pip install django==3.2.4
-      ```
+  ```bash
+  (env)$pip install django==3.2.4
+  ```
 
-      djangoのバージョンはrequirements.txtに記載されているdjangoのバージョンを指定する
+  djangoのバージョンはrequirements.txtに記載されているdjangoのバージョンを指定する
 
-  2. djangoのバージョン確認
+#### 2. djangoのバージョン確認
 
-      ```bash
-      $python -m django --version
-      ```
+  ```bash
+  $python -m django --version
+  ```
 
-  3. djangoのバージョンが表示されればOK
+#### 3. djangoのバージョンが表示されればOK
 
 ### 6. ユーザーのサブグループにrootを追加する
 
-  1. /var/www/cgi-binフォルダに対する書込権限付与の為、以下のコマンドでサブグループにrootを追加する
+#### 1. /var/www/cgi-binフォルダに対する書込権限付与の為、以下のコマンドでサブグループにrootを追加する
 
-      ```sh
-      $usermod -aG root <ユーザー名>
-      ```
+  ```sh
+  $usermod -aG root <ユーザー名>
+  ```
 
-      もしくはcgi-binのグループをwheelに変更する(ユーザーがwheelグループに所属している前提)
+  もしくはcgi-binのグループをwheelに変更する(ユーザーがwheelグループに所属している前提)
 
-      ```sh
-      $chgrp wheel cgi-bin
-      ```
+  ```sh
+  $chgrp wheel cgi-bin
+  ```
 
-  2. 確認
+#### 2. ユーザーグループ変更後確認
 
-      ```bash
-      $id <ユーザー名>
-      $uid=1000(<ユーザー名>) gid=1000(<グループ名>) groups=1000<グループ名>),0(root),1001(<グループ名>)
-      ```
+  ```bash
+  $id <ユーザー名>
+  $uid=1000(<ユーザー名>) gid=1000(<グループ名>) groups=1000<グループ名>),0(root),1001(<グループ名>)
+  ```
 
 ### 7. /var/www/cgi-binフォルダのパーミッションを755→775に変更する
 
-  1. パーミッション変更
+#### 1. パーミッション変更
   
-      ```bash
-      $sudo su -
-      $cd /var/www
-      $chmod 775 cgi-bin
-      ```
+  ```bash
+  $sudo su -
+  $cd /var/www
+  $chmod 775 cgi-bin
+  ```
 
-  2. 確認
+#### 2. パーミッション変更後確認
 
-      ```bash
-      $ls -l
-      drwxrwxr-x 2 root root 4096  4月 24 16:16 cgi-bin
-      ```
+  ```bash
+  $ls -l
+  drwxrwxr-x 2 root root 4096  4月 24 16:16 cgi-bin
+  ```
 
 ### 8. 仮想環境のdjango-adminでプロジェクトを作成(動作テスト用)
 
-  1. 仮想環境アクティベート
+#### 1. 仮想環境アクティベート
 
-      ```sh
-      $su - <ユーザー名> 
-      $cd <仮想環境のディレクトリ> 
-      $. bin/activate 
-      ```
+  ```sh
+  $su - <ユーザー名> 
+  $cd <仮想環境のディレクトリ> 
+  $. bin/activate 
+  ```
 
-  2. djangoプロジェクト作成
+#### 2. djangoプロジェクト作成
 
-      ```sh
-      (env)$cd /var/www/cgi-bin
-      (env)$django-admin startproject <プロジェクト名>
-      ```
+  ```sh
+  (env)$cd /var/www/cgi-bin
+  (env)$django-admin startproject <プロジェクト名>
+  ```
 
-      これで/var/wwww/cgi-binにプロジェクトが作成される
+  これで/var/wwww/cgi-binにプロジェクトが作成される
