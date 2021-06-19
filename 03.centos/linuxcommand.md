@@ -261,7 +261,7 @@
     |full|the host is connected to a network and has full access to the Internet.|
     |unknown|the connectivity status cannot be found out.|
   
-## 11.ipコマンド
+## 11.ip
 
 ### ip rule(rule table参照)
 
@@ -347,3 +347,27 @@
       ```
 
     ※ただし、再起動後に設定が元に戻るので恒久的に変更したい場合は/usr/local/sbin/<ファイル名>.shに仕込んでおく
+
+## 13.cat
+
+  ファイルの閲覧を行う
+
+  ```sh
+  $cat <ファイルパス>
+  ```
+
+## 14.less
+
+  ファイルの内容を1画面ごとに閲覧する
+
+  ```sh
+  $less <ファイルパス>
+  ```
+
+## 15.curl
+
+  Webサーバーからファイルのダウンロードを行う
+
+  ```sh
+  $curl <ターゲットURL>
+  ```
