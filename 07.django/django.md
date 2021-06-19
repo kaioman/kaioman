@@ -166,3 +166,90 @@
   ```
 
   これで/var/wwww/cgi-binにプロジェクトが作成される
+
+#### 3. Apache設定ファイル修正
+
+  ```sh
+  $vim /etc/httpd/conf.d/python.conf
+
+  # mod_wsgiの読み込み
+  LoadModule wsgi_module /home/stockerbastard/stockGetter/env/lib/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-arm-linux-gnueabi.so
+  
+  # WSGIPythonHome,WSGIPythonPathの設定
+  # <注意>ここで指定されているディレクトリはApacheユーザーから参照可能である必要がある
+  WSGIPythonHome /home/stockerbastard/stockGetter/env
+  WSGIPythonPath /var/www/cgi-bin/test_proj:/home/stockerbastard/stockGetter/env/lib/python3.6/site-packages
+  
+  # /test というリクエストに対して、/var/www/cgi-bin/hello.py 返す。
+  WSGIScriptAlias /test /var/www/cgi-bin/hello.py
+  # /test_django というリクエストに対して、/var/www/cgi-bin/test_proj/test_proj/wsgi.py 返す。
+  WSGIScriptAlias /test_proj /var/www/cgi-bin/test_proj/test_proj/wsgi.py
+  
+  # /var/www/cgi-bin/test_proj/test_projのアクセス制限を設定
+  <Directory /var/www/cgi-bin/test_proj/test_proj>
+    <Files wsgi.py>
+      Require all granted
+    </Files>
+  </Directory>
+  ```
+
+  上記パスにホームディレクトリが含まれている場合、初期状態ではApacheユーザーから参照ができない為、chmodで755をにパーミッションを変更
+
+  ```sh
+  $chmod 755 <ホームディレクトリ>
+
+  # 上記例では以下のコマンドを実行
+  $chmod 755 stockerbastard
+  ```
+
+#### 4. wsgi.py修正
+
+  ```sh
+  $vim /var/www/cgi-bin/test_proj/test_proj/wsgi.py
+
+  import os
+  import sys
+ 
+  from django.core.wsgi import get_wsgi_application
+ 
+  sys.path.append('/var/www/cgi-bin/test_proj')
+  sys.path.append('/var/www/cgi-bin/test_proj/test_proj')
+ 
+  os.environ.setdefault("DJANGO_SETTINGS_MODULE","test_proj.settings")
+ 
+  application = get_wsgi_application()
+  ```
+
+#### 5. settings.py修正
+
+  ```sh
+  $vim /var/www/cgi-bin/test_proj/test_proj/settings.py
+
+  # ALLOWED_HOST変更
+  ALLOWED_HOSTS = []
+  ↓
+  ALLOWED_HOSTS = ['127.0.0.1','localhost',<ホストIPアドレス>]
+
+  # DATABASESコメントアウト(テストの場合sqliteは必要ないので)
+  DATABASES = {
+  #    'default': {
+  #        'ENGINE': 'django.db.backends.sqlite3',
+  #        'NAME': BASE_DIR / 'db.sqlite3',
+  #    }
+  }
+  ```
+
+#### 6. httpd再起動
+
+  ```sh
+  $systemctl restart httpd
+  ```
+
+#### 7. curlで結果確認
+
+  ```sh
+  $curl localhost/test_proj
+
+  # Hello Djangoと表示されればOK
+  Hello Django
+  ```
