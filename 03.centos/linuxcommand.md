@@ -356,6 +356,8 @@
   $cat <ファイルパス>
   ```
 
+  [【Linuxコマンド集】3分でわかるcat コマンドの使い方](https://eng-entrance.com/linux_command_cat#Linux_cat)
+
 ## 14.less
 
   ファイルの内容を1画面ごとに閲覧する
@@ -364,6 +366,8 @@
   $less <ファイルパス>
   ```
 
+  [【 less 】コマンド（基本編）――メッセージやテキストファイルを1画面ずつ表示する](https://www.atmarkit.co.jp/ait/articles/1702/09/news031.html)
+
 ## 15.curl
 
   Webサーバーからファイルのダウンロードを行う
@@ -371,3 +375,5 @@
   ```sh
   $curl <ターゲットURL>
   ```
+
+  [curlコマンドの使い方](https://qiita.com/hana_shin/items/949cdbe6325c6eee730f)
