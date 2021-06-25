@@ -46,8 +46,8 @@
 
 1. [Share]→[Visibility]から Public を選択
 
-   ![SharedSetting](06.git/../img/github_to_gitbook_05.png)
+   ![SharedSetting](img/github_to_gitbook_05.png)
 
 2. Shareable Linkにて公開用のURLが確認できる
 
-   ![ShareableLink](06.git/../img/github_to_gitbook_06.png)
+   ![ShareableLink](img/github_to_gitbook_06.png)
