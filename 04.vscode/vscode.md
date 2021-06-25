@@ -43,21 +43,21 @@
 
 ##### インストールボタンをクリック
 
-![code-eol 2019](../04.vsCode/img/code-eol.png)
+![code-eol 2019](img/code-eol.png)
 
 ##### 改行コードが可視化される
 
-![eof-visible](../04.vsCode/img/eof-visible.png)
+![eof-visible](img/eof-visible.png)
 
 ### ファイルアイコン変更
 
 #### 1.左下の歯車マークからファイルアイコンの変更をクリック
 
-![fileicon-change](../04.vsCode/img/fileicon-change.png)
+![fileicon-change](img/fileicon-change.png)
 
 #### 2.コマンドパレットから任意のファイルアイコンテーマを選択
 
-![fileicon-select](../04.vsCode/img/fileicon-select.png)
+![fileicon-select](img/fileicon-select.png)
 
 ## ワークスペース
 
@@ -65,12 +65,12 @@
 
 #### 1.[ファイル]-[ワークスペースにフォルダーを追加]の順に選択する
 
-![workspace-in-folder-add](../04.vsCode/img/workspace_folder_add.png)
+![workspace-in-folder-add](img/workspace_folder_add.png)
 
 #### 2.ワークスペースとして追加するフォルダを選択する
 
-![workspace-folder-select](../04.vsCode/img/workspace-folder-select.png)
+![workspace-folder-select](img/workspace-folder-select.png)
 
 #### 3.ワークスペースとして選択されたフォルダの直下にworkspace.code-workspaceというファイルが作成される
 
-![workspace-createfile](/04.vsCode/img/workspace-createfile.png)
+![workspace-createfile](img/workspace-createfile.png)
