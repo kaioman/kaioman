@@ -32,12 +32,12 @@
 
 5. リンクするリポジトリをmasterに限定するか指定
 
-   「Sync "master" branch only」を指定
+   *「Sync "master" branch only」を指定
    ![linkRepo](img/github_to_gitbook_02.png)
 
 6. コンテンツの編集元を指定
 
-   「I write my content on GitHub」を指定
+   *「I write my content on GitHub」を指定
    ![linkRepo](img/github_to_gitbook_04.png)
 
 7. Go Liveをクリックしてgithubのリポジトリの内容が表示されることを確認する
