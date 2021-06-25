@@ -43,22 +43,34 @@
 
 ##### インストールボタンをクリック
 
-![code-eol 2019](../05.python/img/code-eol.png)
+![code-eol 2019](../04.vsCode/img/code-eol.png)
 
 ##### 改行コードが可視化される
 
-![eof-visible](../05.python/img/eof-visible.png)
+![eof-visible](../04.vsCode/img/eof-visible.png)
 
 ### ファイルアイコン変更
 
 #### 1.左下の歯車マークからファイルアイコンの変更をクリック
 
-![fileicon-change](../05.python/img/fileicon-change.png)
+![fileicon-change](../04.vsCode/img/fileicon-change.png)
 
 #### 2.コマンドパレットから任意のファイルアイコンテーマを選択
 
-![fileicon-select](../05.python/img/fileicon-select.png)
+![fileicon-select](../04.vsCode/img/fileicon-select.png)
 
 ## ワークスペース
 
 ### ワークスペース追加方法
+
+#### 1.[ファイル]-[ワークスペースにフォルダーを追加]の順に選択する
+
+![workspace-in-folder-add](../04.vsCode/img/workspace_folder_add.png)
+
+#### 2.ワークスペースとして追加するフォルダを選択する
+
+![workspace-folder-select](../04.vsCode/img/workspace-folder-select.png)
+
+#### 3.ワークスペースとして選択されたフォルダの直下にworkspace.code-workspaceというファイルが作成される
+
+![workspace-createfile](/04.vsCode/img/workspace-createfile.png)

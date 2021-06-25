@@ -253,3 +253,21 @@
   # Hello Djangoと表示されればOK
   Hello Django
   ```
+
+## マイグレーション
+
+### 1.マイグレーションファイルの作成
+
+  *事前にmodels.pyでモデルを定義しておく
+
+  ```sh
+  $python manage.py makemigrations
+  ```
+
+### 2.マイグレーションの実行
+
+  *下記コマンドの実行により、対象のデータベースにモデル定義に従ってテーブルが作成される
+
+  ```sh
+  $python manage.py migrate
+  ```
