@@ -51,12 +51,12 @@
 
 ### 4.起動直後
 
-#### 1.初期ログイン
+#### 4-1.初期ログイン
 
    centos-rpi3 login:root
    Password:centos
 
-#### 2.rootパスワード変更
+#### 4-2.rootパスワード変更
 
    ```sh
    $passwd
@@ -65,7 +65,7 @@
    Retype new password:<変更後のパスワード入力>
    ```
 
-#### 3.キーボード設定
+#### 4-3.キーボード設定
 
    1. 109日本語レイアウトのキーボード設定
 
@@ -87,7 +87,7 @@
       X11 Options: terminate:ctrl_alt_bksp
       ```
 
-#### 4.タイムゾーン設定
+#### 4-4.タイムゾーン設定
 
    ```sh
    timedatectl set-timezone Asia/Tokyo
@@ -95,15 +95,15 @@
 
 ### 5.起動後のネットワーク設定
 
-#### 1.ネットワーク設定ファイルの変更
+#### 5-1.ネットワーク設定ファイルの変更
 
-   1. 以下のファイルをviで開く
+##### 5-1-1. 以下のファイルをviで開く
 
-      ```sh
-      $vi /etc/sysconfig/network-scripts/ifcfg-eth0
-      ```
+   ```sh
+   $vi /etc/sysconfig/network-scripts/ifcfg-eth0
+   ```
 
-#### 2.ifcfg-eth0に以下の内容を追記する
+#### 5-2.ifcfg-eth0に以下の内容を追記する
 
    ```sh
    TYPE="Ethernet"
@@ -123,7 +123,7 @@
 
    [esc] → wq!で保存
 
-#### 3.ネットワーク再起動
+#### 5-3.ネットワーク再起動
 
    ```sh
    $nmcli connection down eth0; nmcli connection up eth0
@@ -134,7 +134,7 @@
 
 ### 6.Rootパーテーションのサイズ拡張
 
-#### 1.現在の状態を確認(1.1Gしか確保できていない)
+#### 6-1.現在の状態を確認(1.1Gしか確保できていない)
 
    ```sh
    $df -h
@@ -149,19 +149,19 @@
    tmpfs             93M     0   93M    0% /run/user/0
    ```
 
-#### 2.拡張前にシェルのLANG設定を変更する
+#### 6-2.拡張前にシェルのLANG設定を変更する
 
    ```sh
    $export LANG="en_US.UTF-8"
    ```
 
-#### 3.変更したら以下のコマンドを実行
+#### 6-3.変更したら以下のコマンドを実行
 
    ```sh
    $/usr/local/bin/rootfs-expand
    ```
 
-#### 4.実行後の確認
+#### 6-4.実行後の確認
 
    ```sh
    $df -h
@@ -176,13 +176,13 @@
    tmpfs            93M     0   93M   0% /run/user/0
    ```
 
-#### 5.LANG設定を元に戻す
+#### 6-5.LANG設定を元に戻す
 
    ```sh
    $export LANG="ja_JP.UTF-8"
    ```
 
-#### 6.念のためrebootして確認
+#### 6-6.念のためrebootして確認
 
    ```sh
    $reboot
@@ -190,7 +190,7 @@
 
 ### 7.yumを使用可能にする
 
-#### 1. /etc/yum.repo.d/CentOS-armhfp-kernel.repoを編集する
+#### 7-1. /etc/yum.repo.d/CentOS-armhfp-kernel.repoを編集する
 
    ```sh
    $cd /etc/yum.repos.d/
@@ -210,7 +210,7 @@
          file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-Arm32
    ```
 
-#### 2. /etc/yum.repo.d/kernel.repoを編集する
+#### 7-2. /etc/yum.repo.d/kernel.repoを編集する
 
    ```sh
    $cd /etc/yum.repos.d/
@@ -240,13 +240,13 @@
 
 ### 9.ホスト名変更
 
-#### 1. ホスト名変更
+#### 9-1. ホスト名変更
 
    ```sh
    $hostnamectl set-hostname stockman.srv.world
    ```
 
-#### 2. hostsにホストを追加
+#### 9-2. hostsにホストを追加
 
    ```sh
    $vim /etc/hosts
@@ -258,19 +258,19 @@
 
 ### 10.epelをリポジトリに追加
 
-#### 1.リポジトリの優先順位を設定するプラグインをインストール
+#### 10-1.リポジトリの優先順位を設定するプラグインをインストール
 
    ```sh
    $yum -y install yum-plugin-priorities
    ```
 
-#### 2.標準リポジトリを最優先にする
+#### 10-2.標準リポジトリを最優先にする
 
    ```sh
    $sed -i -e "s/\]$/\]\npriority=1/g" /etc/yum.repos.d/CentOS-Base.repo
    ```
 
-#### 3.epelをリポジトリに追加
+#### 10-3.epelをリポジトリに追加
 
    ```sh
    $cat > /etc/yum.repos.d/epel.repo << EOF
@@ -285,7 +285,7 @@
 
 ### 11.パッケージインストール
 
-#### 1.make, gcc, gcc-c++
+#### 11-1.make, gcc, gcc-c++
 
    ソースコンパイルを行う
 
@@ -293,7 +293,7 @@
    $yum install make gcc gcc-c++
    ```
 
-#### 2.bash-completion
+#### 11-2.bash-completion
 
    Tabキー補完を強化する
 
@@ -301,15 +301,15 @@
    $yum install bash-completion
    ```
 
-#### 3.NTPサーバーの設定(NTPd)
+#### 11-3.NTPサーバーの設定(NTPd)
 
-##### 1.NTPdインストール
+##### 11-3-1.NTPdインストール
 
    ```sh
    $yum -y install ntp
    ```
 
-##### 2.設定
+##### 11-3-2.設定
 
    ```sh
    $vim /etc/ntp.conf
@@ -328,21 +328,21 @@
    server ntp2.jst.mfeed.ad.jp iburst
    ```
 
-##### 3.起動と自動起動登録
+##### 11-3-3.起動と自動起動登録
 
    ```sh
    $systemctl start ntpd
    $systemctl enable ntpd
    ```
 
-##### 4.ファイアーウォール設定
+##### 11-3-4.ファイアーウォール設定
 
    ```sh
    $firewall-cmd --add-service=ntp --permanent
    $firewall-cmd --reload
    ```
 
-##### 5.動作確認
+##### 11-3-5.動作確認
 
    ```sh
    $ntpq -p
@@ -848,82 +848,82 @@
 
 ### 16.vsftpdインストール
 
-   1. vsftpdインストール
+#### 16-1. vsftpdインストール
 
-      ```sh
-      $yum -y install vsftpd
-      ```
+   ```sh
+   $yum -y install vsftpd
+   ```
 
-   2. 設定ファイル変更
+#### 16-2. 設定ファイル変更
 
-      ```sh
-      # 12行目：匿名ログイン禁止
-      anonymous_enable=NO
+   ```sh
+   # 12行目：匿名ログイン禁止
+   anonymous_enable=NO
 
-      # 82,83行目：コメント解除 ( アスキーモードでの転送を許可 )
-      ascii_upload_enable=YES
-      ascii_download_enable=YES
-      
-      # 100,101行目：コメント解除 ( chroot有効 )
-      chroot_local_user=YES
-      chroot_list_enable=YES
-      
-      # 103行目：コメント解除 ( chroot リストファイル指定 )
-      chroot_list_file=/etc/vsftpd/chroot_list
-      
-      # 109行目：コメント解除 ( ディレクトリごと一括での転送有効 )
-      ls_recurse_enable=YES
-      
-      # 114行目：変更 ( IPv4をリスンする )
-      listen=YES
-      
-      # 123行目：変更 ( もし不要なら IPv6 はリスンしない )
-      listen_ipv6=NO
-      
-      # 最終行へ追記
-      # ルートディレクトリ指定 (指定しない場合はホームディレクトリがルートディレクトリとなる)
-      local_root=public_html
-      
-      # ローカルタイムを使う
-      use_localtime=YES
-      
-      # seccomp filter をオフにする ( ログインに失敗する場合はオフにする )
-      seccomp_sandbox=NO
-      ```
+   # 82,83行目：コメント解除 ( アスキーモードでの転送を許可 )
+   ascii_upload_enable=YES
+   ascii_download_enable=YES
+   
+   # 100,101行目：コメント解除 ( chroot有効 )
+   chroot_local_user=YES
+   chroot_list_enable=YES
+   
+   # 103行目：コメント解除 ( chroot リストファイル指定 )
+   chroot_list_file=/etc/vsftpd/chroot_list
+   
+   # 109行目：コメント解除 ( ディレクトリごと一括での転送有効 )
+   ls_recurse_enable=YES
+   
+   # 114行目：変更 ( IPv4をリスンする )
+   listen=YES
+   
+   # 123行目：変更 ( もし不要なら IPv6 はリスンしない )
+   listen_ipv6=NO
+   
+   # 最終行へ追記
+   # ルートディレクトリ指定 (指定しない場合はホームディレクトリがルートディレクトリとなる)
+   local_root=public_html
+   
+   # ローカルタイムを使う
+   use_localtime=YES
+   
+   # seccomp filter をオフにする ( ログインに失敗する場合はオフにする )
+   seccomp_sandbox=NO
+   ```
 
-   3. chrootを適用しない(上層へのcdを許可する)ユーザーを追加する
+#### 16-3. chrootを適用しない(上層へのcdを許可する)ユーザーを追加する
 
-      ```sh
-      $vim /etc/vsftpd/chroot_list
-      ```
+   ```sh
+   $vim /etc/vsftpd/chroot_list
+   ```
 
-      ```sh
-      [ユーザー名]
-      ```
+   ```sh
+   [ユーザー名]
+   ```
 
-   4. サービス起動とサービス自動起動有効化
+#### 16-4. サービス起動とサービス自動起動有効化
 
-      ```sh
-      $systemctl start vsftpd
-      $systemctl enable vsftpd
-      ```
+   ```sh
+   $systemctl start vsftpd
+   $systemctl enable vsftpd
+   ```
 
-   5. ファイアウォール設定
+#### 16-5. ファイアウォール設定
 
-      ```sh
-      $firewall-cmd --add-service=ftp --permanent
-      $firewall-cmd --reload
-      ```
+   ```sh
+   $firewall-cmd --add-service=ftp --permanent
+   $firewall-cmd --reload
+   ```
 
 ### 17.monitorixインストール
 
-#### 1. monitorixインストール
+#### 17-1. monitorixインストール
 
    ```sh
    $yum --enablerepo=epel -y install monitorix
    ```
 
-#### 2. 設定ファイル変更
+#### 17-2. 設定ファイル変更
 
    ```sh
    # 6行目：好みのタイトルに変更
@@ -951,29 +951,29 @@
       hosts_allow = 192.168.3.0/24 # 接続許可端末のネットワークアドレス
    ```
 
-   3. サービス起動とサービス自動起動有効化
+#### 17-3. サービス起動とサービス自動起動有効化
 
-      ```sh
-      $systemctl start monitorix
-      $systemctl enable monitorix
-      ```
+   ```sh
+   $systemctl start monitorix
+   $systemctl enable monitorix
+   ```
 
-   4. ファイアウォール設定
+#### 17-4. ファイアウォール設定
 
-      ```sh
-      $firewall-cmd --add-port=8080/tcp --permanent
-      $firewall-cmd --reload
-      ```
+   ```sh
+   $firewall-cmd --add-port=8080/tcp --permanent
+   $firewall-cmd --reload
+   ```
 
-   5. ブラウザにて接続確認
+#### 17-5. ブラウザにて接続確認
 
-      以下のURLにアクセスしてmonitorixにアクセスできるか確認する
+   以下のURLにアクセスしてmonitorixにアクセスできるか確認する
 
-      http://[ホスト名]:8080/monitorix
+   http://[ホスト名]:8080/monitorix
 
 ### 18.sshセキュリティ設定
 
-#### 1.rootログイン禁止
+#### 18-1.rootログイン禁止
 
    1. sshd_config設定変更
 
@@ -986,7 +986,7 @@
       PermitRottLogin no
       ```
 
-#### 2.待ち受けポート変更
+#### 18-2.待ち受けポート変更
 
    1. lsofインストール
 
@@ -1068,7 +1068,7 @@
 
 ### 19.postgresインストール
 
-#### 1. yumでpostgres(9.2.24)をインストール
+#### 19-1. yumでpostgres(9.2.24)をインストール
 
    ```sh
    $yum -y install postgresql-server   
@@ -1079,7 +1079,7 @@
    postgres (PostgreSQL) 9.2.24
    ```
 
-#### 2. データベース初期化
+#### 19-2. データベース初期化
 
    ```sh
    $postgresql-setup initdb
@@ -1087,7 +1087,7 @@
    Initializing database ... OK
    ```
 
-#### 3. インストールファイル
+#### 19-3. インストールファイル
 
    | ファイル・ディレクトリ | 説明 |
    |-----|-----|
@@ -1098,7 +1098,7 @@
    |/bin/psql|PostgreSQLを操作するためのクライアント|
    |/bin/postgres|PostgreSQLサーバー|
 
-#### 4. サービスの有効化
+#### 19-4. サービスの有効化
 
    ```sh
    $systemctl enable postgresql
@@ -1106,7 +1106,7 @@
    Created symlink from /etc/systemd/system/multi-user.target.wants/postgresql.service to /usr/lib/systemd/system/postgresql.service.
    ```
 
-#### 5. 起動・停止・再起動
+#### 19-5. 起動・停止・再起動
 
    ```sh
    # 起動
@@ -1119,7 +1119,7 @@
    $systemctl restart postgresql
    ```
 
-#### 6. ユーザー作成
+#### 19-6. ユーザー作成
   
    1. postgresのインストール時に postgres というOSユーザーが追加されるのでパスワードを設定
 
@@ -1151,7 +1151,7 @@
       $systemctl restart postgres
       ```
 
-#### 7. 接続用ユーザーの作成
+#### 19-7. 接続用ユーザーの作成
 
    ```sh
    $su - postgres # postgresユーザーにスイッチ
@@ -1164,7 +1164,7 @@
    postgres=# ALTER ROLE <接続用ユーザー名> with password '<設定パスワード>';
    ```
 
-#### 8. データベースの作成
+#### 19-8. データベースの作成
 
    ```sh
    $su - postgres # postgresユーザーにスイッチ
@@ -1174,7 +1174,7 @@
    CREATE DATABASE
    ```
 
-#### 9. スキーマの作成
+#### 19-9. スキーマの作成
 
    ```sh
    $su - postgres # postgresユーザーにスイッチ
@@ -1189,7 +1189,7 @@
    CREATE SCHEMA
    ```
 
-#### 10. 外部ホストからの接続設定
+#### 19-10. 外部ホストからの接続設定
 
    ```sh
    $vim /var/lib/pgsql/data/postgresql/conf
@@ -1208,7 +1208,7 @@
    $systemctl restart postgresql
    ```
 
-#### 11. firewalldにpostgresql追加
+#### 19-11. firewalldにpostgresql追加
 
    ```sh
    $firewall-cmd --add-service=postgresql --permanent
