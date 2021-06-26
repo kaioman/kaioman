@@ -42,13 +42,13 @@
 
 #### 1.拡張機能にcode-eol 2019(Line Endings)を追加
 
-1. インストールボタンをクリック
+##### 1.インストールボタンをクリック
 
-    ![code-eol2019](img/code-eol.png)
+![code-eol2019](img/code-eol.png)
 
-2. 改行コードが可視化される
+#### 2.改行コードが可視化される
 
-    ![eof-visible](img/eof-visible.png)
+![eof-visible](img/eof-visible.png)
 
 ### ファイルアイコン変更
 
