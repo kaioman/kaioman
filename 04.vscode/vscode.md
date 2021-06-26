@@ -32,8 +32,9 @@
 
 ### settings.json
 
-* pythonライブラリの場所指定(python.pythonPath)
-* 単体テストファイル設定(python.testing.unittestArgs)
+#### pythonライブラリの場所指定(python.pythonPath)
+
+#### 単体テストファイル設定(python.testing.unittestArgs)
 
 ### 改行コード
 
