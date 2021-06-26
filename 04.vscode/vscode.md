@@ -46,7 +46,7 @@
 
 ![code-eol2019](img/code-eol.png)
 
-#### 2.改行コードが可視化される
+##### 2.改行コードが可視化される
 
 ![eof-visible](img/eof-visible.png)
 
