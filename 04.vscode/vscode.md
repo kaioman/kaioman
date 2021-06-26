@@ -4,7 +4,7 @@
 
 ### 1.インストールボタンをクリック
 
-![code-eol2019](img/code-eol.png)
+    ![](img/code-eol.png)
 
 ### 2.改行コードが可視化される
 
