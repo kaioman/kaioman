@@ -4,7 +4,8 @@
 
 ### 1.インストールボタンをクリック
 
-![A](img/code-eol.png)  {.left}
+AAAA  
+![A](img/code-eol.png)
 
 ### 2.改行コードが可視化される
 
