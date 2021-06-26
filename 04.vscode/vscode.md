@@ -44,10 +44,12 @@
 
 ##### インストールボタンをクリック
 
+{: align="left"}
 ![code-eol 2019](img/code-eol.png)
 
 ##### 改行コードが可視化される
 
+{: align="left"}
 ![eof-visible](img/eof-visible.png)
 
 ### ファイルアイコン変更
