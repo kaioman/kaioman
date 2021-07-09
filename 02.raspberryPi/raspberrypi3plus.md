@@ -53,8 +53,10 @@
 
 #### 4-1.初期ログイン
 
+   ```sh
    centos-rpi3 login:root
    Password:centos
+   ```
 
 #### 4-2.rootパスワード変更
 
