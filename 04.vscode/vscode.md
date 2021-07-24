@@ -75,3 +75,25 @@
 #### 3.ワークスペースとして選択されたフォルダの直下にworkspace.code-workspaceというファイルが作成される
 
 ![workspace-createfile](img/workspace-createfile.png)
+
+## git除外設定
+
+### 1.ワークスペース直下に.gitignoreという名前のファイルを新規作成する
+
+### 2.除外するファイル、フォルダを.gitignoreに記述する
+
+```sh
+CodeList/data_j.xls
+log/
+Lib/__pycache__
+Model/__pycache__
+```
+
+### 3.ファイルが除外されない場合はキャッシュを削除する
+
+```sh
+# ファイルの場合
+(projectDirectory)/git rm --cache <対象ファイル>
+# ディレクトリの場合
+(projectDirectory)/git rm -r --cache <対象ディレクトリ>
+```
