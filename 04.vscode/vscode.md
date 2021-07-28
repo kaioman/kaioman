@@ -97,3 +97,31 @@ Model/__pycache__
 # ディレクトリの場合
 (projectDirectory)/git rm -r --cache <対象ディレクトリ>
 ```
+
+## ブランチ作成
+
+### 1.新しい分岐の作成
+
+![new-branch-create](img/new-branch-create.png)
+
+### 2.ブランチ名を入力
+
+![new-branch-inputname](img/new-branch-inputname.png)
+
+## ブランチマージ
+
+### 1.チェックアウト先をmainに変更する
+
+![checkout-change](img/main-branch-select.png)
+
+### 2.コマンドパレットにてGit:Mergeを選択(Ctrl+Shift+Pでコマンドパレット表示)
+
+![brancd-merge-select](img/branch-merge-select.png)
+
+### 3.マージ対象となるリポジトリを選択
+
+![merge-repo-select](img/merge-repo-select.png)
+
+### 4.マージ対象となるブランチを選択
+
+![merge-branch-select](img/merge-branch-select.png)
