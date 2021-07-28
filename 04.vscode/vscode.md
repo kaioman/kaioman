@@ -125,3 +125,7 @@ Model/__pycache__
 ### 4.マージ対象となるブランチを選択
 
 ![merge-branch-select](img/merge-branch-select.png)
+
+### 5.mainリポジトリをコミットする
+
+### 6.githubへpushする
