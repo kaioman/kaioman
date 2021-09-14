@@ -108,6 +108,8 @@ Model/__pycache__
 
 ![new-branch-inputname](img/new-branch-inputname.png)
 
+### 3.変更の発行(push)
+
 ## ブランチマージ
 
 ### 1.チェックアウト先をmainに変更する
