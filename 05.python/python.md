@@ -67,6 +67,7 @@
     ```
     
     下記のエラーが発生する場合の対処方
+    
     ```sh
     $python3 -m venv env
     Error: Command '['/path/to/env/bin/python3', '-Im', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1
