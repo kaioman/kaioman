@@ -65,6 +65,58 @@
     ```sh
     $python3 -m venv <仮想環境名>
     ```
+    
+    下記のエラーが発生する場合の対処方
+    ```sh
+    $python3 -m venv env
+    Error: Command '['/path/to/env/bin/python3', '-Im', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1
+    ```
+
+#### 1.pipなしで仮想環境を作成する
+
+    ```sh
+    $python3 -m venv --without-pip <仮想環境名>
+    ```
+
+#### 2.仮想環境作成後、アクティベート
+
+    ```sh
+    $. <仮想環境パス>\bin\activate
+    ```
+
+#### 3.pipインストール
+
+    ```sh
+    (env)$pip curl -O https://bootstrap.pypa.io/get.pip.py
+    (env)$python get-pip.py
+    ```
+
+#### 4.仮想環境に入り直す
+
+    ```sh
+    (env)$deactivate
+    $. <仮想環境パス>\bin\activate
+    ```
+
+#### 5.pipのインストールパスが仮想環境側を向いているか確認
+
+    ```sh
+    (env)$which pip
+    (env)$~/****/env/bin/pip (仮想環境のpipになっていればOK)
+    ```
+
+#### 6.上記作業を行うスクリプトファイル
+
+    ```sh
+    #!/bin/zsh
+    set -eu
+    python3 -m venv --without-pip <仮想環境名>
+    curl -O https://bootstrap.pypa.io/get-pip.py
+    (){ setopt local_options unset; . <仮想環境名>/bin/activate }
+    python get-pip.py
+    (){ setopt local_options unset; deactivate }
+    (){ setopt local_options unset; . <仮想環境名>/bin/activate }
+    ```
 
 ### 2.アクティベート
 
