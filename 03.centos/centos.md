@@ -213,3 +213,20 @@
     ```sh
     $less /var/log/httpd/error_log
     ```
+
+## ディスクの空き容量を確認する
+
+    ```sh
+    $df -h
+
+    ファイルシス   サイズ  使用  残り 使用% マウント位置
+    /dev/root         27G  3.5G   23G   14% /
+    devtmpfs         430M     0  430M    0% /dev
+    tmpfs            463M     0  463M    0% /dev/shm
+    tmpfs            463M   47M  416M   11% /run
+    tmpfs            463M     0  463M    0% /sys/fs/cgroup
+    /dev/mmcblk0p1   500M   59M  441M   12% /boot
+    tmpfs             93M     0   93M    0% /run/user/1000
+    /dev/sda1        7.2G   41M  6.8G    1% /mnt/flash
+    tmpfs             93M     0   93M    0% /run/user/1001
+    ```
