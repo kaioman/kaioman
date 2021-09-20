@@ -25,6 +25,30 @@
 
 ## 定期実行(CronTab)
 
+    毎朝9:00に特定のpythonファイルを実行する設定
+
+    ```sh
+    $vim /etc/crontab
+
+    (↓ 以下設定例)
+    SHELL=/bin/bash
+    PATH=/sbin:/bin:/usr/sbin:/usr/bin
+    MAILTO=root
+
+    # For details see man 4 crontabs
+
+    # Example of job definition:
+    # .---------------- minute (0 - 59)
+    # |  .------------- hour (0 - 23)
+    # |  |  .---------- day of month (1 - 31)
+    # |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+    # |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+    # |  |  |  |  |
+    # *  *  *  *  * user-name  command to be executed
+    0 9 * * * root cd /home/stockerbastard/stockGetter; bash -l -c '/home/stockerbastard/stockGetter/env/bin/python /home/stockerbastard/stockGetter/Stocker.py >> /home/stockerbastard/stockGetter/log/`date +\%Y\%m\%d`.log'
+    0 9 * * * root cd /home/stockerbastard/stockGetter; bash -l -c '/home/stockerbastard/stockGetter/env/bin/python /home/stockerbastard/stockGetter/SyncStock.py >> /home/stockerbastard/stockGetter/log/`date +\%Y\%m\%d`.log'
+    ```
+
 ## ターミナル
 
   [TeraTerm](https://1drv.ms/u/s!AtZZJevIaEATkxVBUel3Nn1-wStN?e=CIfTLm)
