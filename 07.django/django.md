@@ -4,13 +4,13 @@
 
 ### 1. 必要モジュールインストール
 
-#### 1. httpd, httpd-develインストール
+#### 1-1. httpd, httpd-develインストール
 
   ```bash
   $yum install httpd httpd-devel mod_wsgi
   ```
 
-#### 2. mod_wsgiインストール
+#### 1-2. mod_wsgiインストール
 
   ```bash
   (env)$pip install mod_wsgi
@@ -18,7 +18,7 @@
 
 ### 2. Apache用設定ファイル作成
 
-#### 1. mod_wsgi*.soの場所を検索
+#### 2-1. mod_wsgi*.soの場所を検索
 
   ```bash
   $find <仮想環境パス>/ -name 'mod_wsgi*.so'
@@ -26,7 +26,7 @@
   <仮想環境パス>/lib/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-arm-linux-gnueabi.so
   ```
 
-#### 2. 設定ファイル作成
+#### 2-2. 設定ファイル作成
 
   ↓以下、テスト用 /etc/httpd/conf.d/python.conf
 
@@ -36,6 +36,11 @@
 
   # /test というリクエストに対して、/var/www/cgi-bin/hello.py 返す。
   WSGIScriptAlias /test /var/www/cgi-bin/hello.py
+
+  # <hello.pyが格納されているディレクトリ>のアクセス許可(テスト用で作成するので最終的に削除してもいい設定)
+  <Directory <hello.pyが格納されているディレクトリ>>
+    Require all granted
+  </Directory>
   ```
   
   hello.pyの内容
@@ -54,7 +59,7 @@
 
 ### 3. Apache停止→起動
 
-#### 1. Apacheの停止・再起動
+#### 3-1. Apacheの停止・再起動
 
   ```bash
   $sudo systemctl stop httpd.service
@@ -67,13 +72,13 @@
   $sudo systemctl restart httpd.service
   ```
 
-#### 2. Apache動作確認
+#### 3-2. Apache動作確認
 
   ```bash
   $sudo systemctl status httpd.service
   ```
 
-#### 3. ブラウザで以下のURLにアクセスし"Hello World!"が表示されることを確認する
+#### 3-3. ブラウザで以下のURLにアクセスし"Hello World!"が表示されることを確認する
 
   [http://192.168.3.22/test](http://192.168.3.22/test)
 
@@ -85,7 +90,7 @@
 
 ### 4. 仮想環境をアクティベート
 
-#### 1. アクティベート
+#### 4-1. アクティベート
 
   ```bash
   $cd <仮想環境のディレクトリ>
@@ -94,7 +99,7 @@
 
 ### 5. 仮想環境にdjangoをインストールする
 
-#### 1. インストール
+#### 5-1. インストール
 
   ```bash
   (env)$pip install django==3.2.4
@@ -102,7 +107,7 @@
 
   djangoのバージョンはrequirements.txtに記載されているdjangoのバージョンを指定する
 
-#### 2. djangoのバージョン確認
+#### 5-2. djangoのバージョン確認
 
   ```bash
   $python -m django --version
@@ -112,7 +117,7 @@
 
 ### 6. ユーザーのサブグループにrootを追加する
 
-#### 1. /var/www/cgi-binフォルダに対する書込権限付与の為、以下のコマンドでサブグループにrootを追加する
+#### 6-1. /var/www/cgi-binフォルダに対する書込権限付与の為、以下のコマンドでサブグループにrootを追加する
 
   ```sh
   $usermod -aG root <ユーザー名>
@@ -124,7 +129,7 @@
   $chgrp wheel cgi-bin
   ```
 
-#### 2. ユーザーグループ変更後確認
+#### 6-2. ユーザーグループ変更後確認
 
   ```bash
   $id <ユーザー名>
@@ -133,7 +138,7 @@
 
 ### 7. /var/www/cgi-binフォルダのパーミッションを755→775に変更する
 
-#### 1. パーミッション変更
+#### 7-1. パーミッション変更
   
   ```bash
   $sudo su -
@@ -141,7 +146,7 @@
   $chmod 775 cgi-bin
   ```
 
-#### 2. パーミッション変更後確認
+#### 7-2. パーミッション変更後確認
 
   ```bash
   $ls -l
@@ -150,7 +155,7 @@
 
 ### 8. 仮想環境のdjango-adminでプロジェクトを作成(動作テスト用)
 
-#### 1. 仮想環境アクティベート
+#### 8-1. 仮想環境アクティベート
 
   ```sh
   $su - <ユーザー名> 
@@ -158,7 +163,7 @@
   $. bin/activate 
   ```
 
-#### 2. djangoプロジェクト作成
+#### 8-2. djangoプロジェクト作成
 
   ```sh
   (env)$cd /var/www/cgi-bin
@@ -167,7 +172,7 @@
 
   これで/var/wwww/cgi-binにプロジェクトが作成される
 
-#### 3. Apache設定ファイル修正
+#### 8-3. Apache設定ファイル修正
 
   ```sh
   $vim /etc/httpd/conf.d/python.conf
@@ -193,7 +198,7 @@
   </Directory>
   ```
 
-  上記パスにホームディレクトリが含まれている場合、初期状態ではApacheユーザーから参照ができない為、chmodで755をにパーミッションを変更
+  上記パスにホームディレクトリが含まれている場合、初期状態ではApacheユーザーから参照ができない為、chmodで755にパーミッションを変更
 
   ```sh
   $chmod 755 <ホームディレクトリ>
@@ -202,7 +207,7 @@
   $chmod 755 stockerbastard
   ```
 
-#### 4. wsgi.py修正
+#### 8-4. wsgi.py修正
 
   ```sh
   $vim /var/www/cgi-bin/test_proj/test_proj/wsgi.py
@@ -220,7 +225,7 @@
   application = get_wsgi_application()
   ```
 
-#### 5. settings.py修正
+#### 8-5. settings.py修正
 
   ```sh
   $vim /var/www/cgi-bin/test_proj/test_proj/settings.py
@@ -239,19 +244,137 @@
   }
   ```
 
-#### 6. httpd再起動
+#### 8-6. httpd再起動
 
   ```sh
   $systemctl restart httpd
   ```
 
-#### 7. curlで結果確認
+#### 8-7. curlで結果確認
 
   ```sh
   $curl localhost/test_proj
 
   # Hello Djangoと表示されればOK
   Hello Django
+  ```
+
+### 9. アプリのデプロイ
+
+#### 9-1. ディレクトリ構成
+
+  ```sh
+  [project-directory]/
+   ┣ [project-name]/
+   ┃    ┣ settings.py
+   ┃    ┗ ... 
+   ┣ env/ # 仮想環境
+   ┣ static/ # このディレクトリはmanage.pyのcollectstaticコマンドで作成(後述)
+   ┃    ┗ ... 
+   ┣ [app-name]/
+   ┃    ┣ static/
+   ┃    ┃    ┗ [app-name]/
+   ┃    ┃         ┣ css/
+   ┃    ┃         ┃   ┗ ...
+   ┃    ┃         ┣ js/
+   ┃    ┃         ┃   ┗ ...
+   ┃    ┃         ┣ img/
+   ┃    ┃         ┃   ┗ ...
+   ┃    ┃         ┗ ...
+   ┃    ┗ ...
+   ┣ manage.py
+   ┗ requirements.txt
+  ```
+
+#### 9-2. VsCodeからsftpでファイルをアップロード
+
+  sftp.json内容(例)
+
+  ```sh:sftp.json
+  {
+    "name": "strockman-stocker",
+    "host": "192.168.3.22",
+    "protocol": "sftp",
+    "port": 52318,
+    "username": "stockerbastard",
+    "password": "ym520318",
+    "remotePath": "/home/stockerbastard/stocker",
+    "uploadOnSave": false,
+    "downloadOnOpen": false,
+    "ignore":[
+        ".vscode",
+        ".history",
+        ".git",
+        ".DS_Store",
+        "log",
+        "env"
+    ]
+  }
+  ```
+
+#### 9-3. デプロイに当たって修正が必要なファイル
+
+- wsgi.py
+  - wsgi.pyの場所、アプリの場所を追加
+
+    ```sh
+    import os
+    import sys # 追加
+
+    from django.core.wsgi import get_wsgi_application
+
+    sys.path.append('/home/stockerbastard/stocker/stocker') # 追加
+    sys.path.append('/home/stockerbastard/stocker/app_stock') # 追加
+
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stocker.settings')
+
+    application = get_wsgi_application()
+    ```
+
+- settings.py
+  - ALLOW_HOST変更  
+
+    ```sh
+    #ALLOWED_HOSTS = ['127.0.0.1','localhost']
+    ALLOWED_HOSTS = ['127.0.0.1','localhost',<ホストアドレス>] # ホストアドレスを追加する
+    ```
+
+  - STATIC_ROOT変更
+  
+    ```sh
+    #STATIC_ROOT = 'C:/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    ```
+
+#### 9-4. 静的ファイルの配置
+
+##### 9-4-1. 仮想環境にアクティベートして以下のコマンドを入力する
+
+  settings.pyのSTATIC_ROOTに設定されているパスの直下に静的ファイルがコピーされる
+
+  ```sh
+  (env)$python manage.py collectstatic
+  ```
+
+##### 9-4-2. staticフォルダのアクセス許可設定
+
+  httpd.confに以下の設定を追記する(または別名で定義された/etc/httpd/conf.d/*.confファイルに追記でも可)
+
+  ```sh
+  <IfModule alias_module>
+    # 静的ファイルが配置されているディレクトリをエイリアスstaticと関連付ける
+    Alias /static /home/stockerbastard/stocker/static 
+    # 静的ファイルが配置されているディレクトリをアクセス許可する
+    <Directory /home/stockerbastard/stocker/static>
+      Require all granted
+    </Directory>
+  </IfModule>
+  ```
+
+##### 9-4-3. httpd再起動
+
+  ```sh
+  $systemctl restart httpd.service
   ```
 
 ## マイグレーション

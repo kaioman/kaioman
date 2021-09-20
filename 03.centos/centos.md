@@ -183,3 +183,9 @@
 ## ログイン履歴やログイン状況の確認
 
 [参考:【CentOS】ログイン履歴やログイン状況の確認方法](https://www.server-memo.net/tips/server-operation/login-history.html)
+
+## httpdで発生したエラーを確認する  
+
+    ```sh
+    $less /var/log/httpd/error_log
+    ```
