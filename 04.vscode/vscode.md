@@ -98,6 +98,40 @@ Model/__pycache__
 (projectDirectory)/git rm -r --cache <対象ディレクトリ>
 ```
 
+## リポジトリクローン
+
+### 1.githubでリポジトリ作成
+
+#### 1.Newをクリック
+
+![github-new-repo_1](img/github-new-repo_1.png)
+
+#### 2.リポジトリ名を入力
+
+#### 3.Privateに変更
+
+#### 4.Add a README fileにチェックを入れる
+
+#### 5.CreateRepositoryをクリック
+
+![github-new-repo_2](img/github-new-repo_2.png)
+
+### 2.リポジトリの場所となるフォルダを作成
+
+![new-repository-place-create](img/new-repository-place-create.png)
+
+### 3.VsCodeを起動する
+
+![img/open-vscode-newwindow](img/open-vscode-newwindow.png)
+
+### 4.ソース管理を開き、「リポジトリのクローン」をクリックする
+
+![vscode-repository-clone](img/vscode-repository-clone.png)
+
+### 5.リポジトリURLを指定する
+
+![input-repository-url](img/input-repository-url.png)
+
 ## ブランチ作成
 
 ### 1.新しい分岐の作成
