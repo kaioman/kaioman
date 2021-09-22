@@ -21,6 +21,8 @@
 * Django
 * Jinja
 * Visual Studio IntelliCode
+* vscode-workspace-switcher
+* Peacock
 
 ## VSCode設定
 
