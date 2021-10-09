@@ -332,7 +332,7 @@
     ```
 
 - settings.py
-  - ALLOW_HOST変更 
+  - ALLOW_HOST変更
 
     ```sh
     #ALLOWED_HOSTS = ['127.0.0.1','localhost']
