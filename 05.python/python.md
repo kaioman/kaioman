@@ -4,9 +4,9 @@
 
 ### 1.Python3.6インストール
 
-    ```sh
-    $yum -y install python3
-    ```
+```sh
+$yum -y install python3
+```
 
 ## 2.pip
 
@@ -14,129 +14,129 @@
 
 ### 1.pip自身のアップグレード
 
-    ```sh
-    $pip3 install -U pip
-    ```
+```sh
+$pip3 install -U pip
+```
 
 ### 2.パッケージリストの確認
 
-    ```sh
-    $pip3 list
-    ```
+```sh
+$pip3 list
+```
 
 ### 3.アップデートが必要なパッケージのリスト確認
 
-    ```sh
-    $pip3 list -o
-    ```
+```sh
+$pip3 list -o
+```
 
 ### 4.requiremets.txtによる一括インストール
 
-    ```sh
-    $pip3 install -r requirements.txt
+```sh
+$pip3 install -r requirements.txt
 
-    # requirements.txt書き方(例)
+# requirements.txt書き方(例)
 
-        beautifulsoup4==4.9.3
-        bs4==0.0.1
-        configparser==5.0.2
-        decorator==4.4.2
-        numpy==1.19.5
-        pandas==1.1.5
-        pandas-datareader==0.9.0
-        psycopg2==2.8.6
-        requests==2.25.1
-        six==1.15.0
-        SQLAlchemy==1.4.18
-        xlrd==2.0.1
-        xlwt==1.3.0
-    ```
+    beautifulsoup4==4.9.3
+    bs4==0.0.1
+    configparser==5.0.2
+    decorator==4.4.2
+    numpy==1.19.5
+    pandas==1.1.5
+    pandas-datareader==0.9.0
+    psycopg2==2.8.6
+    requests==2.25.1
+    six==1.15.0
+    SQLAlchemy==1.4.18
+    xlrd==2.0.1
+    xlwt==1.3.0
+```
 
 ### 5.現在の環境の設定ファイル書き出し
 
-    ```sh
-    $pip3 freeze > requirements.txt
-    ```
+```sh
+$pip3 freeze > requirements.txt
+```
 
 ## 3.仮想環境の作成
 
 ### 1.venv
 
-    ```sh
-    $python3 -m venv <仮想環境名>
-    ```
-    
-    下記のエラーが発生する場合の対処方
-    
-    ```sh
-    $python3 -m venv env
-    Error: Command '['/path/to/env/bin/python3', '-Im', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1
-    ```
+```sh
+$python3 -m venv <仮想環境名>
+```
+
+下記のエラーが発生する場合の対処方
+
+```sh
+$python3 -m venv env
+Error: Command '['/path/to/env/bin/python3', '-Im', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1
+```
 
 #### 1.pipなしで仮想環境を作成する
 
-    ```sh
-    $python3 -m venv --without-pip <仮想環境名>
-    ```
+```sh
+$python3 -m venv --without-pip <仮想環境名>
+```
 
 #### 2.仮想環境作成後、アクティベート
 
-    ```sh
-    $. <仮想環境パス>\bin\activate
-    ```
+```sh
+$. <仮想環境パス>\bin\activate
+```
 
 #### 3.pipインストール
 
-    ```sh
-    (env)$pip curl -O https://bootstrap.pypa.io/get.pip.py
-    (env)$python get-pip.py
-    ```
+```sh
+(env)$pip curl -O https://bootstrap.pypa.io/get.pip.py
+(env)$python get-pip.py
+```
 
 #### 4.仮想環境に入り直す
 
-    ```sh
-    (env)$deactivate
-    $. <仮想環境パス>\bin\activate
-    ```
+```sh
+(env)$deactivate
+$. <仮想環境パス>\bin\activate
+```
 
 #### 5.pipのインストールパスが仮想環境側を向いているか確認
 
-    ```sh
-    (env)$which pip
-    (env)$~/****/env/bin/pip (仮想環境のpipになっていればOK)
-    ```
+```sh
+(env)$which pip
+(env)$~/****/env/bin/pip (仮想環境のpipになっていればOK)
+```
 
 #### 6.上記作業を行うスクリプトファイル
 
-    ```sh
-    #!/bin/zsh
-    set -eu
-    python3 -m venv --without-pip <仮想環境名>
-    curl -O https://bootstrap.pypa.io/get-pip.py
-    (){ setopt local_options unset; . <仮想環境名>/bin/activate }
-    python get-pip.py
-    (){ setopt local_options unset; deactivate }
-    (){ setopt local_options unset; . <仮想環境名>/bin/activate }
-    ```
+```sh
+#!/bin/zsh
+set -eu
+python3 -m venv --without-pip <仮想環境名>
+curl -O https://bootstrap.pypa.io/get-pip.py
+(){ setopt local_options unset; . <仮想環境名>/bin/activate }
+python get-pip.py
+(){ setopt local_options unset; deactivate }
+(){ setopt local_options unset; . <仮想環境名>/bin/activate }
+```
 
 ### 2.アクティベート
 
-    ```sh
-    $. <仮想環境パス>\bin\activate
-    ```
+```sh
+$. <仮想環境パス>\bin\activate
+```
 
 ### 3.仮想環境下でpip,setuptools最新化
 
-    ```sh
-    (env)$pip install --upgrade pip
-    (env)$pip install --upgrade pip setuptools
-    ```
+```sh
+(env)$pip install --upgrade pip
+(env)$pip install --upgrade pip setuptools
+```
 
 ### 4.ディアクティベート
 
-    ```sh
-    (env)$deactivate
-    ```
+```sh
+(env)$deactivate
+```
 
 ## 4.numpyインストール
 
@@ -145,56 +145,132 @@
 
 ### 4-1.環境インストール
 
-    ```sh
-    # gcc-gfortran,blas-devel,lapack-devel,freetypeインストール
-    $yum install -y gcc-gfortran blas-devel lapack-devel freetype libpng-devel
-    ```
+```sh
+# gcc-gfortran,blas-devel,lapack-devel,freetypeインストール
+$yum install -y gcc-gfortran blas-devel lapack-devel freetype libpng-devel
+```
 
 ### 4-2.python36-develインストール
 
-    ```sh
-    # インストールするpython-develのバージョン調査
-    $yum list available | grep python | grep devel
+```sh
+# インストールするpython-develのバージョン調査
+$yum list available | grep python | grep devel
 
-    # python-develインストール
-    $yum install -y python36-devel
+# python-develインストール
+$yum install -y python36-devel
 
-    # numpyのインストールに失敗する場合は以下をインストール
-    $yum install -y python-devel
-    ```
+# numpyのインストールに失敗する場合は以下をインストール
+$yum install -y python-devel
+```
 
 ### 4-3.numpyインストール
 
-    ```sh
-    $pip3 install numpy
-    ```
+```sh
+$pip3 install numpy
+```
 
 ## 5.pandas-datareaderインストール
 
 ### 5-1.環境インストール
 
-    ```sh
-    # libxml2-devel,libxslt-develインストール
-    $yum install libxml2-devel libxslt-devel
-    ```
+```sh
+# libxml2-devel,libxslt-develインストール
+$yum install libxml2-devel libxslt-devel
+```
 
 ### 5-2.pandas-datareaderインストール
 
-    ```sh
-    $pip3 install pandas-datareader
-    ```
+```sh
+$pip3 install pandas-datareader
+```
 
 ## 6.psycopg2インストール
 
 ### 6-1.環境インストール
 
-    ```sh
-    # postgresql-develインストール
-    $yum install postgresql-devel
-    ```
+```sh
+# postgresql-develインストール
+$yum install postgresql-devel
+```
 
 ### 6-2.psycopg2インストール
 
-    ```sh
-    $pip3 install psycopg2
-    ```
+```sh
+$pip3 install psycopg2
+```
+
+## 7.PyPI登録
+
+### 7-1.TestPyPI(PyPI)アカウント登録
+
+#### 7-1-1.TestPyPI(PyPI)のサイトへ移動
+
+* TestPyPI,PyPI双方でアカウントを作成(手順同じ)
+
+    [TestPyPI](https://test.pypi.org/)  
+    [PyPI](https://pypi.org/)
+
+#### 7-1-2.トップページでRegisterをクリック
+
+![TestPyPI-Account-Regist](img/TestPyPI-Account-Regist.png)
+
+#### 7-1-3.アカウント情報を入力してCreate accountをクリック
+
+![TestPyPI-AccuontInfo-Input](img/TestPyPI-AccountInfo-Input.png)
+
+#### 7-1-4.メールアドレスの認証メールが届くので認証用リンクをクリック
+
+* 認証メール送信案内
+
+![TestPyPI-Account-VerifyEmail](img/TestPyPI-Account-VerifyEmail.png)
+
+* 認証メールにて認証用リンクをクリック
+
+![TestPyPI-Account-VerifyEmail](img/TestPyPI-Account-VerifyEmail-link.png)
+
+* 認証成功
+
+![TestPyPI-Account-VerifyEmail-Success](img/TestPyPI-Account-VerifyEmail-Success.png)
+
+### 7-2.必要パッケージを仮想環境にインストール
+
+```sh
+(env)$pip install setuptools wheel twine
+```
+
+### 7-3.パッケージング
+
+```sh
+(env)$python setup.py sdist bdist_wheel
+```
+
+### 7-4.TestPyPIへアップロード
+
+```sh
+(env)$twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+```
+
+### 7-4.TestPyPIユーザー認証
+
+```sh
+Enter your username:(TestPyPIユーザー名入力)
+Enter your password:(TestPyPIユーザーパスワード入力)
+```
+
+### 7-5.TestPyPIからpipインストール
+
+```sh
+(env)$pip install --index-url https://test.pypi.org/simple/ --no-deps [パッケージ名]
+```
+
+### 7-6.PyPIにアップロード
+
+```sh
+(env)$twine upload dist/*
+```
+
+### 7-7.PyPIからpipインストール
+
+```sh
+(env)$pip install [パッケージ名]
+```
