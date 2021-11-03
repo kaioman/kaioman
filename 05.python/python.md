@@ -1,8 +1,8 @@
 # Python
 
-## 1.インストール
+## 1.python3.6 インストール
 
-### 1.Python3.6インストール
+### 1.インストール
 
 ```sh
 $yum -y install python3
@@ -88,7 +88,7 @@ $. <仮想環境パス>\bin\activate
 #### 3.pipインストール
 
 ```sh
-(env)$pip curl -O https://bootstrap.pypa.io/get.pip.py
+(env)$curl -O https://bootstrap.pypa.io/get-pip.py
 (env)$python get-pip.py
 ```
 
@@ -274,3 +274,93 @@ Enter your password:(TestPyPIユーザーパスワード入力)
 ```sh
 (env)$pip install [パッケージ名]
 ```
+
+## 8.Python3.9インストール
+
+### 8.1 yumアップデート
+
+```sh
+$yum -y update
+```
+
+### 8.2 ツールのインストール
+
+```sh
+$yum groupinstall "Development Tools" -y
+$yum install openssl-devel libffi-devel bzip2-devel -y
+```
+
+### 8.3 Python3.9.7ダウンロード
+
+```sh
+$wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
+```
+
+- wgetが無い場合はインストール
+
+```sh
+$yum install wget -y
+```
+
+### 8.4 python3.9.7インストール
+
+#### 8.4.1 解凍
+
+```sh
+$tar xvf Python-3.9.7.tgz
+```
+
+#### 8.4.2 解凍したディレクトリに移動
+
+```sh
+$cd Python-3.9*/
+```
+
+#### 8.4.3 ビルド
+
+```sh
+$./configure --enable-optimizations
+$make altinstall
+```
+
+#### 8.4.4 バージョン確認
+
+```sh
+$python3.9 -V
+
+Python 3.9.7
+```
+
+### 8.5 シンボリックリンクの変更
+
+#### 8.5.1 元のシンボリックリンク削除
+
+```sh
+# python3.6のシンボリックリンク削除
+$rm -rf /usr/bin/python3
+```
+
+#### 8.5.2 python関連ファイルを検索
+
+```sh
+$whereis python3
+
+# python3.9へのパスを確認
+python3: /usr/bin/python3.6 /usr/bin/python3 /usr/bin/python3.6m /usr/lib/python3.6 /usr/local/bin/python3.9-config /usr/local/bin/python3.9 /usr/local/lib/python3.6 /usr/local/lib/python3.9 /usr/include/python3.6m /usr/share/man/man1/python3.1.gz
+```
+
+#### 8.5.3 シンボリックリンク作成
+
+```sh
+$ln -s /usr/bin/python3.9 /usr/bin/python3
+```
+
+#### 8.5.4 バージョン確認
+
+```sh
+$python3 -V
+
+Python 3.9.7
+```
+
+- pipも同様に変更する

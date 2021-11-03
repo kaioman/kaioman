@@ -7,7 +7,7 @@
 #### 1-1. httpd, httpd-develインストール
 
   ```bash
-  $yum install httpd httpd-devel mod_wsgi
+  $yum install httpd httpd-devel
   ```
 
 #### 1-2. mod_wsgiインストール
