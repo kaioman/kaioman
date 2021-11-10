@@ -16,6 +16,14 @@
   (env)$pip install mod_wsgi
   ```
 
+  * インストールに失敗する場合
+
+    - [pythonのビルドオプションを変更して再インストールする](../05.python/python.md#python39-build)
+
+    - [pythonの共有ライブラリが参照できていない問題を解決する](../05.python/python.md#python39-lib-copy)
+
+    - [参考リンク:Python3.6 sourceインストール時のエラーであわてた](https://qiita.com/kugayama_ikyuusan/items/901bd991c104e22a3683)
+
 ### 2. Apache用設定ファイル作成
 
 #### 2-1. mod_wsgi*.soの場所を検索
@@ -81,7 +89,7 @@
 #### 3-3. ブラウザで以下のURLにアクセスし"Hello World!"が表示されることを確認する
 
   [http://192.168.3.22/test](http://192.168.3.22/test)
-
+  
   もしくは以下のコマンドで確認
   
   ```sh

@@ -316,14 +316,30 @@ $tar xvf Python-3.9.7.tgz
 $cd Python-3.9*/
 ```
 
-#### 8.4.3 ビルド
+#### <a href="#python39-build">8.4.3 ビルド</a>
 
 ```sh
-$./configure --enable-optimizations
+$./configure --enable-shared --enable-optimizations
 $make altinstall
+# --enable-sharedをオプション指定しないとmod_wsgiのように共有ライブラリを参照するパッケージのインストールでエラーとなる
+# altinstallはシンボリックリンクの作成を行わないインストール
 ```
 
-#### 8.4.4 バージョン確認
+#### <a href="#python39-lib-copy">8.4.4 libpython3.9.so.1.0を参照可能な位置にコピー</a>
+
+```sh
+# libpython3.9.so.1.0の場所を探す
+$find / -name libpython3.9.so.1.0
+
+# libpython3.9.so.1.0の場所が表示される
+/usr/local/lib/libpython3.9.so.1.0
+/root/Python-3.9.7/libpython3.9.so.1.0
+
+# libpython3.9.so.1.0を参照可能な/usr/libにコピー
+$cp /usr/local/lib/libpython3.9.so.1.0 /usr/lib
+```
+
+#### 8.4.5 バージョン確認
 
 ```sh
 $python3.9 -V
