@@ -1,44 +1,119 @@
 # vscode
 
-## VSCodeインストール方法
+1. ## vscodeインストール
 
-* 日本語化
+   1. ## ダウンロード
 
-## 拡張機能
+      [Visual Sudio CodeのWebサイト](https://code.visualstudio.com/Download)より、インストーラーをダウンロード
 
-* SFTP
-* Markdown All in One
-* Markdown Checkbox
-* Markdown Preview Enhanced
-* Markdown Preview Github Styling
-* Markdownlint
-* Prettier - Code formatter
-* Python
-* Ptyhon Extension Pack
-* Jupyter
-* Japanese Language Pack fro Visual Studio Code
-* Git History
-* Django
-* Jinja
-* Visual Studio IntelliCode
-* vscode-workspace-switcher
-* Peacock
+      <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-installer-download.png" alt="vscode-installer-download" style="zoom: 80%; float:left;" />
 
-## VSCode設定
+   2. ## インストーラーを実行する
 
-### github連携
+      1. ### 使用許諾契約書の同意
 
-### sftp.json
+         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-installer-accept.png" alt="vscode-installer-accept" style="zoom:75%;float:left;" />
 
-### launch.json
+      2. ### 追加タスクの指定(デフォルトのまま)
 
-### settings.json
+         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-installer-addtask.png" alt="vscode-installer-addtask" style="zoom:80%;float:left;" />
 
-#### pythonライブラリの場所指定(python.pythonPath)
+      3. ### インストール実行
 
-#### 単体テストファイル設定(python.testing.unittestArgs)
+         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-installer-install.png" alt="vscode-installer-install" style="zoom:80%;float:left;" />
 
-### 改行コード
+      
+
+   3. ## 日本語化
+
+      1. ### [View] - [Command Palette]を選択
+
+         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-change-language-commandpalette.png" alt="vscode-change-language-commandpalette" style="zoom:100%;float:left;" />
+
+      2. ### 入力欄に Configure Display Language と入力、または選択する
+
+         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-change-language-configure-display-language.png" alt="vscode-change-language-configure-display-language" style="zoom:100%;float:left;" />
+
+      3. ### 画面左パネルの一覧から「Japanese Language Packs for..」を選択してInstallボタンをクリックする
+
+         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-change-language-configure-display-language-addJp.png" alt="vscode-change-language-configure-display-language-addJp" style="zoom:80%;float:left;" />
+
+      4. ### vscodeの再起動確認があるので、vscodeを再起動する
+
+      
+
+2. ## Gitインストール及び初期設定
+
+   [参考：Visual Studio Code（VSCode）でGitを使う（Windows 10環境）](https://cravelweb.com/webdesign/post-3876)
+
+   1. ### 公式サイトよりインストーラーをダウンロードする
+
+      <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\git-download-website.png" alt="git-download-website" style="zoom:80%;float:left;" />
+
+   2. ### インストールウィザードを下記の通り進める（基本はデフォルト値のままでOK）
+
+   3. ### gitアカウントのユーザー名、Eメールアドレスを設定する
+
+      ```sh
+      $git config --global user.name '<user-name>'
+      $git config --global user.email '<email-address>'
+      ```
+
+3. ## Python(3.9.6)インストール
+
+   1. ### 公式サイトよりインストーラーをダウンロードする
+
+   2. ### インストーラーを実行してPythonをインストールする
+
+   3. ### インストール後、仮想環境のアクティベートを可能とする為に以下のコマンドをコマンドプロンプト(管理者権限)にて実行する
+
+      ```shell
+      >PowerShell Set-ExecutionPolicy RemoteSigned
+      ```
+
+      [参考：PowerShell のスクリプトが実行できない場合の対処方法](https://qiita.com/Targityen/items/3d2e0b5b0b7b04963750)
+
+      
+
+4. ## 拡張機能
+
+   * Japanese Language Pack fro Visual Studio Code
+   * Python
+   * Ptyhon Extension Pack
+     * Python Docstring Generator
+     * Jinja
+     * Django
+     * Visual Studio IntelliCode
+     * Python Indent
+   * SFTP(liximomo)
+   * Git History
+   * Easy icon thema
+   * vscode-workspace-switcher
+   * Material Thema
+   * Peacock
+   
+   
+      * Prettier - Code formatter
+   
+   
+      * Jupyter
+   
+
+5. ## vscode設定
+
+### 	github連携
+
+### 	sftp.json
+
+### 	launch.json
+
+### 	settings.json
+
+#### 	pythonライブラリの場所指定(python.pythonPath)
+
+#### 	単体テストファイル設定(python.testing.unittestArgs)
+
+### 	改行コード
 
 * シェルスクリプトファイルをVsCodeで編集してLinuxサーバーにアップする場合、改行コードCrLfだとshコマンドでシェルスクリプトファイルを実行時に「そのようなファイルやディレクトリはありません」と表示されることがある
 
