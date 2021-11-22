@@ -132,6 +132,13 @@ $. <仮想環境パス>\bin\activate
 (env)$pip install --upgrade pip setuptools
 ```
 
+windows環境下の場合(上記でも最新化できるがpipに対するアクセス拒否のエラーが発生する)
+
+```sh
+(env)$python -m pip install --upgrade pip
+(env)$python -m pip install --upgrade setuptools
+```
+
 ### 4.ディアクティベート
 
 ```sh
