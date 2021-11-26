@@ -401,31 +401,92 @@
          $systemctl restart httpd.service
          ```
 
-10. ### WebDriver準備
+   5. ### WebDriver
 
-    1. WebDriverを公式サイトよりダウンロードして所定の場所に配置する
+      1. WebDriverを公式サイトよりダウンロードして所定の場所に配置する
 
-       - firefox
+         - firefox
 
-         armv7の提供はv0.23.0までなので注意する(Raspberry Pi 3B + CentOSの組み合わせはこちら)
+           armv7の提供はv0.23.0までなので注意する(Raspberry Pi 3B + CentOSの組み合わせはこちら)
 
-         [v0.23.0](https://github.com/mozilla/geckodriver/releases/tag/v0.23.0)
-       
-         Windows,Linux64bitはこちら
-       
-         [v0.30.0](https://github.com/mozilla/geckodriver/releases/tag/v0.30.0)
-       
-       - chrome
-       
-         chromeはarmv7非対応
-       
-         [97.0.4692.20](https://chromedriver.storage.googleapis.com/index.html?path=97.0.4692.20/)
-       
-       - edge
-       
-         [Release 98](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/#downloads)
-       
-         
+           [v0.23.0](https://github.com/mozilla/geckodriver/releases/tag/v0.23.0)
+
+           Windows,Linux64bitはこちら
+
+           [v0.30.0](https://github.com/mozilla/geckodriver/releases/tag/v0.30.0)
+
+         - chrome
+
+           chromeはarmv7非対応
+
+           [97.0.4692.20](https://chromedriver.storage.googleapis.com/index.html?path=97.0.4692.20/)
+
+         - edge
+
+           [Release 98](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/#downloads)
+
+      2. ### WebDriverフォルダのパーミッションを777に変更する
+
+         ```sh
+         $sudo chmod -R 777 [WebDriverDirectory]
+         ```
+
+   6. ### apacheユーザーのホームディレクトリのパーミッションを777に変更する
+
+      ```sh
+      $sudo chmod -R 777 /usr/share/httpd
+      ```
+
+      これを実施しないと WedDriverインスタンス生成時に "connection refused" のエラーを吐く
+
+      [ptyhon内に記述したseleniumのwebdriver.Firefox()が、apacheで実行すると"connection refused"のエラーになってしまう](https://teratail.com/questions/184002)
+
+   7. ブラウザインストール
+
+      WebDriverの配置だけではダメ。ブラウザもインストールすること。
+
+      - firefox
+
+        ```sh
+        $yum install -y firefox
+        ```
+
+        geckodriver.logが"Unable to autolaunch a dbus-daemon without a $DISPLAY for X11"のログを吐いていたので
+
+        yumで以下のパッケージをインストール。
+
+        以下を実行してもログは吐かれていたので結果的に不要だったかもしれないが上手くいかない時に試すといいかも。
+
+        ```sh
+        $yum install -y dbus-x11 dbus
+        $eval `dbus-launch --sh-syntax`
+        ```
+
+        
+
+   8. デバッグ
+
+      - firefox
+
+        geckodriver.logのログレベルを上げる(geckodriverのバージョンが古いせいか解決に繋がるログは出力されなかった)
+
+        ```python
+        from selenium.webdriver.firefox.options import Options as firefoxOptions
+        from selenium import webdriver
+        
+        # オプションクラスインスタンス
+        options = firefoxOptions()
+        
+        # ログレベルをtraceに設定
+        options.log.level = "trace"
+        
+        # WebDriverを返す
+        wDriver = webdriver.Firefox(executable_path=[WebDriverPath], 
+                                    log_path=[WebDriverLogPath],
+                                    options=options)
+        ```
+
+        
 
 ## マイグレーション
 
