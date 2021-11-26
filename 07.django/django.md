@@ -292,8 +292,16 @@
        ┃    ┃         ┃   ┗ ...
        ┃    ┃         ┗ ...
        ┃    ┣ application/
-       ┃    ┃    ┣ Config/
-       ┃    ┃    ┗ webDriver/
+       ┃    ┃    ┣ Config/ # 設定ファイル
+       ┃    ┃    ┃    ┣ LibHanger.ini
+       ┃    ┃    ┃    ┗ Scrapinger.ini 
+       ┃    ┃    ┗ webDriver/　# WebDriverファイル
+       ┃    ┃         ┣ firefox/
+       ┃    ┃         ┃    ┗ geckodriver 
+       ┃    ┃         ┣ chrome/
+       ┃    ┃         ┃    ┗ chromdriver  
+       ┃    ┃         ┗ edge/ 
+       ┃    ┃              ┗ ...
        ┃    ┗ templates/
        ┃         ┗ [app-name]/
        ┃              ┣ index.html
@@ -301,11 +309,11 @@
        ┣ manage.py
        ┗ requirements.txt
       ```
-
+   
    2. #### VsCodeからsftpでファイルをアップロード
-
+   
       sftp.json内容(例)
-
+   
       ```json
       {
         "name": "strockman-stocker",
@@ -327,41 +335,40 @@
         ]
       }
       ```
-
+   
    3. #### デプロイにあたって修正が必要なファイル
-
+   
       - wsgi.py
-        - wsgi.pyの場所、アプリの場所を追加
-
-          ```sh
-          import os
-          import sys # 追加
-          
-          from django.core.wsgi import get_wsgi_application
-          
-          sys.path.append('/home/stockerbastard/stocker/stocker') # 追加
-          sys.path.append('/home/stockerbastard/stocker/app_stock') # 追加
-          
-          os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stocker.settings')
-          
-          application = get_wsgi_application()
-          ```
-
-
-      - settings.py
-        - ALLOW_HOST変更
-
-          ```sh
-          #ALLOWED_HOSTS = ['127.0.0.1','localhost']
-          ALLOWED_HOSTS = ['127.0.0.1','localhost',<ホストアドレス>] # ホストアドレスを追加する
-          ```
-
-        - STATIC_ROOT変更
+      
+        wsgi.pyの場所、アプリの場所を追加
+      
+        ```python
+        import os
+        import sys # 追加
         
-          ```sh
-          #STATIC_ROOT = 'C:/static/'
-          STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-          ```
+        from django.core.wsgi import get_wsgi_application
+        
+        sys.path.append('/home/stockerbastard/stocker/stocker') # 追加
+        sys.path.append('/home/stockerbastard/stocker/app_stock') # 追加
+        
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stocker.settings')
+        
+        application = get_wsgi_application()
+        ```
+      
+      - settings.py
+      
+        ```python
+        * ALLOW_HOST変更
+        
+        #ALLOWED_HOSTS = ['127.0.0.1','localhost']
+        ALLOWED_HOSTS = ['127.0.0.1','localhost',<ホストアドレス>] # ホストアドレスを追加する
+        
+        * STATIC_ROOT変更
+            
+        #STATIC_ROOT = 'C:/static/'
+        STATIC_ROOT = os.path.join(BASE_DIR, 'static')  
+        ```
 
    4. #### 静的ファイルの配置
 
@@ -400,9 +407,25 @@
 
        - firefox
 
-         
+         armv7の提供はv0.23.0までなので注意する(Raspberry Pi 3B + CentOSの組み合わせはこちら)
 
+         [v0.23.0](https://github.com/mozilla/geckodriver/releases/tag/v0.23.0)
+       
+         Windows,Linux64bitはこちら
+       
+         [v0.30.0](https://github.com/mozilla/geckodriver/releases/tag/v0.30.0)
+       
        - chrome
+       
+         chromeはarmv7非対応
+       
+         [97.0.4692.20](https://chromedriver.storage.googleapis.com/index.html?path=97.0.4692.20/)
+       
+       - edge
+       
+         [Release 98](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/#downloads)
+       
+         
 
 ## マイグレーション
 
