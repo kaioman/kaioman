@@ -490,18 +490,20 @@
 
 ## マイグレーション
 
-### 1.マイグレーションファイルの作成
+DjangoでDBと連携する時だけ実施する。(models.pyで定義した内容をDBに反映させる作業)
 
-  *事前にmodels.pyでモデルを定義しておく
+1. ### マイグレーションファイルの作成
 
-  ```sh
-  $python manage.py makemigrations
-  ```
+   事前にmodels.pyでモデルを定義しておく
 
-### 2.マイグレーションの実行
+   ```sh
+   $python manage.py makemigrations
+   ```
 
-  *下記コマンドの実行により、対象のデータベースにモデル定義に従ってテーブルが作成される
+2. ### マイグレーションの実行
 
-  ```sh
-  $python manage.py migrate
-  ```
+   下記コマンドの実行により、対象のデータベースにモデル定義に従ってテーブルが作成される
+
+   ```sh
+   $python manage.py migrate
+   ```
