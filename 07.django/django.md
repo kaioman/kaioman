@@ -302,7 +302,7 @@
        ┃    ┃         ┃    ┗ chromdriver  
        ┃    ┃         ┗ edge/ 
        ┃    ┃              ┗ ...
-       ┃    ┗ templates/
+       ┃    ┗ templates/ # htmlファイル
        ┃         ┗ [app-name]/
        ┃              ┣ index.html
        ┃              ┗ ...
