@@ -40,15 +40,15 @@
 
       ```sh
       # mod_wsgiの読み込み
-        LoadModule wsgi_module <mod_wsgi*.soの場所>
+      LoadModule wsgi_module <mod_wsgi*.soの場所>
       
-        # /test というリクエストに対して、/var/www/cgi-bin/hello.py 返す。
-        WSGIScriptAlias /test /var/www/cgi-bin/hello.py
+      # /test というリクエストに対して、/var/www/cgi-bin/hello.py 返す。
+      WSGIScriptAlias /test /var/www/cgi-bin/hello.py
       
-        # <hello.pyが格納されているディレクトリ>のアクセス許可(テスト用で作成するので最終的に削除してもいい設定)
-        <Directory <hello.pyが格納されているディレクトリ>>
-          Require all granted
-        </Directory>  
+      # <hello.pyが格納されているディレクトリ>のアクセス許可(テスト用で作成するので最終的に削除してもいい設定)
+      <Directory <hello.pyが格納されているディレクトリ>>
+        Require all granted
+      </Directory>  
       ```
 
       hello.pyの内容
@@ -182,44 +182,66 @@
 
    3. #### Apache設定ファイル修正
 
-      ```bash
-      $vim /etc/httpd/conf.d/python.conf
-      
-        # mod_wsgiの読み込み
-        LoadModule wsgi_module /home/stockerbastard/stockGetter/env/lib/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-arm-linux-gnueabi.so
-        
-        # WSGIPythonHome,WSGIPythonPathの設定
-        # <注意>ここで指定されているディレクトリはApacheユーザーから参照可能である必要がある
-        WSGIPythonHome /home/stockerbastard/stockGetter/env
-        WSGIPythonPath /var/www/cgi-bin/test_proj:/home/stockerbastard/stockGetter/env/lib/python3.6/site-packages
-        
-        # /test というリクエストに対して、/var/www/cgi-bin/hello.py 返す。
-        WSGIScriptAlias /test /var/www/cgi-bin/hello.py
-        # /test_django というリクエストに対して、/var/www/cgi-bin/test_proj/test_proj/wsgi.py 返す。
-        WSGIScriptAlias /test_proj /var/www/cgi-bin/test_proj/test_proj/wsgi.py
-        
-        # /var/www/cgi-bin/test_proj/test_projのアクセス制限を設定
-        <Directory /var/www/cgi-bin/test_proj/test_proj>
-          <Files wsgi.py>
-            Require all granted
-          </Files>
-        </Directory>
-      ```
+      1. ##### confファイルに関連する話
 
-      上記パスにホームディレクトリが含まれている場合、初期状態ではApacheユーザーから参照ができない為、chmodで755にパーミッションを変更
+         - Apacheの設定ファイル(*.conf)に関してはdjangoアプリごとにファイルを分けて運用する。1つのポートに対して複数のアプリに振り分ける場合はデーモンモードを使用する必要がある。LoadModuleでのwsgi_module読み込みに関してはApacheのインスタンスに対して1つしか記述できないので、pythonバージョンの異なるwsgi_moduleが複数存在する場合は別のApacheインスタンスでLoadModuleする必要がある。
 
-      ```bash
-      $chmod 755 <ホームディレクトリ>
-      
-      # 上記例では以下のコマンドを実行
-      $chmod 755 stockerbastard
-      ```
+         - /etc/httpd/conf.d/にある設定ファイル(*.conf)はhttpdの起動時にファイル名の順番で読み込まれる(アスキーコード順)。
+
+         - ssl.confの前に<VirtuialHost *:443>ディレクティブを持ったconfファイルを読み込ませるとSSLが死ぬので注意。(ssl.confを先に読ませる)
+
+      2. ##### confファイル設定例
+
+         - 組み込みモード
+
+           ```sh
+           $vim /etc/httpd/conf.d/python.conf
+           
+           # mod_wsgiの読み込み
+           LoadModule wsgi_module /home/stockerbastard/stockGetter/env/lib/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-arm-linux-gnueabi.so
+           
+           # WSGIPythonHome,WSGIPythonPathの設定
+           # <注意>ここで指定されているディレクトリはApacheユーザーから参照可能である必要がある
+           WSGIPythonHome /home/stockerbastard/stockGetter/env
+           WSGIPythonPath /var/www/cgi-bin/test_proj:/home/stockerbastard/stockGetter/env/lib/python3.6/site-packages
+           
+           # /test というリクエストに対して、/var/www/cgi-bin/hello.py 返す。
+           WSGIScriptAlias /test /var/www/cgi-bin/hello.py
+           # /test_django というリクエストに対して、/var/www/cgi-bin/test_proj/test_proj/wsgi.py 返す。
+           WSGIScriptAlias /test_proj /var/www/cgi-bin/test_proj/test_proj/wsgi.py
+           
+           # /var/www/cgi-bin/test_proj/test_projのアクセス制限を設定
+           <Directory /var/www/cgi-bin/test_proj/test_proj>
+             <Files wsgi.py>
+               Require all granted
+             </Files>
+           </Directory>
+           ```
+
+
+         - デーモンモード
+
+           ```
+           
+           ```
+
+
+         - 上記パスにホームディレクトリが含まれている場合、初期状態ではApacheユーザーから参照ができない為、chmodで755にパーミッションを変更
+
+           ```sh
+           $chmod 755 <ホームディレクトリ>
+           
+           # 上記例では以下のコマンドを実行
+           $chmod 755 stockerbastard
+           ```
 
    4. #### wsgi.py修正
 
-      ```python
+      ```sh
       $vim /var/www/cgi-bin/test_proj/test_proj/wsgi.py
-      
+      ```
+
+      ```python
       import os
       import sys
        
@@ -254,11 +276,11 @@
 
    6. #### httpd再起動
 
-      ```bash
+      ```sh
       $systemctl restart httpd
       ```
 
-   7. #### curlで結果確認
+   7. curlで結果確認
 
       ```bash
       $curl localhost/test_proj
@@ -309,12 +331,12 @@
        ┣ manage.py
        ┗ requirements.txt
       ```
-   
-   2. #### VsCodeからsftpでファイルをアップロード
-   
+
+   2. #### vscodeからsftpでファイルをアップロード
+
       sftp.json内容(例)
-   
-      ```json
+
+      ```sh
       {
         "name": "strockman-stocker",
         "host": "192.168.3.22",
@@ -335,158 +357,156 @@
         ]
       }
       ```
-   
-   3. #### デプロイにあたって修正が必要なファイル
-   
-      - wsgi.py
+
+10. #### デプロイにあたって修正が必要なファイル
+
+    1. wsgi.py
+
+      wsgi.pyの場所、アプリの場所を追加
+
+      ```python
+      import os
+      import sys # 追加
       
-        wsgi.pyの場所、アプリの場所を追加
+      from django.core.wsgi import get_wsgi_application
       
-        ```python
-        import os
-        import sys # 追加
-        
-        from django.core.wsgi import get_wsgi_application
-        
-        sys.path.append('/home/stockerbastard/stocker/stocker') # 追加
-        sys.path.append('/home/stockerbastard/stocker/app_stock') # 追加
-        
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stocker.settings')
-        
-        application = get_wsgi_application()
-        ```
+      sys.path.append('/home/stockerbastard/stocker/stocker') # 追加
+      sys.path.append('/home/stockerbastard/stocker/app_stock') # 追加
       
-      - settings.py
+      os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stocker.settings')
       
-        ```python
-        * ALLOW_HOST変更
-        
-        #ALLOWED_HOSTS = ['127.0.0.1','localhost']
-        ALLOWED_HOSTS = ['127.0.0.1','localhost',<ホストアドレス>] # ホストアドレスを追加する
-        
-        * STATIC_ROOT変更
-            
-        #STATIC_ROOT = 'C:/static/'
-        STATIC_ROOT = os.path.join(BASE_DIR, 'static')  
-        ```
-
-   4. #### 静的ファイルの配置
-
-      1. ##### 仮想環境にアクティベートして以下のコマンドを入力する
-
-          settings.pyのSTATIC_ROOTに設定されているパスの直下に静的ファイルがコピーされる
-
-         ```bash
-         (env)$python manage.py collectstatic
-         ```
-
-      2. ##### staticフォルダのアクセス許可設定
-
-           httpd.confに以下の設定を追記する(または別名で定義された/etc/httpd/conf.d/*.confファイルに追記でも可)
-
-         ```bash
-         <IfModule alias_module>
-           # 静的ファイルが配置されているディレクトリをエイリアスstaticと関連付ける
-           Alias /static /home/stockerbastard/stocker/static 
-           # 静的ファイルが配置されているディレクトリをアクセス許可する
-           <Directory /home/stockerbastard/stocker/static>
-             Require all granted
-           </Directory>
-         </IfModule>
-         ```
-
-      3. ##### httpd再起動
-
-         ```bash
-         $systemctl restart httpd.service
-         ```
-
-   5. ### WebDriver
-
-      1. WebDriverを公式サイトよりダウンロードして所定の場所に配置する
-
-         - firefox
-
-           armv7の提供はv0.23.0までなので注意する(Raspberry Pi 3B + CentOSの組み合わせはこちら)
-
-           [v0.23.0](https://github.com/mozilla/geckodriver/releases/tag/v0.23.0)
-
-           Windows,Linux64bitはこちら
-
-           [v0.30.0](https://github.com/mozilla/geckodriver/releases/tag/v0.30.0)
-
-         - chrome
-
-           chromeはarmv7非対応
-
-           [97.0.4692.20](https://chromedriver.storage.googleapis.com/index.html?path=97.0.4692.20/)
-
-         - edge
-
-           [Release 98](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/#downloads)
-
-      2. ### WebDriverフォルダのパーミッションを777に変更する
-
-         ```sh
-         $sudo chmod -R 777 [WebDriverDirectory]
-         ```
-
-   6. ### apacheユーザーのホームディレクトリのパーミッションを777に変更する
-
-      ```sh
-      $sudo chmod -R 777 /usr/share/httpd
+      application = get_wsgi_application()
       ```
 
-      これを実施しないと WedDriverインスタンス生成時に "connection refused" のエラーを吐く
+    2. settings.py
 
-      [ptyhon内に記述したseleniumのwebdriver.Firefox()が、apacheで実行すると"connection refused"のエラーになってしまう](https://teratail.com/questions/184002)
+      ```python
+      * ALLOW_HOST変更
+      
+      #ALLOWED_HOSTS = ['127.0.0.1','localhost']
+      ALLOWED_HOSTS = ['127.0.0.1','localhost',<ホストアドレス>] # ホストアドレスを追加する
+      
+      * STATIC_ROOT変更
+          
+      #STATIC_ROOT = 'C:/static/'
+      STATIC_ROOT = os.path.join(BASE_DIR, 'static')  
+      ```
 
-   7. ブラウザインストール
+11. #### 静的ファイルの配置
 
-      WebDriverの配置だけではダメ。ブラウザもインストールすること。
+    1. ##### 仮想環境にアクティベートして以下のコマンドを入力する
 
-      - firefox
+        settings.pyのSTATIC_ROOTに設定されているパスの直下に静的ファイルがコピーされる
 
-        ```sh
-        $yum install -y firefox
-        ```
+       ```bash
+       (env)$python manage.py collectstatic
+       ```
 
-        geckodriver.logが"Unable to autolaunch a dbus-daemon without a $DISPLAY for X11"のログを吐いていたので
+    2. ##### staticフォルダのアクセス許可設定
 
-        yumで以下のパッケージをインストール。
+         httpd.confに以下の設定を追記する(または別名で定義された/etc/httpd/conf.d/*.confファイルに追記でも可)
 
-        以下を実行してもログは吐かれていたので結果的に不要だったかもしれないが上手くいかない時に試すといいかも。
+       ```bash
+       <IfModule alias_module>
+         # 静的ファイルが配置されているディレクトリをエイリアスstaticと関連付ける
+         Alias /static /home/stockerbastard/stocker/static 
+         # 静的ファイルが配置されているディレクトリをアクセス許可する
+         <Directory /home/stockerbastard/stocker/static>
+           Require all granted
+         </Directory>
+       </IfModule>
+       ```
 
-        ```sh
-        $yum install -y dbus-x11 dbus
-        $eval `dbus-launch --sh-syntax`
-        ```
+    3. ##### httpd再起動
 
-        
+       ```bash
+       $systemctl restart httpd.service
+       ```
 
-   8. デバッグ
+12. #### WebDriver
 
-      - firefox
+    1. ##### WebDriverを公式サイトよりダウンロードして所定の場所に配置する
 
-        geckodriver.logのログレベルを上げる(geckodriverのバージョンが古いせいか解決に繋がるログは出力されなかった)
+       - firefox
 
-        ```python
-        from selenium.webdriver.firefox.options import Options as firefoxOptions
-        from selenium import webdriver
-        
-        # オプションクラスインスタンス
-        options = firefoxOptions()
-        
-        # ログレベルをtraceに設定
-        options.log.level = "trace"
-        
-        # WebDriverを返す
-        wDriver = webdriver.Firefox(executable_path=[WebDriverPath], 
-                                    log_path=[WebDriverLogPath],
-                                    options=options)
-        ```
+         armv7の提供はv0.23.0までなので注意する(Raspberry Pi 3B + CentOSの組み合わせはこちら)
 
-        
+         [v0.23.0](https://github.com/mozilla/geckodriver/releases/tag/v0.23.0)
+
+         Windows,Linux64bitはこちら
+
+         [v0.30.0](https://github.com/mozilla/geckodriver/releases/tag/v0.30.0)
+
+       - chrome
+
+         chromeはarmv7非対応
+
+         [97.0.4692.20](https://chromedriver.storage.googleapis.com/index.html?path=97.0.4692.20/)
+
+       - edge
+
+         [Release 98](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/#downloads)
+
+    2. ##### WebDriverフォルダのパーミッションを777に変更する
+
+       ```sh
+       $sudo chmod -R 777 [WebDriverDirectory]
+       ```
+
+    3. ##### apacheユーザーのホームディレクトリのパーミッションを777に変更する
+
+       ```sh
+       $sudo chmod -R 777 /usr/share/httpd
+       ```
+
+       これを実施しないと WedDriverインスタンス生成時に "connection refused" のエラーを吐く
+
+       [ptyhon内に記述したseleniumのwebdriver.Firefox()が、apacheで実行すると"connection refused"のエラーになってしまう](https://teratail.com/questions/184002)
+
+    4. ##### ブラウザインストール
+
+       WebDriverの配置だけではダメ。ブラウザもインストールすること。
+
+       - firefox
+
+         ```sh
+         $yum install -y firefox
+         ```
+
+         geckodriver.logが"Unable to autolaunch a dbus-daemon without a $DISPLAY for X11"のログを吐いていたので
+
+         yumで以下のパッケージをインストール。
+
+         以下を実行してもログは吐かれていたので結果的に不要だったかもしれないが上手くいかない時に試すといいかも。
+
+         ```sh
+         $yum install -y dbus-x11 dbus
+         $eval `dbus-launch --sh-syntax`
+         ```
+
+13. ### デバッグ
+
+    - firefox
+
+      geckodriver.logのログレベルを上げる(geckodriverのバージョンが古いせいか解決に繋がるログは出力されなかった)
+
+      ```python
+      from selenium.webdriver.firefox.options import Options as firefoxOptions
+      from selenium import webdriver
+      
+      # オプションクラスインスタンス
+      options = firefoxOptions()
+      
+      # ログレベルをtraceに設定
+      options.log.level = "trace"
+      
+      # WebDriverを返す
+      wDriver = webdriver.Firefox(executable_path=[WebDriverPath], 
+                                  log_path=[WebDriverLogPath],
+                                  options=options)
+      ```
+
+      
 
 ## マイグレーション
 

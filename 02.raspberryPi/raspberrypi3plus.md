@@ -81,7 +81,7 @@
 
       ```sh
       localctl
-
+      
       System Locale: LANG=ja_JP.utf8
          VC Keymap: jp-OADG109A
          X11 Layout: jp
@@ -518,7 +518,7 @@
            5. wlan0のルーティング設定変更  
               * [同一セグメントにて複数インターフェースがある時のNW設定](https://takumicloud.jp/blog/2015/11/30/nw/)  
                このサイトにわかりやすくまとめられていたので参考にした(ルーティング設定の変更を参照)。
-               結果的にこの記事が解決に繋がった。
+                結果的にこの記事が解決に繋がった。
 
         3. wifiのネットワーク再設定手順
 
@@ -672,12 +672,12 @@
                ```sh
                # subroute.shを新規作成
                $vim /usr/local/sbin/subroute.sh
-
+               
                # rc.local編集
                $vim /etc/rc.local
-
+               
                sh /usr/local/sbin/subroute.sh #最終行に追記
-
+               
                # rc.localの権限変更
                $chmod u+x /etc/rc.d/rc.local
                ```
@@ -848,6 +848,10 @@
 
    http://<ホスト名>
 
+- 別のApacheインスタンス作成方法
+
+  [参考：1台のサーバで複数のApacheを動かす](https://knowledge.hdora.tokyo/?p=930)
+
 ### 16.vsftpdインストール
 
 #### 16-1. vsftpdインストール
@@ -984,7 +988,7 @@
       ```sh
       $cd /etc/ssh
       $vim /etc/ssh/sshd_config
-
+      
       #PermitRootLogin yes
       ↓
       PermitRottLogin no
@@ -1054,7 +1058,7 @@
 
       ```sh
       $firewall-cmd --reload
-
+      
       public (active)
          target: default
          icmp-block-inversion: no
@@ -1124,7 +1128,7 @@
    ```
 
 #### 19-6. ユーザー作成
-  
+
    1. postgresのインストール時に postgres というOSユーザーが追加されるのでパスワードを設定
 
       ```sh
@@ -1139,18 +1143,18 @@
       ```sh
       $su - postgres # postgresユーザーにスイッチ
       -bash-4.2$psql
-
+      
       psql (9.2.24)
       "help" でヘルプを表示します.
-
+      
       postgres=# ALTER ROLE postgres with password '<設定パスワード>';
-
+      
       ALTER ROLE
-
+      
       # 一旦出る
       postgres=#\q 
       -bash-4.2$exit
-
+      
       # postgresを再起動して設定を反映
       $systemctl restart postgres
       ```
@@ -1224,6 +1228,31 @@
   * [PostgreSQL 9.2 を CentOS 7 に yum インストールする手順](https://weblabo.oscasierra.net/postgresql92-centos7-install/)
 
   * [ユーザーとパスワードの設定](http://db-study.com/archives/121)
+
+
+
+20.dns設定
+
+[参考](https://www.server-world.info/query?os=CentOS_7&p=dns&f=1)
+
+- BINDインストール
+- 内部ネットワーク向け設定
+- ゾーンファイル設定
+- BINDの起動設定
+
+21.ssl設定
+
+[参考](https://www.server-world.info/query?os=CentOS_7&p=httpd&f=7)
+
+- 証明書の取得(Let's Encrypt)
+
+- 80番ポートの外部公開(Let's Encryptからのアクセスを許可する為)
+
+- mod_sslインストール・設定
+
+- http⇒httpsへのリダイレクト設定
+
+  
 
 ## バックアップ＆リストア
 
