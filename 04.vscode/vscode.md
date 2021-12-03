@@ -78,167 +78,172 @@
 4. ## 拡張機能
 
    * Japanese Language Pack fro Visual Studio Code
+
    * Python
-   * Ptyhon Extension Pack
-     * Python Docstring Generator
-     * Jinja
-     * Django
-     * Visual Studio IntelliCode
-     * Python Indent
+     * Ptyhon Extension Pack
+       * Python Docstring Generator
+       * Jinja
+       * Django
+       * Visual Studio IntelliCode
+       * Python Indent
+
+
    * SFTP(liximomo)
+
    * Git History
+
    * Easy icon thema
+
    * vscode-workspace-switcher
+
    * Material Thema
+
    * Peacock
-   
-   
+
+
       * Prettier - Code formatter
-   
-   
+
+
       * Jupyter
-   
 
 5. ## vscode設定
 
-### 	github連携
+   - github連携
+   - sftp.json
+   - launch.json
+   - settings.json
+     - pythonライブラリの場所指定(python.pythonPath)
+     - 単体テストファイル設定(python.testing.unittestArgs)
 
-### 	sftp.json
+   1. ### 	改行コード
 
-### 	launch.json
+      シェルスクリプトファイルをVsCodeで編集してLinuxサーバーにアップする場合、改行コードCrLfだとshコマンドでシェルスクリプトファイルを実行時に「そのようなファイルやディレクトリはありません」と表示されることがある
 
-### 	settings.json
+      1. #### 拡張機能にcode-eol 2019(Line Endings)を追加
 
-#### 	pythonライブラリの場所指定(python.pythonPath)
+      2. ##### インストールボタンをクリック
 
-#### 	単体テストファイル設定(python.testing.unittestArgs)
+         <img src="img/code-eol.png" alt="code-eol2019" style="float:left;" />
 
-### 	改行コード
+      3. ##### 改行コードが可視化される
 
-* シェルスクリプトファイルをVsCodeで編集してLinuxサーバーにアップする場合、改行コードCrLfだとshコマンドでシェルスクリプトファイルを実行時に「そのようなファイルやディレクトリはありません」と表示されることがある
+         <img src="img/eof-visible.png" alt="eof-visible" style="float:left;" />
 
-#### 1.拡張機能にcode-eol 2019(Line Endings)を追加
+   2. ### ファイルアイコン変更
 
-##### 1.インストールボタンをクリック
+      1. #### 左下の歯車マークからファイルアイコンの変更をクリック
 
-![code-eol2019](img/code-eol.png)
+         <img src="img/fileicon-change.png" alt="fileicon-change" style="float:left;" />
 
-##### 2.改行コードが可視化される
+      2. #### コマンドパレットから任意のファイルアイコンテーマを選択
 
-![eof-visible](img/eof-visible.png)
+         <img src="img/fileicon-select.png" alt="fileicon-select" style="float:left;" />
 
-### ファイルアイコン変更
+6. ## ワークスペース
 
-#### 1.左下の歯車マークからファイルアイコンの変更をクリック
+   ワークスペース追加方法
 
-![fileicon-change](img/fileicon-change.png)
+   1. #### ファイル-ワークスペースにフォルダーを追加の順に選択する
 
-#### 2.コマンドパレットから任意のファイルアイコンテーマを選択
+      <img src="img/workspace_folder_add.png" alt="workspace-in-folder-add" style="float:left;" />
 
-![fileicon-select](img/fileicon-select.png)
+   2. #### ワークスペースとして追加するフォルダを選択する
 
-## ワークスペース
+      <img src="img/workspace-folder-select.png" alt="workspace-folder-select" style="float:left;" />
 
-### ワークスペース追加方法
+   3. #### ワークスペースとして選択されたフォルダの直下にworkspace.code-workspaceというファイルが作成される
 
-#### 1.ファイル-ワークスペースにフォルダーを追加の順に選択する
+      <img src="img/workspace-createfile.png" alt="workspace-createfile" style="float:left;" />
 
-![workspace-in-folder-add](img/workspace_folder_add.png)
+7. ## git除外設定
 
-#### 2.ワークスペースとして追加するフォルダを選択する
+   1. ### ワークスペース直下に.gitignoreという名前のファイルを新規作成する
 
-![workspace-folder-select](img/workspace-folder-select.png)
+   2. ### 除外するファイル、フォルダを.gitignoreに記述する
 
-#### 3.ワークスペースとして選択されたフォルダの直下にworkspace.code-workspaceというファイルが作成される
+      ```python
+      CodeList/data_j.xls
+      log/
+      Lib/__pycache__
+      Model/__pycache__
+      ```
 
-![workspace-createfile](img/workspace-createfile.png)
+   3. ### ファイルが除外されない場合はキャッシュを削除する
 
-## git除外設定
+      ```sh
+      # ファイルの場合
+      (projectDirectory)/git rm --cache <対象ファイル>
+      # ディレクトリの場合
+      (projectDirectory)/git rm -r --cache <対象ディレクトリ>
+      ```
 
-### 1.ワークスペース直下に.gitignoreという名前のファイルを新規作成する
+8. ## リポジトリクローン
 
-### 2.除外するファイル、フォルダを.gitignoreに記述する
+   1. ### githubでリポジトリ作成
 
-```sh
-CodeList/data_j.xls
-log/
-Lib/__pycache__
-Model/__pycache__
-```
+   2. #### Newをクリック
 
-### 3.ファイルが除外されない場合はキャッシュを削除する
+      <img src="img/github-new-repo_1.png" alt="github-new-repo_1" style="float:left;" />
 
-```sh
-# ファイルの場合
-(projectDirectory)/git rm --cache <対象ファイル>
-# ディレクトリの場合
-(projectDirectory)/git rm -r --cache <対象ディレクトリ>
-```
+   3. #### リポジトリ名を入力
 
-## リポジトリクローン
+   4. #### Privateに変更
 
-### 1.githubでリポジトリ作成
+   5. #### Add a README fileにチェックを入れる
 
-#### 1.Newをクリック
+   6. #### CreateRepositoryをクリック
 
-![github-new-repo_1](img/github-new-repo_1.png)
+      <img src="img/github-new-repo_2.png" alt="github-new-repo_2" style="float:left;" />
 
-#### 2.リポジトリ名を入力
+   7. ### リポジトリの場所となるフォルダを作成
 
-#### 3.Privateに変更
+      <img src="img/new-repository-place-create.png" alt="new-repository-place-create" style="float:left;" />
 
-#### 4.Add a README fileにチェックを入れる
+   8. ### VsCodeを起動する
 
-#### 5.CreateRepositoryをクリック
+      <img src="img/open-vscode-newwindow.png" alt="img/open-vscode-newwindow" style="float: left; zoom: 80%;" />
 
-![github-new-repo_2](img/github-new-repo_2.png)
+   9. ### ソース管理を開き、「リポジトリのクローン」をクリックする
 
-### 2.リポジトリの場所となるフォルダを作成
+      <img src="img/vscode-repository-clone.png" alt="vscode-repository-clone" style="float: left;zoom:80%;" />
 
-![new-repository-place-create](img/new-repository-place-create.png)
+   10. ### リポジトリURLを指定する
 
-### 3.VsCodeを起動する
+       <img src="img/input-repository-url.png" alt="input-repository-url" style="float: left;zoom:80%;" />
 
-![img/open-vscode-newwindow](img/open-vscode-newwindow.png)
+9. ## ブランチ作成
 
-### 4.ソース管理を開き、「リポジトリのクローン」をクリックする
+   1. ### 新しい分岐の作成
 
-![vscode-repository-clone](img/vscode-repository-clone.png)
+      <img src="img/new-branch-create.png" alt="new-branch-create" style="float: left;zoom:80%;" />
 
-### 5.リポジトリURLを指定する
+   2. ### ブランチ名を入力
 
-![input-repository-url](img/input-repository-url.png)
+      <img src="img/new-branch-inputname.png" alt="new-branch-inputname" style="float: left;" />
 
-## ブランチ作成
+   3. ### 変更の発行(push)
 
-### 1.新しい分岐の作成
+      
 
-![new-branch-create](img/new-branch-create.png)
+10. ## ブランチマージ
 
-### 2.ブランチ名を入力
+    1. ### チェックアウト先をmainに変更する
 
-![new-branch-inputname](img/new-branch-inputname.png)
+       <img src="img/main-branch-select.png" alt="checkout-change" style="float: left;" />
 
-### 3.変更の発行(push)
+    2. ### コマンドパレットにてGit:Mergeを選択(Ctrl+Shift+Pでコマンドパレット表示)
 
-## ブランチマージ
+       <img src="img/branch-merge-select.png" alt="brancd-merge-select" style="float: left;" />
 
-### 1.チェックアウト先をmainに変更する
+    3. ### マージ対象となるリポジトリを選択
 
-![checkout-change](img/main-branch-select.png)
+       <img src="img/merge-repo-select.png" alt="merge-repo-select" style="float: left;" />
 
-### 2.コマンドパレットにてGit:Mergeを選択(Ctrl+Shift+Pでコマンドパレット表示)
+    4. ### マージ対象となるブランチを選択
 
-![brancd-merge-select](img/branch-merge-select.png)
+       <img src="img/merge-branch-select.png" alt="merge-branch-select" style="float: left;" />
 
-### 3.マージ対象となるリポジトリを選択
+    5. ### mainリポジトリをコミットする
 
-![merge-repo-select](img/merge-repo-select.png)
+    6. ### githubへpushする
 
-### 4.マージ対象となるブランチを選択
-
-![merge-branch-select](img/merge-branch-select.png)
-
-### 5.mainリポジトリをコミットする
-
-### 6.githubへpushする

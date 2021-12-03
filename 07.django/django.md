@@ -192,8 +192,10 @@
 
       2. ##### confファイル設定例
 
-         - 組み込みモード
+         プロジェクトごとに動作を分ける場合はデーモンモードで記述する。組み込みモードは後互換として存在しているが基本はデーモンモードで動かすのがいいらしい。
 
+         - 組み込みモード
+         
            ```sh
            $vim /etc/httpd/conf.d/python.conf
            
@@ -217,22 +219,26 @@
              </Files>
            </Directory>
            ```
-
-
+         
          - デーモンモード
-
-           ```
-           
-           ```
-
-
-         - 上記パスにホームディレクトリが含まれている場合、初期状態ではApacheユーザーから参照ができない為、chmodで755にパーミッションを変更
-
+         
            ```sh
-           $chmod 755 <ホームディレクトリ>
+           # apacheをDaemonモードで起動
+           WSGIDaemonProcess <WSGIProcessGroup名> user=apache group=apache maximum-requests=10000 python-path=<プロジェクトのホームディレクトリ>:<仮想環境フォルダへのパス>
            
+           # ProcessGroup
+           WSGIProcessGroup <WSGIProcessGroup名>
+           ```
+         
+         - 上記パスにホームディレクトリが含まれている場合、初期状態ではApacheユーザーから参照ができない為
+         
+           chmodで777にパーミッションを変更
+           
+           ```sh
+           $chmod 777 <ホームディレクトリ>
+                  
            # 上記例では以下のコマンドを実行
-           $chmod 755 stockerbastard
+           $chmod 777 /home/stockerbastard
            ```
 
    4. #### wsgi.py修正
@@ -358,13 +364,13 @@
       }
       ```
 
-10. #### デプロイにあたって修正が必要なファイル
+9. #### デプロイにあたって修正が必要なファイル
 
-    1. wsgi.py
+   1. wsgi.py
 
       wsgi.pyの場所、アプリの場所を追加
 
-      ```python
+      ```sh
       import os
       import sys # 追加
       
@@ -378,9 +384,9 @@
       application = get_wsgi_application()
       ```
 
-    2. settings.py
+   2. settings.py
 
-      ```python
+      ```sh
       * ALLOW_HOST変更
       
       #ALLOWED_HOSTS = ['127.0.0.1','localhost']

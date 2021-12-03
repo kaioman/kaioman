@@ -1,389 +1,422 @@
 # Python
 
-## 1.python3.6 インストール
+1. ## python3.6 インストール
 
-### 1.インストール
+   1. ### インストール
 
-```sh
-$yum -y install python3
-```
+      ```sh
+      $yum -y install python3
+      ```
 
-## 2.pip
+2. ## pip
 
-* python3系インストール後はpipが使用できないのでpip3を使う
+   - python3系インストール後はpipが使用できないのでpip3を使う
 
-### 1.pip自身のアップグレード
+   1. ### pip自身のアップグレード
 
-```sh
-$pip3 install -U pip
-```
+      ```sh
+      $pip3 install -U pip
+      ```
 
-### 2.パッケージリストの確認
+   2. ### パッケージリストの確認
 
-```sh
-$pip3 list
-```
+      ```sh
+      $pip3 list
+      ```
 
-### 3.アップデートが必要なパッケージのリスト確認
+   3. ### アップデートが必要なパッケージのリスト確認
 
-```sh
-$pip3 list -o
-```
+      ```sh
+      $pip3 list -o
+      ```
 
-### 4.requiremets.txtによる一括インストール
+   4. ### requiremets.txtによる一括インストール
 
-```sh
-$pip3 install -r requirements.txt
+      ```sh
+      $pip3 install -r requirements.txt
+      
+      # requirements.txt書き方(例)
+      
+      beautifulsoup4==4.9.3
+      bs4==0.0.1
+      configparser==5.0.2
+      decorator==4.4.2
+      numpy==1.19.5
+      pandas==1.1.5
+      pandas-datareader==0.9.0
+      psycopg2==2.8.6
+      requests==2.25.1
+      six==1.15.0
+      SQLAlchemy==1.4.18
+      xlrd==2.0.1
+      xlwt==1.3.0
+      ```
 
-# requirements.txt書き方(例)
+   5. ### 現在の環境の設定ファイル書き出し
 
-    beautifulsoup4==4.9.3
-    bs4==0.0.1
-    configparser==5.0.2
-    decorator==4.4.2
-    numpy==1.19.5
-    pandas==1.1.5
-    pandas-datareader==0.9.0
-    psycopg2==2.8.6
-    requests==2.25.1
-    six==1.15.0
-    SQLAlchemy==1.4.18
-    xlrd==2.0.1
-    xlwt==1.3.0
-```
+      ```sh
+      $pip3 freeze > requirements.txt
+      ```
 
-### 5.現在の環境の設定ファイル書き出し
+3. ## 仮想環境の作成
 
-```sh
-$pip3 freeze > requirements.txt
-```
+   1. ### venv
 
-## 3.仮想環境の作成
+      ```sh
+      $python3 -m venv <仮想環境名>
+      ```
 
-### 1.venv
+      下記のエラーが発生する場合の対処方
 
-```sh
-$python3 -m venv <仮想環境名>
-```
+      ```sh
+      $python3 -m venv env
+      Error: Command '['/path/to/env/bin/python3', '-Im', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1
+      ```
 
-下記のエラーが発生する場合の対処方
+      1. #### pipなしで仮想環境を作成する
 
-```sh
-$python3 -m venv env
-Error: Command '['/path/to/env/bin/python3', '-Im', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1
-```
+         ```sh
+         $python3 -m venv --without-pip <仮想環境名>
+         ```
 
-#### 1.pipなしで仮想環境を作成する
+      2. #### 仮想環境作成後、アクティベート
 
-```sh
-$python3 -m venv --without-pip <仮想環境名>
-```
+         ```sh
+         $. <仮想環境パス>\bin\activate
+         ```
 
-#### 2.仮想環境作成後、アクティベート
+      3. #### pipインストール
 
-```sh
-$. <仮想環境パス>\bin\activate
-```
+         ```sh
+         (env)$curl -O https://bootstrap.pypa.io/get-pip.py
+         (env)$python get-pip.py
+         ```
 
-#### 3.pipインストール
+      4. #### 仮想環境に入り直す
 
-```sh
-(env)$curl -O https://bootstrap.pypa.io/get-pip.py
-(env)$python get-pip.py
-```
+         ```sh
+         (env)$deactivate
+         $. <仮想環境パス>\bin\activate
+         ```
 
-#### 4.仮想環境に入り直す
+      5. #### pipのインストールパスが仮想環境側を向いているか確認
 
-```sh
-(env)$deactivate
-$. <仮想環境パス>\bin\activate
-```
+         ```sh
+         (env)$which pip
+         (env)$~/****/env/bin/pip (仮想環境のpipになっていればOK)
+         ```
 
-#### 5.pipのインストールパスが仮想環境側を向いているか確認
+      6. #### 上記作業を行うスクリプトファイル
 
-```sh
-(env)$which pip
-(env)$~/****/env/bin/pip (仮想環境のpipになっていればOK)
-```
+         ```sh
+         #!/bin/zsh
+         set -eu
+         python3 -m venv --without-pip <仮想環境名>
+         curl -O https://bootstrap.pypa.io/get-pip.py
+         (){ setopt local_options unset; . <仮想環境名>/bin/activate }
+         python get-pip.py
+         (){ setopt local_options unset; deactivate }
+         (){ setopt local_options unset; . <仮想環境名>/bin/activate }
+         ```
 
-#### 6.上記作業を行うスクリプトファイル
+   2. ### アクティベート
 
-```sh
-#!/bin/zsh
-set -eu
-python3 -m venv --without-pip <仮想環境名>
-curl -O https://bootstrap.pypa.io/get-pip.py
-(){ setopt local_options unset; . <仮想環境名>/bin/activate }
-python get-pip.py
-(){ setopt local_options unset; deactivate }
-(){ setopt local_options unset; . <仮想環境名>/bin/activate }
-```
+      ```sh
+      $. <仮想環境パス>\bin\activate
+      ```
 
-### 2.アクティベート
+   3. ### 仮想環境下でpip,setuptools最新化
 
-```sh
-$. <仮想環境パス>\bin\activate
-```
+      ```sh
+      (env)$pip install --upgrade pip
+      (env)$pip install --upgrade pip setuptools
+      ```
 
-### 3.仮想環境下でpip,setuptools最新化
+      windows環境下の場合は以下を実行(上記でも最新化できるがpipに対するアクセス拒否のエラーが発生する)
 
-```sh
-(env)$pip install --upgrade pip
-(env)$pip install --upgrade pip setuptools
-```
+      ```sh
+      (env)$python -m pip install --upgrade pip
+      (env)$python -m pip install --upgrade setuptools
+      ```
 
-windows環境下の場合(上記でも最新化できるがpipに対するアクセス拒否のエラーが発生する)
+   4. ### ディアクティベート
 
-```sh
-(env)$python -m pip install --upgrade pip
-(env)$python -m pip install --upgrade setuptools
-```
+      仮想環境から抜ける
 
-### 4.ディアクティベート
+      ```sh
+      (env)$deactivate
+      ```
 
-```sh
-(env)$deactivate
-```
+4. ## numpyインストール
 
-## 4.numpyインストール
+   * ハマったのでメモ
 
-* ハマったのでメモ
-* pythonバージョンは3.6
+   * この時のpythonバージョンは3.6
 
-### 4-1.環境インストール
+   1. ### 環境インストール
 
-```sh
-# gcc-gfortran,blas-devel,lapack-devel,freetypeインストール
-$yum install -y gcc-gfortran blas-devel lapack-devel freetype libpng-devel
-```
+      ```sh
+      # gcc-gfortran,blas-devel,lapack-devel,freetypeインストール
+      $yum install -y gcc-gfortran blas-devel lapack-devel freetype libpng-devel
+      ```
 
-### 4-2.python36-develインストール
+   2. ### python36-develインストール
 
-```sh
-# インストールするpython-develのバージョン調査
-$yum list available | grep python | grep devel
+      ```sh
+      # インストールするpython-develのバージョン調査
+      $yum list available | grep python | grep devel
+      
+      # python-develインストール
+      $yum install -y python36-devel
+      
+      # numpyのインストールに失敗する場合は以下をインストール
+      $yum install -y python-devel
+      ```
 
-# python-develインストール
-$yum install -y python36-devel
+   3. ### numpyインストール
 
-# numpyのインストールに失敗する場合は以下をインストール
-$yum install -y python-devel
-```
+      ```sh
+      $pip3 install numpy
+      ```
 
-### 4-3.numpyインストール
+5. ## pandas-datareaderインストール
 
-```sh
-$pip3 install numpy
-```
+   1. ### 環境インストール
 
-## 5.pandas-datareaderインストール
+      ```sh
+      # libxml2-devel,libxslt-develインストール
+      $yum install libxml2-devel libxslt-devel
+      ```
 
-### 5-1.環境インストール
+   2. ### pandas-datareaderインストール
 
-```sh
-# libxml2-devel,libxslt-develインストール
-$yum install libxml2-devel libxslt-devel
-```
+      ```sh
+      $pip3 install pandas-datareader
+      ```
 
-### 5-2.pandas-datareaderインストール
+6. ## psycopg2インストール
 
-```sh
-$pip3 install pandas-datareader
-```
+   1. ### 環境インストール
 
-## 6.psycopg2インストール
+      ```sh
+      # postgresql-develインストール
+      $yum install postgresql-devel
+      ```
 
-### 6-1.環境インストール
+   2. ### psycopg2インストール
 
-```sh
-# postgresql-develインストール
-$yum install postgresql-devel
-```
+      ```sh
+      $pip3 install psycopg2
+      ```
 
-### 6-2.psycopg2インストール
+7. ## PyPI登録
 
-```sh
-$pip3 install psycopg2
-```
+   1. ### TestPyPI(PyPI)アカウント登録
 
-## 7.PyPI登録
+      1. #### TestPyPI(PyPI)のサイトへ移動
 
-### 7-1.TestPyPI(PyPI)アカウント登録
+         * TestPyPI,PyPI双方でアカウントを作成(手順同じ)
 
-#### 7-1-1.TestPyPI(PyPI)のサイトへ移動
+             [TestPyPI](https://test.pypi.org/)  
+             [PyPI](https://pypi.org/)
 
-* TestPyPI,PyPI双方でアカウントを作成(手順同じ)
+      2. #### トップページでRegisterをクリック
 
-    [TestPyPI](https://test.pypi.org/)  
-    [PyPI](https://pypi.org/)
+         <img src="img/TestPyPI-Account-Regist.png" alt="TestPyPI-Account-Regist" style="zoom:80%;" style="float:left" />
 
-#### 7-1-2.トップページでRegisterをクリック
+      3. #### アカウント情報を入力してCreate accountをクリック
 
-![TestPyPI-Account-Regist](img/TestPyPI-Account-Regist.png)
+         <img src="img/TestPyPI-AccountInfo-Input.png" alt="TestPyPI-AccuontInfo-Input" style="float:left;zoom:80%;" />
 
-#### 7-1-3.アカウント情報を入力してCreate accountをクリック
+      4. #### メールアドレスの認証メールが届くので認証用リンクをクリック
 
-![TestPyPI-AccuontInfo-Input](img/TestPyPI-AccountInfo-Input.png)
+         * 認証メール送信案内<img src="img/TestPyPI-Account-VerifyEmail.png" alt="TestPyPI-Account-VerifyEmail" style="float:left" />
 
-#### 7-1-4.メールアドレスの認証メールが届くので認証用リンクをクリック
+         * 
 
-* 認証メール送信案内
+         * 
 
-![TestPyPI-Account-VerifyEmail](img/TestPyPI-Account-VerifyEmail.png)
+         * 認証メールにて認証用リンクをクリック
 
-* 認証メールにて認証用リンクをクリック
+           <img src="img/TestPyPI-Account-VerifyEmail-link.png" alt="TestPyPI-Account-VerifyEmail" style="float: left" />
 
-![TestPyPI-Account-VerifyEmail](img/TestPyPI-Account-VerifyEmail-link.png)
+         * 認証成功
 
-* 認証成功
+           <img src="img/TestPyPI-Account-VerifyEmail-Success.png" alt="TestPyPI-Account-VerifyEmail-Success" style="float: left;zoom:80%;" />
 
-![TestPyPI-Account-VerifyEmail-Success](img/TestPyPI-Account-VerifyEmail-Success.png)
+   2. ### 必要パッケージを仮想環境にインストール
 
-### 7-2.必要パッケージを仮想環境にインストール
+      ```sh
+      (env)$pip install setuptools wheel twine
+      ```
 
-```sh
-(env)$pip install setuptools wheel twine
-```
+   3. ### パッケージング
 
-### 7-3.パッケージング
+      ```sh
+      (env)$python setup.py sdist bdist_wheel
+      ```
 
-```sh
-(env)$python setup.py sdist bdist_wheel
-```
+   4. ### TestPyPIへアップロード
 
-### 7-4.TestPyPIへアップロード
+      ```sh
+      (env)$twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+      ```
 
-```sh
-(env)$twine upload --repository-url https://test.pypi.org/legacy/ dist/*
-```
+   5. ### TestPyPIユーザー認証
 
-### 7-4.TestPyPIユーザー認証
+      ```sh
+      Enter your username:(TestPyPIユーザー名入力)
+      Enter your password:(TestPyPIユーザーパスワード入力)
+      ```
 
-```sh
-Enter your username:(TestPyPIユーザー名入力)
-Enter your password:(TestPyPIユーザーパスワード入力)
-```
+   6. ### TestPyPIからpipインストール
 
-### 7-5.TestPyPIからpipインストール
+      ```sh
+      (env)$pip install --index-url https://test.pypi.org/simple/ --no-deps [パッケージ名]
+      ```
 
-```sh
-(env)$pip install --index-url https://test.pypi.org/simple/ --no-deps [パッケージ名]
-```
+   7. ### PyPIにアップロード
 
-### 7-6.PyPIにアップロード
+      ```sh
+      (env)$twine upload dist/*
+      ```
 
-```sh
-(env)$twine upload dist/*
-```
+   8. ### PyPIからpipインストール
 
-### 7-7.PyPIからpipインストール
+      ```sh
+      (env)$pip install [パッケージ名]
+      ```
 
-```sh
-(env)$pip install [パッケージ名]
-```
+8. ## Python3.9インストール
 
-## 8.Python3.9インストール
+   1. ### yumアップデート
 
-### 8.1 yumアップデート
+      念のため実行
 
-```sh
-$yum -y update
-```
+      ```sh
+      $yum -y update
+      ```
 
-### 8.2 ツールのインストール
+      
 
-```sh
-$yum groupinstall "Development Tools" -y
-$yum install openssl-devel libffi-devel bzip2-devel -y
-```
+   2. ### ツールのインストール
 
-### 8.3 Python3.9.7ダウンロード
+      ```sh
+      $yum groupinstall "Development Tools" -y
+      $yum install openssl-devel libffi-devel bzip2-devel -y
+      ```
 
-```sh
-$wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
-```
+   3. ### Python3.9.7ダウンロード
 
-- wgetが無い場合はインストール
+      ```sh
+      $wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
+      ```
 
-```sh
-$yum install wget -y
-```
+      - wgetが無い場合はインストール
 
-### 8.4 python3.9.7インストール
+        ```sh
+        $yum install wget -y
+        ```
 
-#### 8.4.1 解凍
+   4. ### python3.9.7インストール
 
-```sh
-$tar xvf Python-3.9.7.tgz
-```
+      1. #### 解凍
 
-#### 8.4.2 解凍したディレクトリに移動
+         ```sh
+         $tar xvf Python-3.9.7.tgz
+         ```
 
-```sh
-$cd Python-3.9*/
-```
+      2. #### 解凍したディレクトリに移動
 
-#### <a href="#python39-build">8.4.3 ビルド</a>
+         ```sh
+         $cd Python-3.9*/
+         ```
 
-```sh
-$./configure --enable-shared --enable-optimizations
-$make altinstall
-# --enable-sharedをオプション指定しないとmod_wsgiのように共有ライブラリを参照するパッケージのインストールでエラーとなる
-# altinstallはシンボリックリンクの作成を行わないインストール
-```
+      3. #### <a href="#python39-build">ビルド</a>
 
-#### <a href="#python39-lib-copy">8.4.4 libpython3.9.so.1.0を参照可能な位置にコピー</a>
+         ```sh
+         $./configure --enable-shared --enable-optimizations
+         $make altinstall
+         # --enable-sharedをオプション指定しないとmod_wsgiのように共有ライブラリを参照するパッケージのインストールでエラーとなる
+         # altinstallはシンボリックリンクの作成を行わないインストール
+         ```
 
-```sh
-# libpython3.9.so.1.0の場所を探す
-$find / -name libpython3.9.so.1.0
+      4. #### <a href="#python39-lib-copy">libpython3.9.so.1.0を参照可能な位置にコピー</a>
 
-# libpython3.9.so.1.0の場所が表示される
-/usr/local/lib/libpython3.9.so.1.0
-/root/Python-3.9.7/libpython3.9.so.1.0
+         ```sh
+         # libpython3.9.so.1.0の場所を探す
+         $find / -name libpython3.9.so.1.0
+         
+         # libpython3.9.so.1.0の場所が表示される
+         /usr/local/lib/libpython3.9.so.1.0
+         /root/Python-3.9.7/libpython3.9.so.1.0
+         
+         # libpython3.9.so.1.0を参照可能な/usr/libにコピー
+         $cp /usr/local/lib/libpython3.9.so.1.0 /usr/lib
+         ```
 
-# libpython3.9.so.1.0を参照可能な/usr/libにコピー
-$cp /usr/local/lib/libpython3.9.so.1.0 /usr/lib
-```
+      5. #### バージョン確認
 
-#### 8.4.5 バージョン確認
+         ```sh
+         $python3.9 -V
+         
+         Python 3.9.7
+         ```
 
-```sh
-$python3.9 -V
+   5. ### シンボリックリンクの変更
 
-Python 3.9.7
-```
+      Python3.9をpython3で扱えるようにする
 
-### 8.5 シンボリックリンクの変更
+      1. #### 元のシンボリックリンク削除
 
-#### 8.5.1 元のシンボリックリンク削除
+         ```sh
+         # python3.6のシンボリックリンク削除
+         $rm -rf /usr/bin/python3
+         ```
 
-```sh
-# python3.6のシンボリックリンク削除
-$rm -rf /usr/bin/python3
-```
+      2. #### python関連ファイルを検索
 
-#### 8.5.2 python関連ファイルを検索
+         ```sh
+         $whereis python3
+         
+         # python3.9へのパスを確認
+         python3: /usr/bin/python3.6 /usr/bin/python3 /usr/bin/python3.6m /usr/lib/python3.6 /usr/local/bin/python3.9-config /usr/local/bin/python3.9 /usr/local/lib/python3.6 /usr/local/lib/python3.9 /usr/include/python3.6m /usr/share/man/man1/python3.1.gz
+         ```
 
-```sh
-$whereis python3
+      3. #### シンボリックリンク作成
 
-# python3.9へのパスを確認
-python3: /usr/bin/python3.6 /usr/bin/python3 /usr/bin/python3.6m /usr/lib/python3.6 /usr/local/bin/python3.9-config /usr/local/bin/python3.9 /usr/local/lib/python3.6 /usr/local/lib/python3.9 /usr/include/python3.6m /usr/share/man/man1/python3.1.gz
-```
+         ```sh
+         $ln -s /usr/bin/python3.9 /usr/bin/python3
+         ```
 
-#### 8.5.3 シンボリックリンク作成
+      4. #### バージョン確認
 
-```sh
-$ln -s /usr/bin/python3.9 /usr/bin/python3
-```
+         ```sh
+         $python3 -V
+         
+         Python 3.9.7
+         ```
 
-#### 8.5.4 バージョン確認
+         - pipも同様に変更する
 
-```sh
-$python3 -V
+           元のシンボリックリンク削除
 
-Python 3.9.7
-```
+           ```sh
+           $rm -rf /usr/bin/pip3
+           ```
 
-- pipも同様に変更する
+           シンボリックリンク作成
+
+           ```sh
+           $ln -s /usr/bin/pip3.9 /usr/bin/pip3
+           ```
+
+           バージョン確認
+
+           ```sh
+           $pip3 -V
+           
+           pip 21.2.3 from /usr/local/lib/python3.9/site-packages/pip (python 3.9)
+           ```
+
+           
