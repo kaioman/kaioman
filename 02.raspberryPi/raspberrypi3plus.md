@@ -1263,7 +1263,7 @@
 
     - 80番ポートの外部公開(Let's Encryptからのアクセスを許可する為)
 
-      <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\02.raspberryPi\img\Router-PortFiltering-80.png" alt="Router-PortFiltering-80" style="zoom:80%;float:left;" />
+      <img src="img\Router-PortFiltering-80.png" alt="Router-PortFiltering-80" style="zoom:80%;float:left;" />
 
     - mod_sslインストール・設定
 
@@ -1361,6 +1361,6 @@
 
    1. Win32Diskmanagerを起動してbootドライブを読み取りイメージファイルを作成する
 
-      <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\02.raspberryPi\img\Win32DiskImager_02.png" alt="Win32DiskImager_02" style="zoom:80%;float:left;" />
+      <img src="img\Win32DiskImager_02.png" alt="Win32DiskImager_02" style="zoom:80%;float:left;" />
 
 2. ### リストア

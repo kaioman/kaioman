@@ -6,21 +6,21 @@
 
       [Visual Sudio CodeのWebサイト](https://code.visualstudio.com/Download)より、インストーラーをダウンロード
 
-      <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-installer-download.png" alt="vscode-installer-download" style="zoom: 80%; float:left;" />
+      <img src="img\vscode-installer-download.png" alt="vscode-installer-download" style="zoom: 80%; float:left;" />
 
    2. ## インストーラーを実行する
 
       1. ### 使用許諾契約書の同意
 
-         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-installer-accept.png" alt="vscode-installer-accept" style="zoom:75%;float:left;" />
+         <img src="img\vscode-installer-accept.png" alt="vscode-installer-accept" style="zoom:75%;float:left;" />
 
       2. ### 追加タスクの指定(デフォルトのまま)
 
-         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-installer-addtask.png" alt="vscode-installer-addtask" style="zoom:80%;float:left;" />
+         <img src="img\vscode-installer-addtask.png" alt="vscode-installer-addtask" style="zoom:80%;float:left;" />
 
       3. ### インストール実行
 
-         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-installer-install.png" alt="vscode-installer-install" style="zoom:80%;float:left;" />
+         <img src="img\vscode-installer-install.png" alt="vscode-installer-install" style="zoom:80%;float:left;" />
 
       
 
@@ -28,15 +28,15 @@
 
       1. ### [View] - [Command Palette]を選択
 
-         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-change-language-commandpalette.png" alt="vscode-change-language-commandpalette" style="zoom:100%;float:left;" />
+         <img src="img\vscode-change-language-commandpalette.png" alt="vscode-change-language-commandpalette" style="zoom:100%;float:left;" />
 
       2. ### 入力欄に Configure Display Language と入力、または選択する
 
-         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-change-language-configure-display-language.png" alt="vscode-change-language-configure-display-language" style="zoom:100%;float:left;" />
+         <img src="img\vscode-change-language-configure-display-language.png" alt="vscode-change-language-configure-display-language" style="zoom:100%;float:left;" />
 
       3. ### 画面左パネルの一覧から「Japanese Language Packs for..」を選択してInstallボタンをクリックする
 
-         <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\vscode-change-language-configure-display-language-addJp.png" alt="vscode-change-language-configure-display-language-addJp" style="zoom:80%;float:left;" />
+         <img src="img\vscode-change-language-configure-display-language-addJp.png" alt="vscode-change-language-configure-display-language-addJp" style="zoom:80%;float:left;" />
 
       4. ### vscodeの再起動確認があるので、vscodeを再起動する
 
@@ -48,7 +48,7 @@
 
    1. ### 公式サイトよりインストーラーをダウンロードする
 
-      <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\04.vsCode\img\git-download-website.png" alt="git-download-website" style="zoom:80%;float:left;" />
+      <img src="img\git-download-website.png" alt="git-download-website" style="zoom:80%;float:left;" />
 
    2. ### インストールウィザードを下記の通り進める（基本はデフォルト値のままでOK）
 
