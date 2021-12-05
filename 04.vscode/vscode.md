@@ -86,25 +86,33 @@
        * Django
        * Visual Studio IntelliCode
        * Python Indent
-
-
-   * SFTP(liximomo)
-
-   * Git History
-
-   * Easy icon thema
-
-   * vscode-workspace-switcher
-
-   * Material Thema
-
-   * Peacock
-
-
+   
+   
+      * SFTP(liximomo)
+   
+   
+   
+      * Git History
+   
+   
+   
+      * Easy icon thema
+   
+   
+   
+      * vscode-workspace-switcher
+   
+   
+   
+      * Material Thema
+   
+   
+   
+      * Peacock
       * Prettier - Code formatter
-
-
       * Jupyter
+      * Todo+
+   
 
 5. ## vscode設定
 
