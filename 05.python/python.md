@@ -54,8 +54,14 @@
 
    5. ### 現在の環境の設定ファイル書き出し
 
-      ```sh
+      ```
       $pip3 freeze > requirements.txt
+      ```
+      
+   5. キャッシュクリア
+
+      ```sh
+      $pip3 cache purge
       ```
 
 3. ## 仮想環境の作成
@@ -209,7 +215,25 @@
       $pip3 install psycopg2
       ```
 
-7. ## PyPI登録
+7. ## Pillowインストール
+
+   1. ### 環境インストール
+
+      ```sh
+      # libjpeg-develインストール
+      $yum install libjpeg-devel
+      
+      # freetype-develインストール
+      $yum install freetype-devel
+      ```
+
+   2. ### Pillowインストール
+
+      ```sh
+      $pip3 install Pillow
+      ```
+
+8. ## PyPI登録
 
    1. ### TestPyPI(PyPI)アカウント登録
 
@@ -287,7 +311,7 @@
       (env)$pip install [パッケージ名]
       ```
 
-8. ## Python3.9インストール
+1. ## Python3.9インストール
 
    1. ### yumアップデート
 
