@@ -34,7 +34,7 @@
 
    5. 「clean」で初期化する
 
-      <img src="D:\OneDrive\04 Labo\000 Knowledge\knowledge\02.raspberryPi\img\cdcard-clean.png" alt="cdcard-clean"  style="float:left;" />
+      <img src="img\cdcard-clean.png" alt="cdcard-clean"  style="float:left;" />
 
 2. ### SDカードをフォーマットする
 

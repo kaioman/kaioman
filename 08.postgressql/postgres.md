@@ -99,7 +99,7 @@
   4. スキーマ作成SQL実行
 
      ```sh
-     CREATE SCHEMA <スキーマ名> AUTHORIZATION <データベース名>;
+     CREATE SCHEMA <スキーマ名> AUTHORIZATION <ユーザー名>;
      ```
 
 7. テーブル作成
