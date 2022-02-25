@@ -87,18 +87,18 @@
        <img src="img\vncLogin.png" style="zoom:100%; float:left" />
        
     7. VNCサービス登録
-    
+
        設定ファイルコピー
-    
+
        ```sh
        $cp -p /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service
        $vim /etc/systemd/system/vncserver@:1.service
        ```
-    
+
        設定ファイル編集
-    
+
        <USER>の箇所は接続ユーザーに置き換える
-    
+
        ```sh
        [Unit]
        Description=Remote desktop service (VNC)
@@ -115,13 +115,61 @@
        [Install]
        WantedBy=multi-user.target
        ```
-    
+
        サービス登録
-    
+
        ```sh
        $systemctl daemon-reload
        $systemctl start vncserver@:1.service
        $systemctl enable vncserver@:1.service
        ```
-    
+
        上記実施後、rebootしてVNCクライアントから接続できるか確認する。
+       
+       
+
+11. Wake On Lan設定
+
+    1. ethtoolインストール
+
+       ```sh
+       $yum -y install ethtool
+       ```
+
+    2. ethtool設定
+
+       ```sh
+       $ethtool -s <ネットワークデバイス名> wol g
+       ```
+
+       ネットワークデバイス名は以下のコマンドで確認
+
+       ```sh
+       $nmcli -d
+       ```
+
+    3. 設定後確認
+
+       ```sh
+       $ethtool enp1s0 | grep Wake-on
+           Supports Wake-on: pumbg
+           Wake-on: g
+       ```
+
+    4. 設定を恒久化
+
+       ```sh
+       $nmcli connection modify enp1s0 ethernet.wake-on-lan magic
+       ```
+
+    5. クライアント側(Windows)
+
+       nWOLをインストール。以下のように設定。
+
+       <img src="img\nWOL-config.png" alt="nWOL-config" style="zoom:75%;float:left" />
+
+    6. クライアント側(iOS)
+
+       Wolowをインストール。以下のように設定。
+
+       <img src="img\Wolow-config.png" alt="Wolow-config" style="zoom:30%;float:left" />
