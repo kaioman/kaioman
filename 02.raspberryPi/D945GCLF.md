@@ -173,3 +173,147 @@
        Wolowをインストール。以下のように設定。
 
        <img src="img\Wolow-config.png" alt="Wolow-config" style="zoom:30%;float:left" />
+
+    
+
+12. Docker
+
+    1. インストール
+
+       ```sh
+       $curl https://download.docker.com/linux/centos/docker-ce.repo -o /etc/yum.repos.d/docker-ce.repo
+       $sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/docker-ce.repo
+       $yum --enablerepo=docker-ce-stable -y install docker-ce
+       ```
+
+    2. サービス登録
+
+       ```sh
+       $systemctl enable --now docker
+       ```
+
+    3. 確認
+
+       ```sh
+       $rpm -q docker-ce
+       docker-ce-20.10.12-3.el7.x86_64
+       
+       $docker version
+       Client: Docker Engine - Community
+        Version:           20.10.12
+        API version:       1.41
+        Go version:        go1.16.12
+        Git commit:        e91ed57
+        Built:             Mon Dec 13 11:45:41 2021
+        OS/Arch:           linux/amd64
+        Context:           default
+        Experimental:      true
+       
+       Server: Docker Engine - Community
+        Engine:
+         Version:          20.10.12
+         API version:      1.41 (minimum version 1.12)
+         Go version:       go1.16.12
+         Git commit:       459d0df
+         Built:            Mon Dec 13 11:44:05 2021
+         OS/Arch:          linux/amd64
+         Experimental:     false
+        containerd:
+         Version:          1.4.13
+         GitCommit:        9cc61520f4cd876b86e77edfeb88fbcd536d1f9d
+        runc:
+         Version:          1.0.3
+         GitCommit:        v1.0.3-0-gf46b6ba
+        docker-init:
+         Version:          0.19.0
+         GitCommit:        de40ad0
+       ```
+
+    4. CentOSの公式イメージファイルをダウンロード
+
+       ```sh
+       $docker pull centos
+       Using default tag: latest
+       latest: Pulling from library/centos
+       a1d0c7532777: Pull complete
+       Digest: sha256:a27fd8080b517143cbbbab9dfb7c8571c40d67d534bbdee55bd6c473f432b177
+       Status: Downloaded newer image for centos:latest
+       docker.io/library/centos:latest
+       ```
+
+    5. コンテナで echo 実行(確認)
+
+       ```sh
+       $docker run centos /bin/echo "Welcome to the Docker World"
+       ```
+
+    6. コンテナの対話型セルセッション接続(コンテナプロセス起動)
+
+       ```sh
+       $docker run -it centos /bin/bash
+       [root@a9ae2f713662 /]$         # コンテナのコンソール
+       [root@a9ae2f713662 /]$exit     # コンテナ環境のプロセス終了
+       exit
+       $                              # 戻った
+       ```
+
+    7. コンテナの対話型セルセッションからコンテナ環境のプロセスを残したままホストに戻る
+
+       ```sh
+       $docker run -it centos /bin/bash
+       [root@a9ae2f713662 /]$[root@raceman ~]$        # [Ctrl]+p [Ctrl]+qでホストに戻る
+       $docker ps # dockerプロセス表示
+       CONTAINER ID   IMAGE     COMMAND       CREATED         STATUS         PORTS     NAMES
+       a9ae2f713662   centos    "/bin/bash"   5 minutes ago   Up 4 minutes             blissful_goodall
+       
+       # 再びコンテナ環境に接続する(CONTAINER IDを指定)
+       $docker attach a9ae2f713662
+       [root@a9ae2f713662 /]$ # コンテナに接続された
+       
+       # ホスト側からコンテナ環境のプロセスを終了する
+       $docker kill a9ae2f713662
+       ```
+    
+13. Docker-Compose
+
+    1. インストール
+
+       ```sh
+       $curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+       ```
+
+    2. パーミッション変更
+
+       ```sh
+       $chmod 755 /usr/local/bin/docker-compose
+       ```
+
+    3. バージョン確認
+
+       ```sh
+       $docker-compose --version
+       docker-compose version 1.27.4, build 40524192
+       ```
+
+14. postgresのコンテナ化
+
+    1. フォルダ構成
+
+       
+
+    2. DockerFile作成
+
+       ```sh
+       $vim Dockerfile
+       
+       FROM centos
+       MAINTAINER
+       ```
+
+       
+
+15. Docker-Network
+
+    1. d
+
+       
