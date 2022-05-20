@@ -917,39 +917,41 @@ $yum update -y
 
 2. #### 設定ファイル変更
 
-   ```
+   ```sh
+   $vim /etc/vsftpd/vsftpd.conf
+      
    # 12行目：匿名ログイン禁止
-      anonymous_enable=NO
+   anonymous_enable=NO
    
-      # 82,83行目：コメント解除 ( アスキーモードでの転送を許可 )
-      ascii_upload_enable=YES
-      ascii_download_enable=YES
-      
-      # 100,101行目：コメント解除 ( chroot有効 )
-      chroot_local_user=YES
-      chroot_list_enable=YES
-      
-      # 103行目：コメント解除 ( chroot リストファイル指定 )
-      chroot_list_file=/etc/vsftpd/chroot_list
-      
-      # 109行目：コメント解除 ( ディレクトリごと一括での転送有効 )
-      ls_recurse_enable=YES
-      
-      # 114行目：変更 ( IPv4をリスンする )
-      listen=YES
-      
-      # 123行目：変更 ( もし不要なら IPv6 はリスンしない )
-      listen_ipv6=NO
-      
-      # 最終行へ追記
-      # ルートディレクトリ指定 (指定しない場合はホームディレクトリがルートディレクトリとなる)
-      local_root=public_html
-      
-      # ローカルタイムを使う
-      use_localtime=YES
-      
-      # seccomp filter をオフにする ( ログインに失敗する場合はオフにする )
-      seccomp_sandbox=NO
+   # 82,83行目：コメント解除 ( アスキーモードでの転送を許可 )
+   ascii_upload_enable=YES
+   ascii_download_enable=YES
+   
+   # 100,101行目：コメント解除 ( chroot有効 )
+   chroot_local_user=YES
+   chroot_list_enable=YES
+   
+   # 103行目：コメント解除 ( chroot リストファイル指定 )
+   chroot_list_file=/etc/vsftpd/chroot_list
+   
+   # 109行目：コメント解除 ( ディレクトリごと一括での転送有効 )
+   ls_recurse_enable=YES
+   
+   # 114行目：変更 ( IPv4をリスンする )
+   listen=YES
+   
+   # 123行目：変更 ( もし不要なら IPv6 はリスンしない )
+   listen_ipv6=NO
+   
+   # 最終行へ追記
+   # ルートディレクトリ指定 (指定しない場合はホームディレクトリがルートディレクトリとなる)
+   local_root=public_html
+   
+   # ローカルタイムを使う
+   use_localtime=YES
+   
+   # seccomp filter をオフにする ( ログインに失敗する場合はオフにする )
+   seccomp_sandbox=NO
    ```
 
 3. #### chrootを適用しない(上層へのcdを許可する)ユーザーを追加する

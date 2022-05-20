@@ -375,74 +375,77 @@
          /usr/local/lib/libpython3.9.so.1.0
          /root/Python-3.9.7/libpython3.9.so.1.0
          
-         # libpython3.9.so.1.0を参照可能な/usr/libにコピー
+         # libpython3.9.so.1.0を参照可能な/usr/libにコピー(32bit環境)
          $cp /usr/local/lib/libpython3.9.so.1.0 /usr/lib
+         
+         # libpython3.9.so.1.0を参照可能な/usr/libにコピー(64bit環境)
+         $cp /usr/local/lib/libpython3.9.so.1.0 /usr/lib64
          ```
-
+   
       5. #### バージョン確認
-
+   
          ```sh
          $python3.9 -V
          
          Python 3.9.7
          ```
-
+   
    5. ### シンボリックリンクの変更
-
+   
       Python3.9をpython3で扱えるようにする
-
+   
       1. #### 元のシンボリックリンク削除
-
+   
          ```sh
          # python3.6のシンボリックリンク削除
          $rm -rf /usr/bin/python3
          ```
-
+   
       2. #### python関連ファイルを検索
-
+   
          ```sh
          $whereis python3
          
          # python3.9へのパスを確認
          python3: /usr/bin/python3.6 /usr/bin/python3 /usr/bin/python3.6m /usr/lib/python3.6 /usr/local/bin/python3.9-config /usr/local/bin/python3.9 /usr/local/lib/python3.6 /usr/local/lib/python3.9 /usr/include/python3.6m /usr/share/man/man1/python3.1.gz
          ```
-
+   
       3. #### シンボリックリンク作成
-
+   
          ```sh
          $ln -s /usr/bin/python3.9 /usr/bin/python3
          ```
-
+   
       4. #### バージョン確認
-
+   
          ```sh
          $python3 -V
          
          Python 3.9.7
          ```
-
+   
          - pipも同様に変更する
-
+   
            元のシンボリックリンク削除
-
+   
            ```sh
            $rm -rf /usr/bin/pip3
            ```
-
+   
            シンボリックリンク作成
-
+   
            ```sh
            $ln -s /usr/bin/pip3.9 /usr/bin/pip3
            ```
-
+   
            バージョン確認
-
+   
            ```sh
            $pip3 -V
            
            pip 21.2.3 from /usr/local/lib/python3.9/site-packages/pip (python 3.9)
            ```
-
+   
       5. コマンドライン引数
       
          [参考：コマンドラインと環境](https://docs.python.org/ja/3.5/using/cmdline.html)
