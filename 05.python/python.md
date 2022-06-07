@@ -311,7 +311,21 @@
       (env)$pip install [パッケージ名]
       ```
 
-1. ## Python3.9インストール
+9. ## PyPI 2段階認証対応
+
+   将来的にPyPIへのパッケージアップロードに関してAPI tokenを指定する方法のみに限定される可能性があるので
+
+   2段階認証の設定方法とAPI tokenの発行方法について以下に明記する。(2022/05/23時点)
+
+   1. 2段階認証の設定
+
+   2. API tokenの発行
+
+   3. API tokenを指定してのパッケージアップロード
+
+      
+
+10. ## Python3.9インストール
 
    1. ### yumアップデート
 
@@ -381,71 +395,71 @@
          # libpython3.9.so.1.0を参照可能な/usr/libにコピー(64bit環境)
          $cp /usr/local/lib/libpython3.9.so.1.0 /usr/lib64
          ```
-   
+
       5. #### バージョン確認
-   
+
          ```sh
          $python3.9 -V
          
          Python 3.9.7
          ```
-   
+
    5. ### シンボリックリンクの変更
-   
+
       Python3.9をpython3で扱えるようにする
-   
+
       1. #### 元のシンボリックリンク削除
-   
+
          ```sh
          # python3.6のシンボリックリンク削除
          $rm -rf /usr/bin/python3
          ```
-   
+
       2. #### python関連ファイルを検索
-   
+
          ```sh
          $whereis python3
          
          # python3.9へのパスを確認
          python3: /usr/bin/python3.6 /usr/bin/python3 /usr/bin/python3.6m /usr/lib/python3.6 /usr/local/bin/python3.9-config /usr/local/bin/python3.9 /usr/local/lib/python3.6 /usr/local/lib/python3.9 /usr/include/python3.6m /usr/share/man/man1/python3.1.gz
          ```
-   
+
       3. #### シンボリックリンク作成
-   
+
          ```sh
          $ln -s /usr/bin/python3.9 /usr/bin/python3
          ```
-   
+
       4. #### バージョン確認
-   
+
          ```sh
          $python3 -V
          
          Python 3.9.7
          ```
-   
+
          - pipも同様に変更する
-   
+
            元のシンボリックリンク削除
-   
+
            ```sh
            $rm -rf /usr/bin/pip3
            ```
-   
+
            シンボリックリンク作成
-   
+
            ```sh
            $ln -s /usr/bin/pip3.9 /usr/bin/pip3
            ```
-   
+
            バージョン確認
-   
+
            ```sh
            $pip3 -V
            
            pip 21.2.3 from /usr/local/lib/python3.9/site-packages/pip (python 3.9)
            ```
-   
+
       5. コマンドライン引数
       
          [参考：コマンドラインと環境](https://docs.python.org/ja/3.5/using/cmdline.html)
@@ -455,3 +469,38 @@
            > 引数は module 名なので、拡張子 (.py) を含めてはいけません。モジュール名は有効な Python の絶対モジュール名 (absolute module name) であるべきですが、実装がそれを強制しているとは限りません (例えば、ハイフンを名前に含める事を許可するかもしれません)。
            >
            > パッケージ名 (名前空間パッケージも含む) でも構いません。通常のモジュールの代わりにパッケージ名が与えられた場合、インタプリタは <pkg>.__main__ を main モジュールとして実行します。この挙動はスクリプト引数として渡されたディレクトリや zip ファイルをインタプリタが処理するのと意図的に同じにしています。
+
+11. lzmaのwarning問題対応
+
+    pandasをimportした際に以下のような警告が表示された時の対処法
+
+    ```sh
+    UserWarning: Could not import the lzma module. Your installed Python is incomplete. Attempting to use lzma compression will result in a RuntimeError.
+    ```
+
+    原因：
+
+    - インストールされているpandasのバージョンが古い
+
+    - xzがインストールされていない
+
+    
+
+    対処法：
+
+    1. xzをyumでインストールする
+
+       ```sh
+       $yum install -y xz
+       ```
+
+    2. pandasのバージョンを1.4.2にupgradeする(2022/05/23時点)
+
+       ```sh
+       (env)$pip install --upgrade pandas
+       ```
+
+       
+
+    
+
