@@ -104,7 +104,7 @@
 
       ```sh
       $cd
-      $unmount /mnt/flash
+      $umount /mnt/flash
       ```
 
       アンマウントできていることを確認する
