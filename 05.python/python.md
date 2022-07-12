@@ -313,164 +313,228 @@
 
 9. ## PyPI 2段階認証対応
 
-   将来的にPyPIへのパッケージアップロードに関してAPI tokenを指定する方法のみに限定される可能性があるので
+   ~~将来的にPyPIへのパッケージアップロードに関してAPI tokenを指定する方法のみに限定される可能性があるので~~
 
-   2段階認証の設定方法とAPI tokenの発行方法について以下に明記する。(2022/05/23時点)
+   ~~2段階認証の設定方法とAPI tokenの発行方法について以下に明記する。(2022/05/23時点)~~
 
-   1. 2段階認証の設定
+   2022/07/10(米国時間)より2段階認証(2FA)が義務化された
 
-   2. API tokenの発行
+   [PyPiが重要なプロジェクトに対して2段階認証を義務化 (2022/07/12)](https://news.mynavi.jp/techplus/article/20220712-2397157/)
 
-   3. API tokenを指定してのパッケージアップロード
+   1. アカウント名からメニューを開き、Account settingsをクリック
 
-      
+      <img src="img\menu_select.png" alt="menu_select" style="zoom:75%;float:left" />
+
+   2. 2段階認証の設定
+
+      Two factor authentication(2FA)で設定（下図は設定後の画面）
+
+      <img src="img\2FA.png" alt="2FA" style="zoom:75%;float:left" />
+
+   3. API tokenの発行
+
+      1. API tokensにてAdd API tokenをクリック
+
+         <img src="img\add_tokens.png" alt="add_tokens" style="zoom:75%;float:left" />
+
+      2. Token nameとScapeを入力してAdd tokenをクリック
+
+         token nameには任意の名前を入力（プロジェクト名等）
+
+         Scopeのドロップダウンにはプロジェクトの一覧が表示されるので、対象のプロジェクトを選択する
+
+         <img src="img\add_token.png" alt="add_token" style="zoom:75%;float:left" />
+
+      3. 発行したtokenをコピーする
+
+         ここで発行したtokenをPyPIのアップロード時に使用する
+
+         <img src="img\copy_token.png" alt="copy_token" style="zoom:75%;float:left" />
+
+   4. API tokenを指定してのパッケージアップロード
+
+      - .pypircの内容
+
+        usernameは__token__固定
+
+        passowrdは上記で発行したtokenを指定する
+
+        ```shell
+        [distutils]
+        index-servers =
+          pypi
+          testpypi
+        
+        [pypi]
+        repository:https://upload.pypi.org/legacy/
+        username:__token__
+        password:[発行したtoken]
+        
+        [testpypi]
+        repository:https://test.pypi.org/legacy/
+        username:__token__
+        password:[発行したtoken]
+        ```
+
+        twineコマンドはユーザーフォルダ直下に存在する.pypircを読み込み、設定値を取得してアップロードを行うので
+
+        上記.pypircをプロジェクトごとに用意して、twineコマンドの前にユーザーフォルダ直下にコピーするコマンドを実行する
+
+        (サンプルコード)
+
+        ```python
+        # .pypircをユーザーフォルダ直下にコピー
+        src_pypirc = '.pypirc'
+        des_pypirc = os.path.expanduser('~/.pypirc')
+        shutil.copyfile(src_pypirc, des_pypirc)
+        ```
+
+        
 
 10. ## Python3.9インストール
 
-   1. ### yumアップデート
+    1. ### yumアップデート
 
-      念のため実行
+          念のため実行
 
-      ```sh
-      $yum -y update
-      ```
+          ```sh
+          $yum -y update
+          ```
 
-      
+    2. ### ツールのインストール
 
-   2. ### ツールのインストール
+          ```sh
+          $yum groupinstall "Development Tools" -y
+          $yum install openssl-devel libffi-devel bzip2-devel -y
+          ```
 
-      ```sh
-      $yum groupinstall "Development Tools" -y
-      $yum install openssl-devel libffi-devel bzip2-devel -y
-      ```
+    3. ### Python3.9.7ダウンロード
 
-   3. ### Python3.9.7ダウンロード
+          ```sh
+          $wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
+          ```
 
-      ```sh
-      $wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
-      ```
+          - wgetが無い場合はインストール
 
-      - wgetが無い場合はインストール
+            ```sh
+            $yum install wget -y
+            ```
 
-        ```sh
-        $yum install wget -y
-        ```
+    4. ### python3.9.7インストール
 
-   4. ### python3.9.7インストール
+       1. #### 解凍
 
-      1. #### 解凍
+          ```sh
+          $tar xvf Python-3.9.7.tgz
+          ```
 
-         ```sh
-         $tar xvf Python-3.9.7.tgz
-         ```
+       2. #### 解凍したディレクトリに移動
 
-      2. #### 解凍したディレクトリに移動
+          ```sh
+          $cd Python-3.9*/
+          ```
 
-         ```sh
-         $cd Python-3.9*/
-         ```
+       3. #### <a href="#python39-build">ビルド</a>
 
-      3. #### <a href="#python39-build">ビルド</a>
+          ```sh
+          $./configure --enable-shared --enable-optimizations
+          $make altinstall
+          # --enable-sharedをオプション指定しないとmod_wsgiのように共有ライブラリを参照するパッケージのインストールでエラーとなる
+          # altinstallはシンボリックリンクの作成を行わないインストール
+          ```
 
-         ```sh
-         $./configure --enable-shared --enable-optimizations
-         $make altinstall
-         # --enable-sharedをオプション指定しないとmod_wsgiのように共有ライブラリを参照するパッケージのインストールでエラーとなる
-         # altinstallはシンボリックリンクの作成を行わないインストール
-         ```
+       4. #### <a href="#python39-lib-copy">libpython3.9.so.1.0を参照可能な位置にコピー</a>
 
-      4. #### <a href="#python39-lib-copy">libpython3.9.so.1.0を参照可能な位置にコピー</a>
+          ```sh
+          # libpython3.9.so.1.0の場所を探す
+          $find / -name libpython3.9.so.1.0
+          
+          # libpython3.9.so.1.0の場所が表示される
+          /usr/local/lib/libpython3.9.so.1.0
+          /root/Python-3.9.7/libpython3.9.so.1.0
+          
+          # libpython3.9.so.1.0を参照可能な/usr/libにコピー(32bit環境)
+          $cp /usr/local/lib/libpython3.9.so.1.0 /usr/lib
+          
+          # libpython3.9.so.1.0を参照可能な/usr/libにコピー(64bit環境)
+          $cp /usr/local/lib/libpython3.9.so.1.0 /usr/lib64
+          ```
 
-         ```sh
-         # libpython3.9.so.1.0の場所を探す
-         $find / -name libpython3.9.so.1.0
-         
-         # libpython3.9.so.1.0の場所が表示される
-         /usr/local/lib/libpython3.9.so.1.0
-         /root/Python-3.9.7/libpython3.9.so.1.0
-         
-         # libpython3.9.so.1.0を参照可能な/usr/libにコピー(32bit環境)
-         $cp /usr/local/lib/libpython3.9.so.1.0 /usr/lib
-         
-         # libpython3.9.so.1.0を参照可能な/usr/libにコピー(64bit環境)
-         $cp /usr/local/lib/libpython3.9.so.1.0 /usr/lib64
-         ```
+       5. #### バージョン確認
 
-      5. #### バージョン確認
+          ```sh
+          $python3.9 -V
+          
+          Python 3.9.7
+          ```
 
-         ```sh
-         $python3.9 -V
-         
-         Python 3.9.7
-         ```
+11. ### シンボリックリンクの変更
 
-   5. ### シンボリックリンクの変更
+       Python3.9をpython3で扱えるようにする
 
-      Python3.9をpython3で扱えるようにする
+       1. #### 元のシンボリックリンク削除
 
-      1. #### 元のシンボリックリンク削除
+          ```sh
+          # python3.6のシンボリックリンク削除
+          $rm -rf /usr/bin/python3
+          ```
 
-         ```sh
-         # python3.6のシンボリックリンク削除
-         $rm -rf /usr/bin/python3
-         ```
+       2. #### python関連ファイルを検索
 
-      2. #### python関連ファイルを検索
+          ```sh
+          $whereis python3
+          
+          # python3.9へのパスを確認
+          python3: /usr/bin/python3.6 /usr/bin/python3 /usr/bin/python3.6m /usr/lib/python3.6 /usr/local/bin/python3.9-config /usr/local/bin/python3.9 /usr/local/lib/python3.6 /usr/local/lib/python3.9 /usr/include/python3.6m /usr/share/man/man1/python3.1.gz
+          ```
 
-         ```sh
-         $whereis python3
-         
-         # python3.9へのパスを確認
-         python3: /usr/bin/python3.6 /usr/bin/python3 /usr/bin/python3.6m /usr/lib/python3.6 /usr/local/bin/python3.9-config /usr/local/bin/python3.9 /usr/local/lib/python3.6 /usr/local/lib/python3.9 /usr/include/python3.6m /usr/share/man/man1/python3.1.gz
-         ```
+       3. #### シンボリックリンク作成
 
-      3. #### シンボリックリンク作成
+          ```sh
+          $ln -s /usr/bin/python3.9 /usr/bin/python3
+          ```
 
-         ```sh
-         $ln -s /usr/bin/python3.9 /usr/bin/python3
-         ```
+       4. #### バージョン確認
 
-      4. #### バージョン確認
+          ```sh
+          $python3 -V
+          
+          Python 3.9.7
+          ```
 
-         ```sh
-         $python3 -V
-         
-         Python 3.9.7
-         ```
+          - pipも同様に変更する
 
-         - pipも同様に変更する
+            元のシンボリックリンク削除
 
-           元のシンボリックリンク削除
+            ```sh
+            $rm -rf /usr/bin/pip3
+            ```
 
-           ```sh
-           $rm -rf /usr/bin/pip3
-           ```
+            シンボリックリンク作成
 
-           シンボリックリンク作成
+            ```sh
+            $ln -s /usr/bin/pip3.9 /usr/bin/pip3
+            ```
 
-           ```sh
-           $ln -s /usr/bin/pip3.9 /usr/bin/pip3
-           ```
+            バージョン確認
 
-           バージョン確認
+            ```sh
+            $pip3 -V
+            
+            pip 21.2.3 from /usr/local/lib/python3.9/site-packages/pip (python 3.9)
+            ```
 
-           ```sh
-           $pip3 -V
-           
-           pip 21.2.3 from /usr/local/lib/python3.9/site-packages/pip (python 3.9)
-           ```
+          - コマンドライン引数
 
-      5. コマンドライン引数
-      
-         [参考：コマンドラインと環境](https://docs.python.org/ja/3.5/using/cmdline.html)
-      
-         - -m <module name>
-      
-           > 引数は module 名なので、拡張子 (.py) を含めてはいけません。モジュール名は有効な Python の絶対モジュール名 (absolute module name) であるべきですが、実装がそれを強制しているとは限りません (例えば、ハイフンを名前に含める事を許可するかもしれません)。
-           >
-           > パッケージ名 (名前空間パッケージも含む) でも構いません。通常のモジュールの代わりにパッケージ名が与えられた場合、インタプリタは <pkg>.__main__ を main モジュールとして実行します。この挙動はスクリプト引数として渡されたディレクトリや zip ファイルをインタプリタが処理するのと意図的に同じにしています。
+             [参考：コマンドラインと環境](https://docs.python.org/ja/3.5/using/cmdline.html)
 
-11. lzmaのwarning問題対応
+             - -m <module name>
+
+               > 引数は module 名なので、拡張子 (.py) を含めてはいけません。モジュール名は有効な Python の絶対モジュール名 (absolute module name) であるべきですが、実装がそれを強制しているとは限りません (例えば、ハイフンを名前に含める事を許可するかもしれません)。
+               >
+               > パッケージ名 (名前空間パッケージも含む) でも構いません。通常のモジュールの代わりにパッケージ名が与えられた場合、インタプリタは <pkg>.__main__ を main モジュールとして実行します。この挙動はスクリプト引数として渡されたディレクトリや zip ファイルをインタプリタが処理するのと意図的に同じにしています。
+
+12. lzmaのwarning問題対応
 
     pandasをimportした際に以下のような警告が表示された時の対処法
 

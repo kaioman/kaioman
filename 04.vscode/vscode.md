@@ -86,33 +86,32 @@
        * Django
        * Visual Studio IntelliCode
        * Python Indent
-   
-   
+
+
       * SFTP(liximomo)
+
    
-   
-   
+
       * Git History
+
    
-   
-   
+
       * Easy icon thema
+
    
-   
-   
+
       * vscode-workspace-switcher
+
    
-   
-   
+
       * Material Thema
+
    
-   
-   
+
       * Peacock
       * Prettier - Code formatter
       * Jupyter
       * Todo+
-   
 
 5. ## vscode設定
 
@@ -254,4 +253,14 @@
     5. ### mainリポジトリをコミットする
 
     6. ### githubへpushする
+
+11. ## commit時にBad Status Code 500が表示される
+
+    1. vscodeの設定を開く
+
+    2. 検索キーワードに「use editor as commit」と入力してEnterキーを押下する
+
+    3. 以下のチェックボックスを「Off」に変更する
+
+       ![user_editor_as_commit_input_checkbox](img\user_editor_as_commit_input_checkbox.png)
 
