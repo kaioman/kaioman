@@ -1,14 +1,30 @@
 # D945GCLF
 
+------
+
+
+
 ## 製品名
+
+------
 
 * intel デスクトップ・ボード D945GCLF
 
+  <img src="img\D945GCLF_image.png" alt="D945GCLF_image" style="zoom:75%;float:left" />
+
+
+
 ## 仕様
+
+------
 
 - [基本仕様](https://ark.intel.com/content/www/jp/ja/ark/products/42490/intel-desktop-board-d945gclf.html)
 
+  
+
 ## スタートアップ
+
+------
 
 1. CentOS7のインストール
 
@@ -299,21 +315,40 @@
 
     1. フォルダ構成
 
-       
-
-    2. DockerFile作成
-
+       ```sh
+       [docker-directory]/
+        ┗ [postgres-version]/
+             ┣ DockerFile
+             ┣ docker-compose.xml
+             ┗ pgdata # postgresのデータファイルが入る
+             
+       ```
+    
+    2. DockerFile作成(下記はpostgres12の場合)
+    
        ```sh
        $vim Dockerfile
        
-       FROM centos
-       MAINTAINER
+       FROM postgres:12-alpine
+       ENV LANG ja_JP.utf8
        ```
-
-       
-
-15. Docker-Network
-
-    1. d
-
-       
+    
+    3. docker-compose.xml作成
+    
+       ```sh
+       version: '3'
+        services:
+          pg12: # service名
+          build: .
+          ports: # 
+            - 5435:5432 # 左がホスト側の接続ポート、右はコンテナ側のポート番号
+          environment:
+        　　  POSTGRES_USER: netkeiber # postgresユーザー
+        　　  POSTGRES_PASSWORD: pgstock # postgresユーザーのパスワード
+        　　  POSTGRES_DB: raceanalyze # データベース名
+        　　  volumes: # postgresデータの保存先指定(dockerディレクトリにあるpgdataの実態は/var/lib/posgresql/dataに保存される)
+        　　    - ./pgdata:/var/lib/postgresql/data
+        　　  restart: always
+       ```
+    
+    
