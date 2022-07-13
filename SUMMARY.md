@@ -7,7 +7,7 @@
 * [02.Computer](/02.Computer/README.md)
   * [RaspberryPi3+](/02.raspberryPi/raspberrypi3plus.md)
   * [D945GCLF](/02.Computer/D945GCLF.md)
-  * [Asus X205T](/02.Computer/Asus X205T.md)
+  * [Asus X205T](/02.Computer/Asus_X205T.md)
 * [03.CentOs](/03.centos/README.md)
   * [centOS7](/03.centos/centos.md)
   * [Linuxコマンド](/03.centos/linuxcommand.md)
