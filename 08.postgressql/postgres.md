@@ -76,50 +76,141 @@
    -bash-4.2$createdb <データベース名> -O <DBユーザー>
    ```
 
-6. スキーマ作成
-
-  7. postgresユーザーに切り替え
+  6. postgresユーザーに切り替え
 
      ```sh
      sudo su - postgres
      ```
 
-  2. postgresにログイン
+  7. postgresにログイン
 
      ```sh
      -bash-4.2$ psql -U postgres
      ```
 
-  3. データベース接続
+  8. データベース接続
 
      ```sh
      postgres= \c <データベース名>
      ```
 
-  4. スキーマ作成SQL実行
+  9. スキーマ作成SQL実行
 
      ```sh
      CREATE SCHEMA <スキーマ名> AUTHORIZATION <ユーザー名>;
      ```
 
-7. テーブル作成
+10. テーブル作成
 
-8. テーブル複製
+     ```sh
+     create table <スキーマ名>.<テーブル名> ( 
+     	 <フィールド名>	<データ型>
+     	 ･･･
+     	,PRIMARY KEY(<プライマリーキー>) 
+     ); 
+     ```
 
-   ```sh
-   CREATE TABLE <新テーブル名> AS SELECT * FROM <既存テーブル名>;
-   ```
+11. テーブル複製
 
-9. データベースバックアップ
+    ```sh
+    CREATE TABLE <新テーブル名> AS SELECT * FROM <既存テーブル名>;
+    ```
 
-   1. postgresユーザーにスイッチ
+12. データベースバックアップ
 
-      ```sh
-      $sudo su - postgres
-      ```
+    1. postgresユーザーにスイッチ
 
-   2. pg_dumpで任意の場所にバックアップファイルを出力
+       ```sh
+       $sudo su - postgres
+       ```
 
-      ```sh
-      postgres> pg_dump -U postgres -Fc <データベース名> -f <出力先>
-      ```
+    2. pg_dumpで任意の場所にバックアップファイルを出力
+
+       ```sh
+       postgres> pg_dump -U postgres -Fc <データベース名> -f <出力先>
+       ```
+
+    3. docker-composeで動作するpostgresのバックアップファイルを出力
+
+       事前にdocker-compose.ymlが配置してあるディレクトリに移動しておく
+
+       ```sh
+       $docker-compose exec -T <docker-compose service> pg_dump -Fc --no-acl --no-owner -U <postgres-user> -w <database-name> > backup/<file-name>.pg_dump
+       ```
+
+       コマンド例：
+
+       ```sh
+       $docker-compose exec -T pg12 pg_dump -Fc --no-acl --no-owner -U netkeiber -w raceanalyze > backup/raceanalyze.pg_dump
+       ```
+
+    4. docker-composeで動作するpostgresをリストアする
+
+       事前にdocker-compose.ymlが配置してあるディレクトリに移動しておく
+
+       ```sh
+       $docker-compose exec -T <docker-compose service> pg_restore -cO -d <database-name> -U <postgres-user> -w < backup/<file-name>.pg_dump
+       ```
+
+       コマンド例：
+
+       ```sh
+       $docker-compose exec -T pg12_bktest pg_restore -cO -d raceanalyze -U netkeiber -w < backup/raceanalyze.pg_dump
+       ```
+
+       実行後に以下のようなエラーメッセージが表示される場合があるが、リストア対象となるスキーマが存在しない場合に
+
+       発生する。ただし、エラーは発生するがちゃんとリストアは完了する。
+
+       ```sh
+       pg_restore: error: could not execute query: ERROR:  schema "nkaz" does not exist
+       Command was: DROP TABLE nkaz.log_race_id;
+       ```
+
+    5. 定期的にバックアップを取得する
+    
+       バックアップ用シェルスクリプト
+    
+       ```sh
+       vim /home/nkaz/pgbk/backup_sh/pg_raceanalyze_backup.sh
+       ```
+    
+       ```sh
+       #!/bin/bash
+       
+       # バックアップファイルを残しておく日数
+       PERIOD='+10'
+       
+       # 日付
+       DATE=`date '+%Y%m%d-%H%M%S'`
+       
+       # バックアップ先ディレクトリ
+       SAVEPATH='/home/nkaz/pgbk/'
+       
+       # 先頭文字
+       PREFIX='raceanalyze-'
+       
+       # 拡張子
+       EXT='.pg_dump'
+       
+       # サービス名
+       SERVICENAME='pg12'
+       
+       # ユーザー
+       DBUSER='netkeiber'
+       
+       # データベース名
+       DBNAME='raceanalyze'
+       
+       # カレントディレクトリ移動
+       cd /root/docker/postgres12
+       
+       # バックアップ実行
+       docker-compose exec -T $SERVICENAME pg_dump -Fc --no-acl --no-owner -U $DBUSER -w $DBNAME > $SAVEPATH$PREFIX$DATE$EXT
+       
+       # 保存期間が過ぎたファイルの削除
+       find $SAVEPATH -type f -daystart -mtime $PERIOD -exec rm {} \;
+       
+       ```
+    
+       

@@ -319,9 +319,8 @@
        [docker-directory]/
         ┗ [postgres-version]/
              ┣ DockerFile
-             ┣ docker-compose.xml
+             ┣ docker-compose.yml
              ┗ pgdata # postgresのデータファイルが入る
-             
        ```
     
     2. DockerFile作成(下記はpostgres12の場合)
@@ -333,7 +332,7 @@
        ENV LANG ja_JP.utf8
        ```
     
-    3. docker-compose.xml作成
+    3. docker-compose.yml作成
     
        ```sh
        version: '3'
@@ -341,14 +340,39 @@
           pg12: # service名
           build: .
           ports: # 
-            - 5435:5432 # 左がホスト側の接続ポート、右はコンテナ側のポート番号
+            - 5435:5432 
+            # 左がホスト側の接続ポート、右はコンテナ側のポート番号
+            # ホスト側の接続ポートはfirewallでポート開放しておく(下記コマンド参照)
           environment:
         　　  POSTGRES_USER: netkeiber # postgresユーザー
         　　  POSTGRES_PASSWORD: pgstock # postgresユーザーのパスワード
         　　  POSTGRES_DB: raceanalyze # データベース名
         　　  volumes: # postgresデータの保存先指定(dockerディレクトリにあるpgdataの実態は/var/lib/posgresql/dataに保存される)
         　　    - ./pgdata:/var/lib/postgresql/data
-        　　  restart: always
+        　　  restart: always # OS起動時にコンテナを起動する場合はalwaysを指定
+       ```
+    
+       ポート開放コマンド(例)：
+    
+       ポート番号5435を解放する
+    
+       ```sh
+       $firewall-cmd --add-port=5435/tcp --permanent
+       $firewall-cmd --reload
+       ```
+    
+    4. コンテナを作成する
+    
+       事前にdocker-compose.ymlが配置してあるディレクトリに移動する
+    
+       ```sh
+       $docker-compose up -d
+       ```
+    
+    5. コンテナの一覧を確認
+    
+       ```sh
+       $docker container ls -a
        ```
     
     

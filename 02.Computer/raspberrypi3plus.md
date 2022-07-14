@@ -52,6 +52,8 @@
 
 ### パーテーションが存在するSDカードの初期化
 
+------
+
 1. コマンドプロンプトで「diskpart」を実行
 
 2. 「list disk」で初期化するSDカードのディスク番号を調べる
@@ -66,6 +68,8 @@
 
 ### SDカードをフォーマットする
 
+------
+
 1. [SD/SDHC/SHXC用SDメモリカードフォーマッター5.0](https://1drv.ms/u/s!AtZZJevIaEATgvwe7Z7nzBiXVOm58w?e=nedXd8)を使用
 
    <img src="img/SdCardFormatter_01.png" alt="SdCard-Format" style="float:left;" />
@@ -76,6 +80,8 @@
 
 ### SDカードへCentOSのimgファイルを書き込む
 
+------
+
 1. [CensOSのイメージファイル](https://buildlogs.centos.org/centos/7/isos/armhfp/CentOS-Userland-7-armv7hl-Minimal-1611-test-RaspberryPi3.img.xz)をダウンロードして7zipなどで展開する
 
 2. Win32DiskImagerを使用して、imgファイルをSDカードに書き込む
@@ -83,6 +89,8 @@
    <img src="img/Win32DiskImager_01.png" alt="Win32DiskImager" style="float:left;" />
 
 ### 起動直後
+
+------
 
 1. #### 初期ログイン
 
@@ -130,6 +138,8 @@
 
 ### 起動後のネットワーク設定
 
+------
+
 1. #### ネットワーク設定ファイルの変更
 
    1. ##### 以下のファイルをviで開く
@@ -169,6 +179,8 @@
    ここまでくれば、あとはクライアント側からTeraTermで接続するのでラズパイ本体からディスプレイの出力は無くして良い。
 
 ### Rootパーテーションのサイズ拡張
+
+------
 
 1. #### 現在の状態を確認(1.1Gしか確保できていない)
 
@@ -226,13 +238,9 @@
    $reboot
    ```
 
-
-
 ### yumを使用可能にする
 
 ------
-
-
 
 1. #### /etc/yum.repo.d/CentOS-armhfp-kernel.repoを編集する
 
@@ -276,6 +284,8 @@
 
 ### yum updateの実行
 
+------
+
 ```sh
 $yum update -y
 ```
@@ -284,13 +294,13 @@ $yum update -y
 
 ### ホスト名変更
 
+------
+
 1. ####  ホスト名変更
 
    ```sh
    $hostnamectl set-hostname <ホスト名>
    ```
-
-   
 
 2. #### hostsにホストを追加
 
@@ -306,6 +316,8 @@ $yum update -y
    ```
 
 ### epelをリポジトリに追加
+
+------
 
 1. #### リポジトリの優先順位を設定するプラグインをインストール
 
@@ -333,6 +345,8 @@ $yum update -y
    ```
 
 ### パッケージインストール
+
+------
 
 1. #### make, gcc, gcc-c++
 
@@ -404,6 +418,8 @@ $yum update -y
       ```
 
 ### wifi接続設定
+
+------
 
    1. ファームウェアをダウンロードする
 
@@ -736,6 +752,8 @@ $yum update -y
 
 ### 一般ユーザー作成
 
+------
+
 1. #### ユーザーアカウント作成
 
    ```sh
@@ -779,6 +797,8 @@ $yum update -y
    ```
 
 ### Vimインストール
+
+------
 
 1. #### Vimインストール
 
@@ -827,6 +847,8 @@ $yum update -y
    ```
 
 ### httpdインストール
+
+------
 
 1. #### httpdインストール
 
@@ -903,6 +925,8 @@ $yum update -y
 
 ### vsftpdインストール
 
+------
+
 1. #### vsftpdインストール
 
    ```sh
@@ -972,6 +996,8 @@ $yum update -y
 
 ### monitorixインストール
 
+------
+
 1. #### monitorixインストール
 
    ```sh
@@ -1029,6 +1055,8 @@ $yum update -y
    http://[ホスト名]:8080/monitorix
 
 ### sshセキュリティ設定
+
+------
 
 1. #### rootログイン禁止
 
@@ -1124,6 +1152,8 @@ $yum update -y
          ```
 
 ### postgresインストール
+
+------
 
 1. #### yumでpostgres(9.2.24)をインストール
 
@@ -1248,154 +1278,304 @@ $yum update -y
 
 10. #### 外部ホストからの接続設定
 
-    ```sh
-    $vim /var/lib/pgsql/data/postgresql/conf
-    
-    # 59行目付近
-    #listen_addresses = 'localhost'
-    ↓
-    listen_addresses = '*'
-    
-    # 63行目付近
-    #port = 5432
-    ↓
-    port = 5432
-    
-    # 変更後、postgresqlサービス再起動
-    $systemctl restart postgresql
-    ```
+      ```sh
+      $vim /var/lib/pgsql/data/postgresql/conf
+      
+      # 59行目付近
+      #listen_addresses = 'localhost'
+      ↓
+      listen_addresses = '*'
+      
+      # 63行目付近
+      #port = 5432
+      ↓
+      port = 5432
+      
+      # 変更後、postgresqlサービス再起動
+      $systemctl restart postgresql
+      ```
 
 11. #### firewalldにpostgresql追加
 
-    ```sh
-    $firewall-cmd --add-service=postgresql --permanent
-    $firewall-cmd --reload
-    ```
+       ```sh
+       $firewall-cmd --add-service=postgresql --permanent
+       $firewall-cmd --reload
+       ```
 
-    * 参考リンク
+       * 参考リンク
 
-      * [PostgreSQL 9.2 を CentOS 7 に yum インストールする手順](https://weblabo.oscasierra.net/postgresql92-centos7-install/)
+         * [PostgreSQL 9.2 を CentOS 7 に yum インストールする手順](https://weblabo.oscasierra.net/postgresql92-centos7-install/)
+         * [ユーザーとパスワードの設定](http://db-study.com/archives/121)
 
-      * [ユーザーとパスワードの設定](http://db-study.com/archives/121)
+### dns設定
 
-dns設定
+------
 
 [参考](https://www.server-world.info/query?os=CentOS_7&p=dns&f=1)
 
 - BINDインストール
+
 - 内部ネットワーク向け設定
+
 - ゾーンファイル設定
+
 - BINDの起動設定
 
-ssl設定
+  
+
+### ssl設定
+
+------
 
 [参考：SSL/TLSの設定](https://www.server-world.info/query?os=CentOS_7&p=httpd&f=7)
 
-- 証明書の取得(Let's Encrypt)
+1. 証明書の取得(Let's Encrypt)
 
-  ```sh
-  $certbot certonly --apache -w <ドメインのドキュメントルート> -d <ドメイン名>
-  ```
+   ```sh
+   $certbot certonly --apache -w <ドメインのドキュメントルート> -d <ドメイン名>
+   ```
 
-- 80番ポートの外部公開(Let's Encryptからのアクセスを許可する為)
+2. 80番ポートの外部公開(Let's Encryptからのアクセスを許可する為)
 
-  <img src="img\Router-PortFiltering-80.png" alt="Router-PortFiltering-80" style="zoom:80%;float:left;" />
+   <img src="img\Router-PortFiltering-80.png" alt="Router-PortFiltering-80" style="zoom:80%;float:left;" />
 
-- mod_sslインストール・設定
+3. mod_sslインストール
 
-  ```sh
-  $yum install -y mod_ssl
-  ```
+   ```sh
+   $yum install -y mod_ssl
+   ```
 
-- ssl.conf設定
+4. ssl.conf設定
 
-  ```sh
-  $vim /etc/httpd/conf.d/ssl.conf
-  ```
+   ```sh
+   $vim /etc/httpd/conf.d/ssl.conf
+   ```
 
-  ```sh
-  5   Listen 443 https # リッスンするポート番号とプロトコル
-  60  ServerName stockman.unchainworks.com:443 # サーバー名設定
-  75  SSLProtocol -ALL +TLSv1 +TLSv1.1 +TLSv1.2 # 変更
-  100 SSLCertificateFile /etc/letsencrypt/live/<ドメイン名>/cert.pem # 取得した証明書を指定
-  107 SSLCertificateKeyFile /etc/letsencrypt/live/<ドメイン名>/privkey.pem # 取得した鍵ファイルを指定
-  116 SSLCertificateChainFile /etc/letsencrypt/live/mercarizer.unchainworks.com/chain.pem # 取得した中間証明書を指定
-  ```
+   ```sh
+   5   Listen 443 https # リッスンするポート番号とプロトコル
+   60  ServerName stockman.unchainworks.com:443 # サーバー名設定
+   75  SSLProtocol -ALL +TLSv1 +TLSv1.1 +TLSv1.2 # 変更
+   100 SSLCertificateFile /etc/letsencrypt/live/<ドメイン名>/cert.pem # 取得した証明書を指定
+   107 SSLCertificateKeyFile /etc/letsencrypt/live/<ドメイン名>/privkey.pem # 取得した鍵ファイルを指定
+   116 SSLCertificateChainFile /etc/letsencrypt/live/mercarizer.unchainworks.com/chain.pem # 取得した中間証明書を指定
+   ```
 
-- http⇒httpsへのリダイレクト設定
+5. http⇒httpsへのリダイレクト設定
 
-  ```sh
-  $vim /etc/httpd/hoge.conf
-  ```
+   ```sh
+   $vim /etc/httpd/hoge.conf
+   ```
 
-  ```sh
-  <VirtualHost *:80>
-  
-     # ドメイン名
-     ServerName hoge.domain.com
-  
-     # DocumentRoot
-     DocumentRoot "/home/domain.com"
-     
-     # https-Redirect
-     RewriteEngine On
-     RewriteCond %{HTTPS} off
-     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-     
-  </VirtualHost>
-  
-  <VirtualHost *:443>
-     
-     # ドメイン名
-     ServerName hoge.domain.com
-  
-     # DocumentRoot
-     DocumentRoot "/home/domain.com"
-     
-     # djangoならwgsiの設定等を記述
-     ...
-     
-  </VirtualHost>
-  ```
+   ```sh
+   <VirtualHost *:80>
+   
+      # ドメイン名
+      ServerName hoge.domain.com
+   
+      # DocumentRoot
+      DocumentRoot "/home/domain.com"
+      
+      # https-Redirect
+      RewriteEngine On
+      RewriteCond %{HTTPS} off
+      RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+      
+   </VirtualHost>
+   
+   <VirtualHost *:443>
+      
+      # ドメイン名
+      ServerName hoge.domain.com
+   
+      # DocumentRoot
+      DocumentRoot "/home/domain.com"
+      
+      # djangoならwgsiの設定等を記述
+      ...
+      
+   </VirtualHost>
+   ```
 
-- ファイアーウォール設定
+6. ファイアーウォール設定
 
-  - サービス指定
+   1. サービス指定
 
-    ```sh
-    $firewall-cmd --add-service=https --permanent
-    $firewall-cmd --reload
-    ```
+      ~~~sh
+      ```sh
+      $firewall-cmd --add-service=https --permanent
+      $firewall-cmd --reload
+      ```
+      ~~~
 
-  - ポート番号指定(50443番はpython36用apacheのSSL通信で使用するポート番号)
+     2. ポート番号指定(50443番はpython36用apacheのSSL通信で使用するポート番号)
 
-    ```sh
-    $firewall-cmd --add-port=50443/tcp --permanent
-    $firewall-cmd --reload
-    ```
-  
-  - 証明書の自動更新
-  
-    1. 自動更新用のサービスを有効化する
-  
-       ```sh
-       $systemctl enable --now certbot-renew.timer
-       ```
-  
-    2. 更新後にapacheをリロードする設定
-  
-       ```sh
-       $vim /etc/sysconfig/certbot
-           
-       POST_HOOK="--post-hook 'systemctl reload httpd'"
-       # POST_HOOK="--post-hook 'systemctl reload httpd && systemctl reload httpdPy36'" # apache複数ある場合
-       ```
+        ~~~sh
+        ```sh
+        $firewall-cmd --add-port=50443/tcp --permanent
+        $firewall-cmd --reload
+        ```
+        ~~~
+
+7. 証明書の自動更新
+
+        1. 自動更新用のサービスを有効化する
+
+           ```sh
+           $systemctl enable --now certbot-renew.timer
+           ```
+
+        2. 更新後にapacheをリロードする設定
+
+           ```sh
+           $vim /etc/sysconfig/certbot
+               
+           POST_HOOK="--post-hook 'systemctl reload httpd'"
+           # POST_HOOK="--post-hook 'systemctl reload httpd && systemctl reload httpdPy36'" # apache複数ある場合
+           ```
+
+
+### ファイル共有
+
+------
+
+1. sambaインストール
+
+   ```sh
+   $yum -y install samba samba-client
+   ```
+
+2. 共有用のフォルダ作成
+
+   ```sh
+   $mkdir /home/nkaz/share # ディレクトリ作成
+   $chmod 777 /home/share  # パーミッション変更
+   ```
+
+3. samba設定ファイル
+
+   ```sh
+   $vim /etc/samba/smb.conf
+   ```
+
+   - 文字コード
+   - アクセス許可するネットワークアドレス
+   - 認証なし設定
+   - [share]セクション追加
+
+   ```sh
+   # See smb.conf.example for a more detailed config file or
+   # read the smb.conf manpage.
+   # Run 'testparm' to verify the config is correct after
+   # you modified it.
+   
+   # 文字コード
+   unix charset = UTF-8
+   dos charset = CP932
+   
+   # アクセスを許可するネットワークアドレス
+   host allow = 192.168.3.
+   
+   # 認証なし設定
+   security = user # アクセス時の認証の時にuserを使用するとパスワード入力無しで認証可能
+   passdb backend = tdbsam
+   map to guest = Bad User
+   
+   [global]
+            workgroup = SAMBA
+            security = user
+   
+            passdb backend = tdbsam
+   
+            printing = cups
+            printcap name = cups
+            load printers = yes
+            cups options = raw
+   
+   [homes]
+            comment = Home Directories
+            valid users = %S, %D%w%S
+            browseable = No
+            read only = No
+            inherit acls = Yes
+   
+   [printers]
+            comment = All Printers
+            path = /var/tmp
+            printable = Yes
+            create mask = 0600
+            browseable = No
+   
+   [print$]
+            comment = Printer Drivers
+            path = /var/lib/samba/drivers
+            write list = @printadmin root
+            force group = @printadmin
+            create mask = 0664
+            directory mask = 0775
+   [share]
+            path = /home/share
+            writable = yes
+            guest ok = yes
+            guest only = yes
+            create mode = 0777
+            directory mode = 0777
+   ```
+
+4. サービス登録
+
+   ```sh
+   $systemctl start smb nmb
+   $systemctl enable smb nmb
+   ```
+
+5. ファイアーウォール設定
+
+   ```sh
+   $firewall-cmd --add-service=samba --pemanent
+   $firewall-cmd --reload
+   ```
+
+### 共有フォルダをマウントする
+
+------
+
+1. fstab設定
+
+   ```sh
+   $vim /etc/fstab
+   ```
+
+   ```sh
+   # /etc/fstab
+   # Created by anaconda on Sat Feb 12 08:48:56 2022
+   #
+   # Accessible filesystems, by reference, are maintained under '/dev/disk'
+   # See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+   #
+   /dev/mapper/centos-root /                       xfs     defaults        0 0
+   UUID=4b91d803-7238-432b-8b13-59ba56558a34 /boot                   xfs     de    faults        0 0
+   /dev/mapper/centos-home /home                   xfs     defaults        0 0
+   /dev/mapper/centos-swap swap                    swap    defaults        0 0
+   //192.168.3.22/share /home/nkaz/pgbk            cifs   username=user,password=,defaults        0 0　# 追加(OS起動時の自動マウント)
+   ```
+
+   - 起動時のマウントに失敗するとemagency modeでosが起動することになるので注意
+
+2. マウント用ディレクトリ作成
+
+   ```sh
+   $mkdir /home/nkaz/pgbk
+   ```
+
+3. マウント
+
+   ```sh
+   $mount -t cifs -o username=user //192.168.3.22/share/ /home/nkaz/pgbk/
+   ```
 
 ## バックアップ＆リストア
 
 ------
-
-
 
 ### バックアップ
 
