@@ -178,6 +178,12 @@
        ```sh
        #!/bin/bash
        
+       # コマンドの実行履歴を出力する$
+       set -x$
+       $
+       # コマンドの返り値が非ゼロのとき停止する$
+       set -e
+       
        # バックアップファイルを残しておく日数
        PERIOD='+10'
        
@@ -193,8 +199,8 @@
        # 拡張子
        EXT='.pg_dump'
        
-       # サービス名
-       SERVICENAME='pg12'
+       # コンテナ名
+       CONTAINERNAME='[コンテナID]' # ここはdocker psでcontaineridを調べて指定する
        
        # ユーザー
        DBUSER='netkeiber'
@@ -202,15 +208,12 @@
        # データベース名
        DBNAME='raceanalyze'
        
-       # カレントディレクトリ移動
-       cd /root/docker/postgres12
-       
        # バックアップ実行
-       docker-compose exec -T $SERVICENAME pg_dump -Fc --no-acl --no-owner -U $DBUSER -w $DBNAME > $SAVEPATH$PREFIX$DATE$EXT
+       docker exec $SERVICENAME pg_dump -Fc --no-acl --no-owner -U $DBUSER -w $DBNAME > $SAVEPATH$PREFIX$DATE$EXT
        
        # 保存期間が過ぎたファイルの削除
        find $SAVEPATH -type f -daystart -mtime $PERIOD -exec rm {} \;
        
        ```
-    
+       
        

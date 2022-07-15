@@ -1419,13 +1419,13 @@ $yum update -y
 7. 証明書の自動更新
 
         1. 自動更新用のサービスを有効化する
-
+        
            ```sh
            $systemctl enable --now certbot-renew.timer
            ```
-
+        
         2. 更新後にapacheをリロードする設定
-
+        
            ```sh
            $vim /etc/sysconfig/certbot
                
@@ -1570,8 +1570,16 @@ $yum update -y
 3. マウント
 
    ```sh
-   $mount -t cifs -o username=user //192.168.3.22/share/ /home/nkaz/pgbk/
+   $mount -t cifs -o username=user,password= //192.168.3.22/share/ /home/nkaz/pgbk/
    ```
+
+4. アンマウント
+
+   ```sh
+   $umount /home/nkaz/pgbk/
+   ```
+
+   
 
 ## バックアップ＆リストア
 
