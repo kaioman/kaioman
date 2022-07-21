@@ -29,8 +29,6 @@
 - 幅x高さx奥行：286x17.5x193.3 mm
 - 重量：0.98 kg
 
-
-
 ## Linux Mintインストール
 
 ------
@@ -142,7 +140,60 @@
          $sudo update-initramfs -u -k all
          ```
 
+   9. bluetoothの有効化
+   
+      - [参考になったフォーラム](https://forum.manjaro.org/t/cant-enable-bluetooth-in-asus-x205ta/55154/22)
+   
+      1. bluetooth-addr.service作成
+   
+         ```sh
+         $sudo vim /etc/systemd/system/bluetooth-addr.service
+         ```
+   
+         ```sh
+         [Unit]
+         Description=Set Bluetooth device address
+         After=bluetooth.service
+         Requires=bluetooth.service
          
+         [Service]
+         ExecStart=/usr/bin/btmgmt -i hci0 public-addr 43:34:1B:00:1F:AC # ここはX205TA本体のbluetoothのMACアドレスを指定する(X205TAはこのアドレスっぽい)
+         Restart=on-failure
+         
+         [Install]
+         WantedBy=bluetooth.target
+         ```
+   
+      2. サービス登録・起動
+   
+         ```sh
+         $sudo systemctl enable bluetooth-addr.service
+         $sudo systemctl start bluetooth-addr.service
+         ```
+   
+      3. bluetooth再起動
+   
+         ```sh
+         $sudo systemctl restart bluetooth
+         ```
+   
+      4. bluetoothctlコマンド(参考)
+   
+         ```sh
+         $bluetoothctl
+         
+         bluetooth$scan on # デバイス検索モード
+         bluetooth$devices # デバイス表示
+         bluetooth$pair (dev) # ペアリング
+         bluetooth$trust (dev) # デバイスを信用する。(必要かどうか分からない)
+         bluetooth$paired-devices # ペアリング済デバイス表示
+         bluetooth$connect (dev) # 接続
+         bluetooth$info (dev) # デバイスの状態
+         
+         # (dev)はMACアドレス
+         ```
+   
+      5. コントロールセンターのBluetoothを起動してbluetooth機器をペアリングする
 
 ## CloudReadyインストール
 
