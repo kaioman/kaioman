@@ -289,7 +289,7 @@
        # ホスト側からコンテナ環境のプロセスを終了する
        $docker kill a9ae2f713662
        ```
-    
+
 13. Docker-Compose
 
     1. インストール
@@ -322,18 +322,18 @@
              ┣ docker-compose.yml
              ┗ pgdata # postgresのデータファイルが入る
        ```
-    
+
     2. DockerFile作成(下記はpostgres12の場合)
-    
+
        ```sh
        $vim Dockerfile
        
        FROM postgres:12-alpine
        ENV LANG ja_JP.utf8
        ```
-    
+
     3. docker-compose.yml作成
-    
+
        ```sh
        version: '3'
         services:
@@ -351,28 +351,126 @@
         　　    - ./pgdata:/var/lib/postgresql/data
         　　  restart: always # OS起動時にコンテナを起動する場合はalwaysを指定
        ```
-    
+
        ポート開放コマンド(例)：
-    
+
        ポート番号5435を解放する
-    
+
        ```sh
        $firewall-cmd --add-port=5435/tcp --permanent
        $firewall-cmd --reload
        ```
-    
+
     4. コンテナを作成する
-    
+
        事前にdocker-compose.ymlが配置してあるディレクトリに移動する
-    
+
        ```sh
        $docker-compose up -d
        ```
-    
+
     5. コンテナの一覧を確認
-    
+
        ```sh
        $docker container ls -a
        ```
-    
-    
+
+15. httpdのコンテナ化
+
+    1. フォルダ構成
+
+       ```sh
+       [docker-directory]/
+        ┗ [httpd]/
+             ┣ DockerFile
+             ┣ docker-compose.yml
+             ┗ 
+       ```
+
+    2. DockerFile作成
+
+       ```sh
+       $vim Dockerfile
+       
+       FROM httpd:alpine
+       ```
+
+    3. docker-compose.yml作成
+
+       ```sh
+       version: '3'
+       services:
+         web:
+         build: .
+         ports:
+           - "8080:80"
+       ```
+
+    4. コンテナを作成する
+
+       事前にdocker-compose.ymlが配置してあるディレクトリに移動する
+
+       ```sh
+       $docker-compose up -d
+       ```
+
+16. Selenium動作環境
+
+    1. chromeリポジトリ設定
+
+       ```sh
+       vim /etc/yum.repos.d/google-chrome.repo
+       
+       [google-chrome]
+       name=google-chrome
+       baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch
+       enabled=0
+       gpgcheck=1
+       gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+       ```
+
+    2. chromeインストール
+
+       ```sh
+       $yum -y install --enablerepo=google-chrome google-chrome-stable
+       ```
+
+    3. バージョン確認(このバージョンと後続の手順で配置するchromedriverのバージョンを合わせる)
+
+       ```sh
+       $google-chrome --version
+       
+       Google Chrome 103.0.5060.134
+       ```
+
+    4. chromedriverダウンロード
+
+       ```sh
+       $wget https://chromedriver.storage.googleapis.com/103.0.5060.134/chromedriver_linux64.zip
+       ```
+
+    5. chromedriver_linux64.zip解凍
+
+       ```sh
+       $unzip chromedriver_linux64.zip
+       ```
+
+    6. パスが通っている場所にchromedriverを移動
+
+       ```sh
+       $mv chromedriver /usr/local/bin/
+       ```
+
+    7. パーミッションを755に変更
+
+       ```sh
+       $chmod 755 /usr/local/bin/chromedriver
+       ```
+
+    8. 不要になったchromedriver_linux64.zipを削除
+
+       ```sh
+       $rm chromedriver_linux64.zip
+       ```
+
+       
