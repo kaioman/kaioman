@@ -473,4 +473,31 @@
        $rm chromedriver_linux64.zip
        ```
 
-       
+    9. webdriverオプション
+    
+       webdriverに対して以下のオプションを設定する
+    
+       - --headless
+    
+       - --no-sandbox
+    
+       - --remote-debugging-port=9222
+    
+         ```sh
+         例) netkeiber.iniのWEBDRIVER_OPTIONSに以下の設定を追加
+         
+         ;WebDriver Options
+         WEBDRIVER_OPTIONS = --headless,--no-sandbox,--remote-debugging-port=9222
+         ```
+    
+         上記オプションがないと以下のエラーを吐いてブラウザが起動しない
+    
+         ```sh
+         type:<class 'selenium.common.exceptions.WebDriverException'>
+         args:("unknown error: Chrome failed to start: exited abnormally.\n  (unknown error: DevToolsActivePort file doesn't exist)\n  (The process started from chrome location /usr/bin/google-chrome is no longer running, so ChromeDriver is assuming that Chrome has crashed.)", None, None)
+         e自身:Message: unknown error: Chrome failed to start: exited abnormally.
+           (unknown error: DevToolsActivePort file doesn't exist)
+           (The process started from chrome location /usr/bin/google-chrome is no longer running, so ChromeDriver is assuming that Chrome has crashed.)
+         ```
+    
+         
