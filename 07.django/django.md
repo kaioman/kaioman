@@ -364,7 +364,7 @@
       }
       ```
 
-9. #### デプロイにあたって修正が必要なファイル
+10. #### デプロイにあたって修正が必要なファイル
 
    1. wsgi.py
 
@@ -431,7 +431,7 @@
 
 12. #### WebDriver
 
-    1. ##### WebDriverを公式サイトよりダウンロードして所定の場所に配置する
+    - ##### WebDriverを公式サイトよりダウンロードして所定の場所に配置する
 
        - firefox
 
@@ -453,13 +453,13 @@
 
          [Release 98](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/#downloads)
 
-    2. ##### WebDriverフォルダのパーミッションを777に変更する
+    - ##### WebDriverフォルダのパーミッションを777に変更する
 
        ```sh
        $sudo chmod -R 777 [WebDriverDirectory]
        ```
 
-    3. ##### apacheユーザーのホームディレクトリのパーミッションを777に変更する
+    - ##### apacheユーザーのホームディレクトリのパーミッションを777に変更する
 
        ```sh
        $sudo chmod -R 777 /usr/share/httpd
@@ -469,7 +469,7 @@
 
        [ptyhon内に記述したseleniumのwebdriver.Firefox()が、apacheで実行すると"connection refused"のエラーになってしまう](https://teratail.com/questions/184002)
 
-    4. ##### ブラウザインストール
+    - ##### ブラウザインストール
 
        WebDriverの配置だけではダメ。ブラウザもインストールすること。
 
@@ -490,29 +490,30 @@
          $eval `dbus-launch --sh-syntax`
          ```
 
-13. ### デバッグ
+    - ### デバッグ
 
-    - firefox
+      - firefox
 
-      geckodriver.logのログレベルを上げる(geckodriverのバージョンが古いせいか解決に繋がるログは出力されなかった)
+        geckodriver.logのログレベルを上げる(geckodriverのバージョンが古いせいか解決に繋がるログは出力されなかった)
 
-      ```python
-      from selenium.webdriver.firefox.options import Options as firefoxOptions
-      from selenium import webdriver
-      
-      # オプションクラスインスタンス
-      options = firefoxOptions()
-      
-      # ログレベルをtraceに設定
-      options.log.level = "trace"
-      
-      # WebDriverを返す
-      wDriver = webdriver.Firefox(executable_path=[WebDriverPath], 
-                                  log_path=[WebDriverLogPath],
-                                  options=options)
-      ```
+        ```sh
+        from selenium.webdriver.firefox.options import Options as firefoxOptions
+        from selenium import webdriver
+        
+        # オプションクラスインスタンス
+        options = firefoxOptions()
+        
+        # ログレベルをtraceに設定
+        options.log.level = "trace"
+        
+        # WebDriverを返す
+        wDriver = webdriver.Firefox(executable_path=[WebDriverPath], 
+                                    log_path=[WebDriverLogPath],
+                                    options=options)
+        ```
 
-      
+        
+
 
 ## マイグレーション
 

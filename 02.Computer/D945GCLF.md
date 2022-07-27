@@ -384,7 +384,7 @@
         ┗ [httpd]/
              ┣ DockerFile
              ┣ docker-compose.yml
-             ┗ 
+             ┗ html # webコンテンツを格納
        ```
 
     2. DockerFile作成
@@ -403,7 +403,10 @@
          web:
          build: .
          ports:
-           - "8080:80"
+           - "8081:80"
+         volumes:
+           - ./html/:/usr/local/apache2/htdocs/
+         restart: always
        ```
 
     4. コンテナを作成する
@@ -499,5 +502,3 @@
            (unknown error: DevToolsActivePort file doesn't exist)
            (The process started from chrome location /usr/bin/google-chrome is no longer running, so ChromeDriver is assuming that Chrome has crashed.)
          ```
-    
-         

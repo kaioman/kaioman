@@ -1418,20 +1418,22 @@ $yum update -y
 
 7. 証明書の自動更新
 
-        1. 自動更新用のサービスを有効化する
-        
-           ```sh
-           $systemctl enable --now certbot-renew.timer
-           ```
-        
-        2. 更新後にapacheをリロードする設定
-        
-           ```sh
-           $vim /etc/sysconfig/certbot
-               
-           POST_HOOK="--post-hook 'systemctl reload httpd'"
-           # POST_HOOK="--post-hook 'systemctl reload httpd && systemctl reload httpdPy36'" # apache複数ある場合
-           ```
+    ~~~sh
+    1. 自動更新用のサービスを有効化する
+    
+       ```sh
+       $systemctl enable --now certbot-renew.timer
+       ```
+    
+    2. 更新後にapacheをリロードする設定
+    
+       ```sh
+       $vim /etc/sysconfig/certbot
+           
+       POST_HOOK="--post-hook 'systemctl reload httpd'"
+       # POST_HOOK="--post-hook 'systemctl reload httpd && systemctl reload httpdPy36'" # apache複数ある場合
+       ```
+    ~~~
 
 
 ### ファイル共有
