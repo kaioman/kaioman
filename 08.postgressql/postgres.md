@@ -178,10 +178,10 @@
        ```sh
        #!/bin/bash
        
-       # コマンドの実行履歴を出力する$
+       # コマンドの実行履歴を出力する
        set -x$
-       $
-       # コマンドの返り値が非ゼロのとき停止する$
+       
+       # コマンドの返り値が非ゼロのとき停止する
        set -e
        
        # バックアップファイルを残しておく日数
@@ -209,10 +209,10 @@
        DBNAME='raceanalyze'
        
        # バックアップ実行
-       docker exec $SERVICENAME pg_dump -Fc --no-acl --no-owner -U $DBUSER -w $DBNAME > $SAVEPATH$PREFIX$DATE$EXT
+       docker exec $CONTAINERNAME pg_dump -Fc --no-acl --no-owner -U $DBUSER -w $DBNAME > $SAVEPATH$PREFIX$DATE$EXT
        
        # 保存期間が過ぎたファイルの削除
-       find $SAVEPATH -type f -daystart -mtime $PERIOD -exec rm {} \;
+       find $SAVEPATH -type f -daystart -mtime -maxdepth 1 $PERIOD -exec rm {} \;
        
        ```
        

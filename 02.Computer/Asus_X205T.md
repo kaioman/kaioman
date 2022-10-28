@@ -122,24 +122,33 @@
          bus/platform/drivers/sdhci-acpi/INT33BB:00/power/control = on # 追記
          ```
 
-      4. USB無線wifiを取り外して再起動する。再起動後、内臓無線wifiが使用できるようになっていることを確認する
+      4. 以下２ファイルを/lib/firmware/brcmの直下にコピーする(firmwareのパッチ？)
 
+         この操作は行わなくてもwifiは動作するが、dmesgを確認した時に以下のファイルがFile not foundとなるので念のため行っておく
+
+         ```sh
+         $sudo cp BCM.hcd /lib/firmware/brcm
+         $sudo cp BCM43341B0.hcd /lib/firmware/brcm
+         ```
+   
+      5. USB無線wifiを取り外して再起動する。再起動後、内臓無線wifiが使用できるようになっていることを確認する
+   
    8. microSDカードリーダーの有効化
-
+   
       1. /etc/modprobe.d/sdhci.confに以下を追記(無ければ新規作成)
-
+   
          ```sh
          $vim /etc/modprobe.d/sdhci.conf
          
          options sdhci debug_quirks=0x8000　# 追記
          ```
-
+   
       2. 以下のコマンドを実行
-
+   
          ```sh
          $sudo update-initramfs -u -k all
          ```
-
+   
    9. bluetoothの有効化
    
       - [参考になったフォーラム](https://forum.manjaro.org/t/cant-enable-bluetooth-in-asus-x205ta/55154/22)
@@ -194,8 +203,24 @@
          ```
    
       5. コントロールセンターのBluetoothを起動してbluetooth機器をペアリングする
+      
+      6. トラブルシューティング
+      
+         - bluetooth-addr.serviceのstatusがシステム起動直後、statusがdeadになる時
+      
+           1. bluetoothアダプタをオフにする(タスクバーのbluetoothアイコンから)
+      
+           2. 以下のコマンドをターミナルで入力する
+      
+              ```sh
+              $sudo btmgmt -i hci0 public-addr 43:34:1B:00:1F:AC
+              ```
+      
+              ※bluetoothコントローラーが起動中の場合は、エラー0x0bを出力してアドレスの登録に失敗する為、bluetooth-addr.serviceが起動するタイミングだと失敗することがある
+      
+         
 
-## CloudReadyインストール
+## 　CloudReadyインストール
 
 ------
 
