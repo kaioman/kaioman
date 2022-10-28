@@ -10,7 +10,7 @@
 
 * RaspberryPi Model B+
 
-  <img src="img\rasp3.jpg" alt="rasp3" style="zoom:67%;float:left" />
+  <img src="img/rasp3.jpg" alt="rasp3" style="zoom:67%;float:left" />
 
 
 
@@ -64,7 +64,7 @@
 
 5. 「clean」で初期化する
 
-   <img src="img\cdcard-clean.png" alt="cdcard-clean"  style="float:left;" />
+   <img src="img/cdcard-clean.png" alt="cdcard-clean"  style="float:left;" />
 
 ### SDカードをフォーマットする
 
@@ -1337,7 +1337,7 @@ $yum update -y
 
 2. 80番ポートの外部公開(Let's Encryptからのアクセスを許可する為)
 
-   <img src="img\Router-PortFiltering-80.png" alt="Router-PortFiltering-80" style="zoom:80%;float:left;" />
+   <img src="img/Router-PortFiltering-80.png" alt="Router-PortFiltering-80" style="zoom:80%;float:left;" />
 
 3. mod_sslインストール
 

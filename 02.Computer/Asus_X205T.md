@@ -10,7 +10,7 @@
 
 - Asus EeeBook X205TA
 
-  <img src="img\X205TA_image.png" alt="X205TA_image" style="zoom:75%;float:left" />
+  <img src="img/X205TA_image.png" alt="X205TA_image" style="zoom:75%;float:left" />
 
   [サポートサイト](https://www.asus.com/jp/supportonly/X205TA/HelpDesk_Download/)
 
@@ -61,7 +61,7 @@
 
    linuxmintのisoファイルを指定してスタートボタンをクリック
 
-   <img src="img\rufus-linuxmint-bootusb.png" alt="rufus-linuxmint-bootusb" style="zoom:75%;float:left" />
+   <img src="img/rufus-linuxmint-bootusb.png" alt="rufus-linuxmint-bootusb" style="zoom:75%;float:left" />
 
 6. 作成したインストール用USBの/efi/bootに[bootia32.efi](https://github.com/jfwells/linux-asus-t100ta/tree/master/boot)をコピー
 
@@ -230,21 +230,21 @@
 
       [CloudReady Home Edition Free Download](https://www.neverware.com/freedownload#home-edition-install)
 
-      <img src="img\Download_usb_maker.png" alt="Download_usb_maker" style="zoom:75%;float:left" />
+      <img src="img/Download_usb_maker.png" alt="Download_usb_maker" style="zoom:75%;float:left" />
 
    2. ダウンロードしたcloudready-usb-maker.exeを実行する
 
    3. 8GBか16GBのUSBメモリをPCに挿してNextをクリック
 
-      <img src="img\usb_maker_w_1.png" alt="usb_maker_w_1" style="zoom:75%;float:left" />
+      <img src="img/usb_maker_w_1.png" alt="usb_maker_w_1" style="zoom:75%;float:left" />
 
    4. 対象のUSBメモリを選択してNextをクリック
 
-      <img src="img\usb_maker_w_2.png" alt="usb_maker_w_2" style="zoom:75%;float:left" />
+      <img src="img/usb_maker_w_2.png" alt="usb_maker_w_2" style="zoom:75%;float:left" />
 
    5. CloudReadyのダウンロードとUSB書込が始まるので待つ。書いてあるとおり20分ほどかかるので終わったらFinishをクリック
 
-      <img src="img\usb_maker_w_3.png" alt="usb_maker_w_3" style="zoom:75%;float:left" />
+      <img src="img/usb_maker_w_3.png" alt="usb_maker_w_3" style="zoom:75%;float:left" />
 
 2. CloudReadyをX205TAにインストール
 

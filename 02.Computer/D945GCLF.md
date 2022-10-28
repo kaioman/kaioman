@@ -10,7 +10,7 @@
 
 * intel デスクトップ・ボード D945GCLF
 
-  <img src="img\D945GCLF_image.png" alt="D945GCLF_image" style="zoom:75%;float:left" />
+  <img src="img/D945GCLF_image.png" alt="D945GCLF_image" style="zoom:75%;float:left" />
 
 
 
@@ -100,7 +100,7 @@
 
        この後、クライアント側からVNCビューアーで接続できるか確認する。
 
-       <img src="img\vncLogin.png" style="zoom:100%; float:left" />
+       <img src="img/vncLogin.png" style="zoom:100%; float:left" />
        
     7. VNCサービス登録
 
@@ -182,7 +182,7 @@
 
        nWOLをインストール。以下のように設定。
 
-       <img src="img\nWOL-config.png" alt="nWOL-config" style="zoom:75%;float:left" />
+       <img src="img/nWOL-config.png" alt="nWOL-config" style="zoom:75%;float:left" />
 
     6. クライアント側(iOS)
 
