@@ -1,12 +1,8 @@
 # X205TA
 
-------
-
 
 
 ## 製品名
-
-------
 
 - Asus EeeBook X205TA
 
@@ -15,8 +11,6 @@
   [サポートサイト](https://www.asus.com/jp/supportonly/X205TA/HelpDesk_Download/)
 
 ## 仕様
-
-------
 
 - CPU：Atom Z3735F 1.33Ghz/4コア
 - 画面サイズ：11.6型(インチ)
@@ -31,22 +25,20 @@
 
 ## Linux Mintインストール
 
-------
-
-1. 参考サイト
+1. ### 参考サイト
 
    - [Asus x205ta にLinuxMintインストール＆Wifi、MicroSD有効化](http://solidstatelife.blogspot.com/2015/08/asus-x205ta-linuxmintwifimicrosdubuntu.html)
    - [ASUS X205TAにLinuxインストール (ocha-zuke.tokyo)](https://ocha-zuke.tokyo/2020/12/x205ta-linux-mint193/)
 
-2. USB無線wifiを用意
+2. ### USB無線wifiを用意
 
    無くてもインストール自体は成功するが、インストール後にSSDからブートすることが後々困難になるので用意した方が無難
 
-3. rufusをダウンロード
+3. ### rufusをダウンロード
 
    [rufus:起動可能なUSBドライブの作成](https://rufus.ie/ja/)
 
-4. Linux Mint 20.3(22/07/17時点の最新) Cinnamon 64bit版のisoファイルをダウンロード
+4. ### Linux Mint 20.3(22/07/17時点の最新) Cinnamon 64bit版のisoファイルをダウンロード
 
    以下のエディションが存在するが、インストールするマシンのスペックに応じて選択
 
@@ -57,24 +49,24 @@
 
    [Download Linux Mint 20.3 - Linux Mint](https://www.linuxmint.com/download.php)
 
-5. rufusを起動してインストール用USBを作成する
+5. ### rufusを起動してインストール用USBを作成する
 
    linuxmintのisoファイルを指定してスタートボタンをクリック
 
    <img src="img/rufus-linuxmint-bootusb.png" alt="rufus-linuxmint-bootusb" style="zoom:75%;float:left" />
 
-6. 作成したインストール用USBの/efi/bootに[bootia32.efi](https://github.com/jfwells/linux-asus-t100ta/tree/master/boot)をコピー
+6. ### 作成したインストール用USBの/efi/bootに[bootia32.efi](https://github.com/jfwells/linux-asus-t100ta/tree/master/boot)をコピー
 
    bootia32.efiが無いと起動できない(X205TAが32bitUEFIブートに対応していない為)
 
-7. X205TAのBIOS画面でSecureBootをdisableに変更する
+7. ### X205TAのBIOS画面でSecureBootをdisableに変更する
 
    1. 電源ボタン押下にescボタン連打
    2. BIOS設定 -> secure boot control -< disableに設定
    3. usb controller -> ehciに設定
    4. 設定を保存してシャットダウン
 
-8. linux mintインストール
+8. ### linux mintインストール
 
    1. USB無線wifiを接続する
 
@@ -133,7 +125,7 @@
    
       5. USB無線wifiを取り外して再起動する。再起動後、内臓無線wifiが使用できるようになっていることを確認する
    
-   8. microSDカードリーダーの有効化
+   8. ### microSDカードリーダーの有効化
    
       1. /etc/modprobe.d/sdhci.confに以下を追記(無ければ新規作成)
    
@@ -149,7 +141,7 @@
          $sudo update-initramfs -u -k all
          ```
    
-   9. bluetoothの有効化
+   9. ### bluetoothの有効化
    
       - [参考になったフォーラム](https://forum.manjaro.org/t/cant-enable-bluetooth-in-asus-x205ta/55154/22)
    
@@ -221,8 +213,6 @@
          
 
 ## 　CloudReadyインストール
-
-------
 
 1. CloudRaady Home Edition入手
 

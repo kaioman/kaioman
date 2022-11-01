@@ -1,12 +1,8 @@
 # RaspberryPi
 
-------
-
 
 
 ## 製品名
-
-------
 
 * RaspberryPi Model B+
 
@@ -15,8 +11,6 @@
 
 
 ## 仕様
-
-------
 
 * CPU:700 MHz / ARM1176JZF-Sコア\(ARM11ファミリ\)
 
@@ -48,11 +42,9 @@
 
 ## スタートアップ
 
-------
+
 
 ### パーテーションが存在するSDカードの初期化
-
-------
 
 1. コマンドプロンプトで「diskpart」を実行
 
@@ -68,8 +60,6 @@
 
 ### SDカードをフォーマットする
 
-------
-
 1. [SD/SDHC/SHXC用SDメモリカードフォーマッター5.0](https://1drv.ms/u/s!AtZZJevIaEATgvwe7Z7nzBiXVOm58w?e=nedXd8)を使用
 
    <img src="img/SdCardFormatter_01.png" alt="SdCard-Format" style="float:left;" />
@@ -80,8 +70,6 @@
 
 ### SDカードへCentOSのimgファイルを書き込む
 
-------
-
 1. [CensOSのイメージファイル](https://buildlogs.centos.org/centos/7/isos/armhfp/CentOS-Userland-7-armv7hl-Minimal-1611-test-RaspberryPi3.img.xz)をダウンロードして7zipなどで展開する
 
 2. Win32DiskImagerを使用して、imgファイルをSDカードに書き込む
@@ -89,8 +77,6 @@
    <img src="img/Win32DiskImager_01.png" alt="Win32DiskImager" style="float:left;" />
 
 ### 起動直後
-
-------
 
 1. #### 初期ログイン
 
@@ -138,8 +124,6 @@
 
 ### 起動後のネットワーク設定
 
-------
-
 1. #### ネットワーク設定ファイルの変更
 
    1. ##### 以下のファイルをviで開く
@@ -179,8 +163,6 @@
    ここまでくれば、あとはクライアント側からTeraTermで接続するのでラズパイ本体からディスプレイの出力は無くして良い。
 
 ### Rootパーテーションのサイズ拡張
-
-------
 
 1. #### 現在の状態を確認(1.1Gしか確保できていない)
 
@@ -240,8 +222,6 @@
 
 ### yumを使用可能にする
 
-------
-
 1. #### /etc/yum.repo.d/CentOS-armhfp-kernel.repoを編集する
 
    ```sh
@@ -284,8 +264,6 @@
 
 ### yum updateの実行
 
-------
-
 ```sh
 $yum update -y
 ```
@@ -293,8 +271,6 @@ $yum update -y
 ※かなり時間がかかるので注意
 
 ### ホスト名変更
-
-------
 
 1. ####  ホスト名変更
 
@@ -316,8 +292,6 @@ $yum update -y
    ```
 
 ### epelをリポジトリに追加
-
-------
 
 1. #### リポジトリの優先順位を設定するプラグインをインストール
 
@@ -345,8 +319,6 @@ $yum update -y
    ```
 
 ### パッケージインストール
-
-------
 
 1. #### make, gcc, gcc-c++
 
@@ -418,8 +390,6 @@ $yum update -y
       ```
 
 ### wifi接続設定
-
-------
 
    1. ファームウェアをダウンロードする
 
@@ -752,8 +722,6 @@ $yum update -y
 
 ### 一般ユーザー作成
 
-------
-
 1. #### ユーザーアカウント作成
 
    ```sh
@@ -797,8 +765,6 @@ $yum update -y
    ```
 
 ### Vimインストール
-
-------
 
 1. #### Vimインストール
 
@@ -847,8 +813,6 @@ $yum update -y
    ```
 
 ### httpdインストール
-
-------
 
 1. #### httpdインストール
 
@@ -925,8 +889,6 @@ $yum update -y
 
 ### vsftpdインストール
 
-------
-
 1. #### vsftpdインストール
 
    ```sh
@@ -996,8 +958,6 @@ $yum update -y
 
 ### monitorixインストール
 
-------
-
 1. #### monitorixインストール
 
    ```sh
@@ -1055,8 +1015,6 @@ $yum update -y
    http://[ホスト名]:8080/monitorix
 
 ### sshセキュリティ設定
-
-------
 
 1. #### rootログイン禁止
 
@@ -1152,8 +1110,6 @@ $yum update -y
          ```
 
 ### postgresインストール
-
-------
 
 1. #### yumでpostgres(9.2.24)をインストール
 
@@ -1309,8 +1265,6 @@ $yum update -y
 
 ### dns設定
 
-------
-
 [参考](https://www.server-world.info/query?os=CentOS_7&p=dns&f=1)
 
 - BINDインストール
@@ -1324,8 +1278,6 @@ $yum update -y
   
 
 ### ssl設定
-
-------
 
 [参考：SSL/TLSの設定](https://www.server-world.info/query?os=CentOS_7&p=httpd&f=7)
 
@@ -1539,8 +1491,6 @@ $yum update -y
 
 ### 共有フォルダをマウントする
 
-------
-
 1. fstab設定
 
    ```sh
@@ -1585,7 +1535,7 @@ $yum update -y
 
 ## バックアップ＆リストア
 
-------
+
 
 ### バックアップ
 
@@ -1594,3 +1544,11 @@ $yum update -y
    <img src="img\Win32DiskImager_02.png" alt="Win32DiskImager_02" style="zoom:80%;float:left;" />
 
 ### リストア
+
+1. 以下のコマンドでディスクイメージをターゲットデバイスにリストアする
+
+   ```sh
+   $dd if=/home/ubuntu/sample.img of=/dev/mmcblk0 bs=4M
+   ```
+
+   

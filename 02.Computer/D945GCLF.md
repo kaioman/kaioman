@@ -1,12 +1,8 @@
 # D945GCLF
 
-------
-
 
 
 ## 製品名
-
-------
 
 * intel デスクトップ・ボード D945GCLF
 
@@ -16,15 +12,11 @@
 
 ## 仕様
 
-------
-
 - [基本仕様](https://ark.intel.com/content/www/jp/ja/ark/products/42490/intel-desktop-board-d945gclf.html)
 
   
 
 ## スタートアップ
-
-------
 
 1. CentOS7のインストール
 
@@ -188,7 +180,7 @@
 
        Wolowをインストール。以下のように設定。
 
-       <img src="img\Wolow-config.png" alt="Wolow-config" style="zoom:30%;float:left" />
+       <img src="img/Wolow-config.png" alt="Wolow-config" style="zoom:30%;float:left" />
 
     
 
