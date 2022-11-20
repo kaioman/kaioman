@@ -1,4 +1,4 @@
-# centOS7
+# centos7
 
 1. ## インストール
 
@@ -131,9 +131,7 @@
 
 10. ## 不正なSSHアクセスを調べる
 
-    [参考リンク:失敗ログイン (lastb) の IP アドレスを一括拒否](https://qiita.com/bezeklik/items/6467c966338e610ef333)
-
-    ### 
+    [参考リンク:失敗ログイン (lastb) の IP アドレスを一括拒否](https://qiita.com/bezeklik/items/6467c966338e610ef333) 
 
     1. ### 不正アクセスの試行ユーザー名ランキング
 
@@ -146,7 +144,7 @@
        | sort --reverse \
        | less
        ```
-
+    
     2. ### 不正アクセスのIPアドレスランキング
 
        ```sh
@@ -158,7 +156,7 @@
        | sort --reverse \
        | less
        ```
-
+    
     3. ### 失敗ログインの IP アドレスの一括拒否設定
 
        1. #### 新しいIPセットの作成
@@ -166,50 +164,50 @@
           ```sh
           $firewall-cmd --permanent --new-ipset=blacklist --type=hash:net
           ```
-
+    
        2. #### IPセットの一覧
 
           ```sh
           $firewall-cmd --permanent --get-ipsets
           ```
-
+    
        3. #### IPセットの詳細
 
           ```sh
           $firewall-cmd --permanent --info-ipset=blacklist
           ```
-
+    
     4. #### 拒否する IP アドレス一覧ファイルの作成
 
        ```sh
        $lastb -i | head --lines=-2 | awk '{print $3}' | sort | uniq | sort --numeric-sort > /etc/firewalld/ipsets/blacklist
        ```
-
+    
     5. #### 拒否する IP アドレス一覧ファイルの登録
 
        ```sh
        $firewall-cmd --permanent --ipset=blacklist --add-entries-from-file=/etc/firewalld/ipsets/blacklist 
        ```
-
+    
     6. #### IP セットの詳細の再確認
 
        ```sh
        $firewall-cmd --permanent --info-ipset=blacklist
        ```
-
+    
     7. #### IP セットによる拒否設定
 
        ```sh
        $firewall-cmd --permanent --zone=public --add-rich-rule='rule source ipset=blacklist drop'
        ```
-
+    
     8. #### リロードと反映確認
 
        ```sh
        $firewall-cmd --reload && \
        $firewall-cmd --list-rich-rules
        ```
-
+    
 11. ## ログイン履歴やログイン状況の確認
 
     [参考:【CentOS】ログイン履歴やログイン状況の確認方法](https://www.server-memo.net/tips/server-operation/login-history.html)

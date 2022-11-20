@@ -366,37 +366,41 @@
 
 10. #### デプロイにあたって修正が必要なファイル
 
-   1. wsgi.py
+    1. wsgi.py
 
-      wsgi.pyの場所、アプリの場所を追加
+          wsgi.pyの場所、アプリの場所を追加
 
-      ```sh
-      import os
-      import sys # 追加
-      
-      from django.core.wsgi import get_wsgi_application
-      
-      sys.path.append('/home/stockerbastard/stocker/stocker') # 追加
-      sys.path.append('/home/stockerbastard/stocker/app_stock') # 追加
-      
-      os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stocker.settings')
-      
-      application = get_wsgi_application()
-      ```
-
-   2. settings.py
-
-      ```sh
-      * ALLOW_HOST変更
-      
-      #ALLOWED_HOSTS = ['127.0.0.1','localhost']
-      ALLOWED_HOSTS = ['127.0.0.1','localhost',<ホストアドレス>] # ホストアドレスを追加する
-      
-      * STATIC_ROOT変更
+          ```sh
+          import os
+          import sys # 追加
           
-      #STATIC_ROOT = 'C:/static/'
-      STATIC_ROOT = os.path.join(BASE_DIR, 'static')  
-      ```
+          from django.core.wsgi import get_wsgi_application
+          
+          sys.path.append('/home/stockerbastard/stocker/stocker') # 追加
+          sys.path.append('/home/stockerbastard/stocker/app_stock') # 追加
+          
+          os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stocker.settings')
+          
+          application = get_wsgi_application()
+          ```
+
+          
+
+    2. settings.py
+
+          ```sh
+          * ALLOW_HOST変更
+          
+          #ALLOWED_HOSTS = ['127.0.0.1','localhost']
+          ALLOWED_HOSTS = ['127.0.0.1','localhost',<ホストアドレス>] # ホストアドレスを追加する
+          
+          * STATIC_ROOT変更
+              
+          #STATIC_ROOT = 'C:/static/'
+          STATIC_ROOT = os.path.join(BASE_DIR, 'static')  
+          ```
+
+          
 
 11. #### 静的ファイルの配置
 
@@ -490,7 +494,7 @@
          $eval `dbus-launch --sh-syntax`
          ```
 
-    - ### デバッグ
+    - ##### デバッグ
 
       - firefox
 

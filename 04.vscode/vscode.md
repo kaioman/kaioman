@@ -81,37 +81,28 @@
 
    * Python
      * Ptyhon Extension Pack
-       * Python Docstring Generator
-       * Jinja
-       * Django
-       * Visual Studio IntelliCode
-       * Python Indent
-
-
-      * SFTP(liximomo)
-
+     * Python Docstring Generator
+   * Jinja
+   * Django
+   * Visual Studio IntelliCode
+   * Python Indent
+   * SFTP(liximomo)
    
-
-      * Git History
-
+   - Git History
    
-
-      * Easy icon thema
-
+   - Easy icon thema
    
-
-      * vscode-workspace-switcher
-
+   - vscode-workspace-switche   
    
-
-      * Material Thema
-
+   - Material Thema
    
-
-      * Peacock
-      * Prettier - Code formatter
-      * Jupyter
-      * Todo+
+     * Peacock
+   
+     * Prettier - Code formatter
+   
+     * Jupyter
+   
+     * Todo+
 
 5. ## vscode設定
 
@@ -256,11 +247,22 @@
 
 11. ## commit時にBad Status Code 500が表示される
 
-    1. vscodeの設定を開く
+    1. ### vscodeの設定を開く
 
-    2. 検索キーワードに「use editor as commit」と入力してEnterキーを押下する
+    2. ### 検索キーワードに「use editor as commit」と入力してEnterキーを押下する
 
-    3. 以下のチェックボックスを「Off」に変更する
+    3. ### 以下のチェックボックスを「Off」に変更する
 
-       ![user_editor_as_commit_input_checkbox](img\user_editor_as_commit_input_checkbox.png)
+       ![user_editor_as_commit_input_checkbox](img/user_editor_as_commit_input_checkbox.png)
+
+12. ## ファイルのエンコードを自動判別する
+
+    1. ### vscodeの設定を開く
+
+    2. ### 検索キーワードに「files」と入力してEnterキーを押下する
+
+    3. ### 以下のチェックボックスを「On」に変更する<img src="img/auto-guess-encoding.png" alt="auto-guess-encoding" style="float: left;" />
+
+
+
 

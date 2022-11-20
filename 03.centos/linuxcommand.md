@@ -154,8 +154,6 @@
       $getent group <ユーザー名>
       ```
 
-      
-
    4. ### ユーザー一覧を確認する
 
       ```sh
@@ -229,7 +227,7 @@
       | サービス一覧             | systemctl list-unit-files --type=service ${Unit} |
       | 設定ファイルの再読込     | systemctl daemon-reload ${Unit}                  |
 
-9. ## yum
+9. ## yum(centos)
 
    1. ### パッケージをインストールする
 
@@ -238,54 +236,94 @@
         ```sh
         $yum install <パッケージ名>
         ```
-      
+
         インストール途中で行われる確認をすべてyesとする場合
-      
+
         ```sh
         $yum -y install <パッケージ名>
         ```
-      
+
         複数のパッケージを一括でインストールする場合
-      
+
         ```sh
         $yum install <パッケージ名1> <パッケージ名2>
         ```
 
-      2. ### パッケージをアンインストールする
-
-         ```sh
-         $yum remove <パッケージ名>
-         ```
-
-      3. ### パッケージを更新する
-
-         ```sh
-         $yum update
-         ```
-
-10. ## シャットダウン・再起動
-
-   1. シャットダウン
+   2. ### パッケージをアンインストールする
 
       ```sh
-      $shutdown -h now
+      $yum remove <パッケージ名>
       ```
 
-   2. 再起動
+   3. ### パッケージを更新する
 
       ```sh
-      $shutdown -r now
+      $yum update
       ```
 
-      または
+10. ## apt(ubuntu)
 
-      ```sh
-      $reboot
-      ```
+    1. ### パッケージをインストールする
 
-      
+       ```sh
+       $apt install <パッケージ名>
+       ```
 
-11. ## NetworkManager
+    2. ### パッケージをアンインストールする
+
+       ```sh
+       $apt remove <パッケージ名>
+       ```
+
+    3. ### パッケージを完全削除する
+
+       ```sh
+       $apt remove --purge <パッケージ名>
+       ```
+
+    4. ### 必要の無くなったパッケージを自動削除する
+
+       ```sh
+       $apt autoremove
+       ```
+
+    5. ### パッケージ一覧を更新する
+
+       ```sh
+       $apt update
+       ```
+
+    6. ### パッケージを更新する
+
+       ```sh
+       $apt upgrade
+       ```
+
+       
+
+11. ## シャットダウン・再起動
+
+   12. ## シャットダウン
+
+       ```sh
+       $shutdown -h now
+       ```
+
+   13. ## 再起動
+
+       ```sh
+       $shutdown -r now
+       ```
+
+       または
+
+       ```sh
+       $reboot
+       ```
+
+       
+
+14. ## NetworkManager
 
     * コマンド群
 
@@ -315,7 +353,7 @@
         |unknown|the connectivity status cannot be found out.|
       
 
-12. ## ip
+15. ## ip
 
     - ### ip rule(rule table参照)
 
@@ -378,7 +416,7 @@
            (省略)
            ```
 
-13. ## iwconfig
+16. ## iwconfig
 
     1. インストール
 
@@ -402,7 +440,7 @@
        
          ※ただし、再起動後に設定が元に戻るので恒久的に変更したい場合は/usr/local/sbin/<ファイル名>.shに仕込んでおく     
 
-14. ## cat
+17. ## cat
 
     - ファイルの閲覧を行う
 
@@ -412,7 +450,7 @@
 
         [【Linuxコマンド集】3分でわかるcat コマンドの使い方](https://eng-entrance.com/linux_command_cat#Linux_cat)
 
-15. ## less
+18. ## less
 
     -   ファイルの内容を1画面ごとに閲覧する
 
@@ -422,7 +460,7 @@
 
         [【 less 】コマンド（基本編）――メッセージやテキストファイルを1画面ずつ表示する](https://www.atmarkit.co.jp/ait/articles/1702/09/news031.html)
 
-16. ## curl
+19. ## curl
 
     -   Webサーバーからファイルのダウンロードを行う
 
@@ -432,7 +470,7 @@
 
       [curlコマンドの使い方](https://qiita.com/hana_shin/items/949cdbe6325c6eee730f)
 
-17. ## su
+20. ## su
 
     1. ユーザーを切り替える
 
@@ -446,7 +484,7 @@
        $su -s /bin/bash <ユーザー名>
        ```
 
-18. ## sudo
+21. ## sudo
 
     1. スーパーユーザーでコマンドを実行する
 
@@ -460,7 +498,7 @@
        $sudo -u <ユーザー名> <コマンド>
        ```
 
-19. ## ps
+22. ## ps
 
     1. プロセスの一覧を表示する
 
@@ -476,7 +514,7 @@
        $ps aux
        ```
 
-20. ## kill
+23. ## kill
 
     1. プロセスを停止する
 
@@ -486,7 +524,7 @@
 
        killするPIDはpsコマンドで調べる
 
-21. ## nohup
+24. ## nohup
 
     ターミナルから切断後もpythonを実行したままにする
 
