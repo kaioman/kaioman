@@ -18,7 +18,7 @@
 - メモリ規格：DDR3L PC3-10600
 - メモリ：2GB(増設不可)
 - ビデオチップ：Intel HD Graphics
-- その他：Webカメラ、microHDMI端子、Blutooth
+- その他：Webカメラ、microHDMI端子、Bluetooth
 - 無線LAN：IEEE802.11n
 - 幅x高さx奥行：286x17.5x193.3 mm
 - 重量：0.98 kg
