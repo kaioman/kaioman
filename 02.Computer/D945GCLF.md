@@ -469,24 +469,24 @@
        ```
 
     9. webdriverオプション
-    
+
        webdriverに対して以下のオプションを設定する
-    
+
        - --headless
-    
+
        - --no-sandbox
-    
+
        - --remote-debugging-port=9222
-    
+
          ```sh
          例) netkeiber.iniのWEBDRIVER_OPTIONSに以下の設定を追加
          
          ;WebDriver Options
          WEBDRIVER_OPTIONS = --headless,--no-sandbox,--remote-debugging-port=9222
          ```
-    
+
          上記オプションがないと以下のエラーを吐いてブラウザが起動しない
-    
+
          ```sh
          type:<class 'selenium.common.exceptions.WebDriverException'>
          args:("unknown error: Chrome failed to start: exited abnormally.\n  (unknown error: DevToolsActivePort file doesn't exist)\n  (The process started from chrome location /usr/bin/google-chrome is no longer running, so ChromeDriver is assuming that Chrome has crashed.)", None, None)
@@ -494,3 +494,25 @@
            (unknown error: DevToolsActivePort file doesn't exist)
            (The process started from chrome location /usr/bin/google-chrome is no longer running, so ChromeDriver is assuming that Chrome has crashed.)
          ```
+
+17. dockerの実行権限をroot以外のユーザーに付与する
+
+   1. 任意のユーザーをdockerグループに追加する
+
+     ```sh
+     $sudo gpasswd -a <ユーザーID> docker
+     ```
+
+   2. docker.sockにグループの書き込み権限を付与
+
+     ```sh
+     $sudo chgrp docker /var/run/docker.sock
+     ```
+
+   3. dokcerを再起動
+
+     ```sh
+     $sudo systemctl restart docker
+     ```
+
+     
