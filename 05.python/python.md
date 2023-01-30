@@ -205,8 +205,11 @@
    1. ### 環境インストール
 
       ```sh
-      # postgresql-develインストール
+      # (centos7の場合)postgresql-develインストール
       $yum install postgresql-devel
+      # (ubuntuの場合)libpq-devインストール
+      $sudo apt update
+      $sudo apt install libpq-dev
       ```
 
    2. ### psycopg2インストール

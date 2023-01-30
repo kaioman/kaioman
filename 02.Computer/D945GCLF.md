@@ -495,6 +495,33 @@
            (The process started from chrome location /usr/bin/google-chrome is no longer running, so ChromeDriver is assuming that Chrome has crashed.)
          ```
 
+    10. selenium実行時のエラー対応
+
+       ```sh
+       'chromedriver' executable may have wrong permissions.
+       ```
+
+       selenium実行時に上記のエラーが発生した場合はchromedriverに実行権限が付与されていないので
+
+       以下のコマンドで実行権限を付与する。
+
+       ```sh
+       $chmod ugo+x chromedriver
+       ```
+
+    11. google-chromeインストール
+
+        以下のコマンドでchromeのダウンロードとインストールを行う。
+
+        chromeのバージョンは [このサイト](https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-unstable)で調べて書き換える(chromedriverのバージョンと合わせること)
+
+        ```sh
+        sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add && 
+        sudo wget http://dl.google.com/linux/deb/pool/main/g/google-chrome-unstable/google-chrome-unstable_[chromeのバージョン]_amd64.deb && sudo apt-get install -y -f ./google-chrome-unstable_[chromeのバージョン]_amd64.deb
+        ```
+
+        
+
 17. dockerの実行権限をroot以外のユーザーに付与する
 
    1. 任意のユーザーをdockerグループに追加する
@@ -515,4 +542,5 @@
      $sudo systemctl restart docker
      ```
 
-     
+
+​     
